@@ -1,0 +1,467 @@
+.artblogs-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #002f2f 0%, #004444 100%);
+  color: white;
+}
+
+.artblogs-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Hero Section */
+.artblogs-hero {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.artblogs-title {
+  font-family: 'Samarkan', 'Cinzel', serif;
+  font-size: 3.5rem;
+  color: #c38f21;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.artblogs-subtitle {
+  font-size: 1.3rem;
+  color: #d4af85;
+  font-weight: 300;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Featured Post */
+.featured-post {
+  margin-bottom: 60px;
+}
+
+.featured-post h2 {
+  font-family: 'Samarkan', 'Cinzel', serif;
+  font-size: 2.2rem;
+  color: #c38f21;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.featured-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 30px;
+  border: 1px solid rgba(195, 143, 33, 0.2);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featured-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(195, 143, 33, 0.2);
+}
+
+.featured-image {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.featured-placeholder {
+  width: 100%;
+  height: 300px;
+  background: linear-gradient(45deg, #c38f21, #d4af85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.featured-label {
+  background: rgba(0, 47, 47, 0.9);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 0.9rem;
+}
+
+.featured-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.featured-meta {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.featured-category {
+  background: #c38f21;
+  color: #002f2f;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.featured-date, .featured-read-time {
+  color: #d4af85;
+  font-size: 0.9rem;
+}
+
+.featured-title {
+  font-size: 1.8rem;
+  color: white;
+  margin-bottom: 10px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.featured-author {
+  color: #c38f21;
+  font-style: italic;
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+.featured-excerpt {
+  color: #e0e0e0;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.featured-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+/* Filter Section */
+.blog-filter {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: transparent;
+  border: 2px solid #c38f21;
+  color: #c38f21;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: capitalize;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: #c38f21;
+  color: #002f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(195, 143, 33, 0.3);
+}
+
+/* Blog Grid */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.blog-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid rgba(195, 143, 33, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.blog-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(195, 143, 33, 0.15);
+}
+
+.blog-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.blog-placeholder {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(45deg, #c38f21, #d4af85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.blog-category {
+  background: rgba(0, 47, 47, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-weight: 600;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+
+.blog-content {
+  padding: 25px;
+}
+
+.blog-meta {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.blog-date, .blog-read-time {
+  color: #d4af85;
+  font-size: 0.85rem;
+}
+
+.blog-title {
+  font-size: 1.3rem;
+  color: white;
+  margin-bottom: 8px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.blog-author {
+  color: #c38f21;
+  font-style: italic;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+
+.blog-excerpt {
+  color: #e0e0e0;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.tag {
+  background: rgba(195, 143, 33, 0.2);
+  color: #c38f21;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid rgba(195, 143, 33, 0.3);
+}
+
+/* Buttons */
+.read-more-btn, .read-article-btn {
+  background: linear-gradient(45deg, #c38f21, #d4af85);
+  color: #002f2f;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  font-size: 0.95rem;
+}
+
+.read-more-btn:hover, .read-article-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(195, 143, 33, 0.3);
+  background: linear-gradient(45deg, #d4af85, #c38f21);
+}
+
+/* No Blogs Message */
+.no-blogs {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.no-blogs p {
+  font-size: 1.2rem;
+  color: #d4af85;
+}
+
+/* Newsletter Signup */
+.newsletter-signup {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 40px;
+  text-align: center;
+  border: 1px solid rgba(195, 143, 33, 0.2);
+  margin-bottom: 40px;
+  backdrop-filter: blur(10px);
+}
+
+.newsletter-content h2 {
+  font-family: 'Samarkan', 'Cinzel', serif;
+  font-size: 2rem;
+  color: #c38f21;
+  margin-bottom: 15px;
+}
+
+.newsletter-content p {
+  color: #d4af85;
+  margin-bottom: 25px;
+  font-size: 1.1rem;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.email-input {
+  flex: 1;
+  padding: 12px 18px;
+  border: 2px solid rgba(195, 143, 33, 0.3);
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1rem;
+  min-width: 200px;
+}
+
+.email-input::placeholder {
+  color: #d4af85;
+}
+
+.email-input:focus {
+  outline: none;
+  border-color: #c38f21;
+  box-shadow: 0 0 10px rgba(195, 143, 33, 0.3);
+}
+
+.subscribe-btn {
+  background: linear-gradient(45deg, #c38f21, #d4af85);
+  color: #002f2f;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.subscribe-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(195, 143, 33, 0.3);
+  background: linear-gradient(45deg, #d4af85, #c38f21);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .artblogs-content {
+    padding: 100px 15px 0;
+  }
+
+  .artblogs-title {
+    font-size: 2.5rem;
+  }
+
+  .artblogs-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .featured-card {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    padding: 20px;
+  }
+
+  .featured-placeholder {
+    height: 250px;
+  }
+
+  .featured-title {
+    font-size: 1.5rem;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .filter-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .filter-btn {
+    width: 200px;
+  }
+
+  .newsletter-form {
+    flex-direction: column;
+  }
+
+  .email-input {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .artblogs-title {
+    font-size: 2rem;
+  }
+
+  .featured-content {
+    gap: 10px;
+  }
+
+  .featured-meta {
+    gap: 10px;
+  }
+
+  .newsletter-signup {
+    padding: 25px 20px;
+  }
+
+  .newsletter-content h2 {
+    font-size: 1.6rem;
+  }
+}

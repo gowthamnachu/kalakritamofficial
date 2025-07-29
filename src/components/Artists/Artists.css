@@ -1,0 +1,81 @@
+.artists-container {
+  min-height: 100vh;
+  background-color: #002f2f;
+  color: white;
+  padding: 2rem;
+}
+
+.artists-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.artists-header h1 {
+  font-size: 3rem;
+  color: #c38f21;
+  margin-bottom: 1rem;
+}
+
+.artists-header p {
+  font-size: 1.2rem;
+  color: #d4af85;
+}
+
+.artists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.artist-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.artist-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(195, 143, 33, 0.3);
+}
+
+.artist-image {
+  margin-bottom: 1.5rem;
+}
+
+.placeholder-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(195, 143, 33, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  color: #c38f21;
+  font-size: 0.9rem;
+  border: 2px solid rgba(195, 143, 33, 0.3);
+}
+
+.artist-card h3 {
+  color: #c38f21;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.artist-specialty {
+  color: #d4af85;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.artist-card p {
+  color: #d4af85;
+  line-height: 1.6;
+}
