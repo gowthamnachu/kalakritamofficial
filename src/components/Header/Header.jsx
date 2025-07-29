@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
 import './Header.css';
+import Artists from '../Artists';
 
 const Header = ({ currentPage = 'home' }) => {
   const { navigateWithLoading } = useNavigationWithLoading();
@@ -10,6 +11,7 @@ const Header = ({ currentPage = 'home' }) => {
     { path: '/gallery', label: 'Gallery' },
     { path: '/workshops', label: 'Workshops' },
     { path: '/events', label: 'Events' },
+    { path: '/artists', label: 'Artists' },
     { path: '/artblogs', label: 'Art Blogs' },
     { path: '/contact', label: 'Contact' },
     { path: '/about', label: 'About Us' }

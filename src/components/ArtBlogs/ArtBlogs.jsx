@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
 import Header from '../Header';
 import Footer from '../Footer';
-import Loading from '../Loading';
 import VideoLogo from '../VideoLogo';
 import './ArtBlogs.css';
 
 const ArtBlogs = () => {
-  const { isLoading } = useNavigationWithLoading();
+  const { navigateWithLoading } = useNavigationWithLoading();
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const blogPosts = [
@@ -89,8 +88,6 @@ const ArtBlogs = () => {
 
   return (
     <div className="artblogs-container">
-      {isLoading && <Loading />}
-      
       {/* Video Logo */}
       <VideoLogo />
       

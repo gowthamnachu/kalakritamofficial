@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
 import Header from '../Header';
 import Footer from '../Footer';
-import Loading from '../Loading';
 import VideoLogo from '../VideoLogo';
 import './Contact.css';
 
 const Contact = () => {
-  const { isLoading } = useNavigationWithLoading();
+  const { navigateWithLoading } = useNavigationWithLoading();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -33,8 +32,6 @@ const Contact = () => {
 
   return (
     <div className="contact-container">
-      {isLoading && <Loading />}
-      
       {/* Video Logo */}
       <VideoLogo />
       

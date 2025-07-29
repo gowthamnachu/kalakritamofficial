@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
 import Header from '../Header';
 import Footer from '../Footer';
-import Loading from '../Loading';
 import VideoLogo from '../VideoLogo';
 import './Events.css';
 
 const Events = () => {
-  const { isLoading } = useNavigationWithLoading();
+  const { navigateWithLoading } = useNavigationWithLoading();
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const events = [
@@ -87,8 +86,6 @@ const Events = () => {
 
   return (
     <div className="events-container">
-      {isLoading && <Loading />}
-      
       {/* Video Logo */}
       <VideoLogo />
       

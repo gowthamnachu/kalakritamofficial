@@ -3,14 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
 import Header from '../Header';
 import Footer from '../Footer';
-import Loading from '../Loading';
 import './Home.css';
 import '../../assets/fonts/fonts.css';
 
 const Home = () => {
   const [showVideoLogo, setShowVideoLogo] = useState(false);
   const navigate = useNavigate();
-  const { isLoading, navigateWithLoading } = useNavigationWithLoading();
+  const { navigateWithLoading } = useNavigationWithLoading();
 
   useEffect(() => {
     // Check if video was completed or if we're coming from intro
@@ -58,9 +57,6 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* Loading overlay */}
-      {isLoading && <Loading />}
-      
       {/* Video Logo in top-left corner */}
       {showVideoLogo && (
         <div className="video-logo-container">

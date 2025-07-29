@@ -2,17 +2,14 @@ import React from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
 import Header from '../Header';
 import Footer from '../Footer';
-import Loading from '../Loading';
 import VideoLogo from '../VideoLogo';
 import './About.css';
 
 const About = () => {
-  const { isLoading } = useNavigationWithLoading();
+  const { navigateWithLoading } = useNavigationWithLoading();
 
   return (
     <div className="about-container">
-      {isLoading && <Loading />}
-      
       {/* Video Logo */}
       <VideoLogo />
       

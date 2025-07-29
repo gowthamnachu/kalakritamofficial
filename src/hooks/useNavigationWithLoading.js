@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLoading } from '../contexts/LoadingContext.jsx';
 
 export const useNavigationWithLoading = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, setIsLoading } = useLoading();
   const navigate = useNavigate();
 
   const navigateWithLoading = (path) => {

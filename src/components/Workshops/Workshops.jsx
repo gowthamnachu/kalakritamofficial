@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
 import Header from '../Header';
 import Footer from '../Footer';
-import Loading from '../Loading';
 import VideoLogo from '../VideoLogo';
 import './Workshops.css';
 
 const Workshops = () => {
-  const { isLoading } = useNavigationWithLoading();
+  const { navigateWithLoading } = useNavigationWithLoading();
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   // Enhanced workshops data with Indian art themes
@@ -165,9 +164,6 @@ const Workshops = () => {
 
   return (
     <div className="workshops-container">
-      {/* Loading overlay */}
-      {isLoading && <Loading />}
-      
       {/* Video Logo */}
       <VideoLogo />
       
