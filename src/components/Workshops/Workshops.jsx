@@ -15,13 +15,14 @@ const Workshops = () => {
       id: 1,
       title: "Traditional Madhubani Painting",
       instructor: "Master Priya Sharma",
-      category: "traditional",
+      category: "upcoming",
       level: "Beginner to Intermediate",
       duration: "3 Days",
       price: "₹4,500",
       startDate: "August 15, 2025",
       endDate: "August 17, 2025",
       time: "10:00 AM - 4:00 PM",
+      venue: "Kalakritam Art Studio, Delhi",
       image: "/workshops/madhubani-workshop.jpg",
       description: "Learn the ancient art of Madhubani painting with traditional techniques, natural pigments, and authentic patterns from Bihar's cultural heritage.",
       materials: "All materials provided including natural pigments, brushes, and handmade paper",
@@ -32,13 +33,14 @@ const Workshops = () => {
       id: 2,
       title: "Kerala Mural Painting Masterclass",
       instructor: "Guru Ramesh Nair",
-      category: "traditional",
+      category: "upcoming",
       level: "Intermediate to Advanced",
       duration: "5 Days",
       price: "₹8,500",
       startDate: "September 1, 2025",
       endDate: "September 5, 2025",
       time: "9:00 AM - 5:00 PM",
+      venue: "Heritage Art Center, Kochi",
       image: "/workshops/kerala-mural-workshop.jpg",
       description: "Master the classical Kerala mural painting techniques with gold leaf application, traditional mineral colors, and temple art iconography.",
       materials: "Canvas, brushes, mineral pigments, gold leaf, and binding agents included",
@@ -49,13 +51,14 @@ const Workshops = () => {
       id: 3,
       title: "Warli Tribal Art Workshop",
       instructor: "Artist Anjali Devi",
-      category: "tribal",
+      category: "past",
       level: "Beginner",
       duration: "2 Days",
       price: "₹3,200",
-      startDate: "August 25, 2025",
-      endDate: "August 26, 2025",
+      startDate: "June 25, 2025",
+      endDate: "June 26, 2025",
       time: "10:00 AM - 3:00 PM",
+      venue: "Tribal Art Museum, Mumbai",
       image: "/workshops/warli-workshop.jpg",
       description: "Explore the beautiful Warli tribal art form using traditional white pigments on terracotta and learn about the cultural significance of each motif.",
       materials: "Terracotta surfaces, white pigments, brushes, and reference materials provided",
@@ -66,13 +69,14 @@ const Workshops = () => {
       id: 4,
       title: "Digital Art with Traditional Motifs",
       instructor: "Artist Rahul Kumar",
-      category: "contemporary",
+      category: "upcoming",
       level: "Intermediate",
       duration: "4 Days",
       price: "₹6,800",
       startDate: "September 10, 2025",
       endDate: "September 13, 2025",
       time: "11:00 AM - 5:00 PM",
+      venue: "Digital Arts Hub, Bangalore",
       image: "/workshops/digital-art-workshop.jpg",
       description: "Blend traditional Indian motifs with modern digital art techniques using professional software and create contemporary art pieces.",
       materials: "Digital tablets, software licenses, and styluses provided",
@@ -83,13 +87,14 @@ const Workshops = () => {
       id: 5,
       title: "Rajasthani Miniature Painting",
       instructor: "Master Meera Rajput",
-      category: "miniature",
+      category: "upcoming",
       level: "Advanced",
       duration: "6 Days",
       price: "₹12,000",
       startDate: "October 1, 2025",
       endDate: "October 6, 2025",
       time: "9:00 AM - 4:00 PM",
+      venue: "Royal Arts Academy, Jaipur",
       image: "/workshops/miniature-workshop.jpg",
       description: "Learn the intricate art of Rajasthani miniature painting with fine brushwork, detailed compositions, and traditional royal themes.",
       materials: "Fine brushes, watercolors, gold paint, and specialized paper included",
@@ -100,13 +105,14 @@ const Workshops = () => {
       id: 6,
       title: "Bronze Sculpture Basics",
       instructor: "Sculptor Suresh Patel",
-      category: "sculpture",
+      category: "past",
       level: "Beginner to Intermediate",
       duration: "7 Days",
       price: "₹15,500",
-      startDate: "September 20, 2025",
-      endDate: "September 26, 2025",
+      startDate: "May 20, 2025",
+      endDate: "May 26, 2025",
       time: "10:00 AM - 6:00 PM",
+      venue: "Sculpture Workshop, Chennai",
       image: "/workshops/bronze-sculpture-workshop.jpg",
       description: "Introduction to bronze sculpture techniques including modeling, molding, and casting using traditional lost-wax methods.",
       materials: "Clay, wax, bronze, tools, and safety equipment provided",
@@ -117,13 +123,14 @@ const Workshops = () => {
       id: 7,
       title: "Tanjore Painting with Gold Work",
       instructor: "Artist Lakshmi Venkat",
-      category: "traditional",
+      category: "upcoming",
       level: "Intermediate",
       duration: "4 Days",
       price: "₹7,200",
       startDate: "August 30, 2025",
       endDate: "September 2, 2025",
       time: "10:00 AM - 4:00 PM",
+      venue: "Traditional Arts Center, Thanjavur",
       image: "/workshops/tanjore-workshop.jpg",
       description: "Learn the classical Tanjore painting style with gold foil work, gem inlaying, and traditional South Indian iconography.",
       materials: "Wood panels, gold foil, gems, paints, and adhesives included",
@@ -134,13 +141,14 @@ const Workshops = () => {
       id: 8,
       title: "Contemporary Mandala Art",
       instructor: "Artist Vikram Singh",
-      category: "contemporary",
+      category: "past",
       level: "Beginner to Intermediate",
       duration: "3 Days",
       price: "₹4,800",
-      startDate: "September 15, 2025",
-      endDate: "September 17, 2025",
+      startDate: "July 15, 2025",
+      endDate: "July 17, 2025",
       time: "10:00 AM - 3:00 PM",
+      venue: "Modern Art Studio, Pune",
       image: "/workshops/mandala-workshop.jpg",
       description: "Create beautiful mandala art combining traditional spiritual symbols with contemporary design aesthetics and color theories.",
       materials: "Canvas, acrylic paints, brushes, and geometric tools provided",
@@ -151,11 +159,8 @@ const Workshops = () => {
 
   const categories = [
     'all',
-    'traditional',
-    'contemporary',
-    'tribal',
-    'miniature',
-    'sculpture'
+    'upcoming',
+    'past'
   ];
 
   const filteredWorkshops = selectedCategory === 'all'
@@ -207,18 +212,23 @@ const Workshops = () => {
                     alt={workshop.title}
                     className="workshop-image"
                     onError={(e) => {
-                      e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZjNmM2YzIi8+CjxwYXRoIGQ9Ik0xNTAgMTAwQzEyNy45MDkgMTAwIDExMCAxMTcuOTA5IDExMCAxNDBDMTEwIDE2Mi4wOTEgMTI3LjkwOSAxODAgMTUwIDE4MEMxNzIuMDkxIDE4MCAxOTAgMTYyLjA5MSAxOTAgMTQwQzE5MCAxMTcuOTA5IDE3Mi4wOTEgMTAwIDE1MCAxMDBaTTE1MCAyMDBDMTE2LjY2MyAyMDAgOTAgMTczLjMzNyA5MDE0MEM5MCAxMDYuNjYzIDExNi42NjMgODAgMTUwIDgwQzE4My4zMzcgODAgMjEwIDEwNi42NjMgMjEwIDE0MEMyMTAgMTczLjMzNyAxODMuMzM3IDIwMCAxNTAgMjAwWiIgZmlsbD0iI2M4YzhjOCIvPgo8L3N2Zz4K';
+                      e.target.style.display = 'none';
+                      const placeholder = e.target.parentNode.querySelector('.workshop-image-placeholder');
+                      if (placeholder) {
+                        placeholder.style.display = 'flex';
+                      }
                     }}
                   />
+                  <div className="workshop-image-placeholder" style={{ display: 'none' }}>
+                    <div className="kalakritam-logo-text">Kalakritam</div>
+                    <div className="image-not-available-small">Image not available</div>
+                  </div>
                   <div className="workshop-overlay">
                     <div className="workshop-overlay-content">
                       <h3>{workshop.title}</h3>
                       <p>by {workshop.instructor}</p>
                       <span className="workshop-price">{workshop.price}</span>
                     </div>
-                  </div>
-                  <div className="workshop-level-badge">
-                    {workshop.level}
                   </div>
                 </div>
                 
@@ -237,8 +247,8 @@ const Workshops = () => {
                       <span className="detail-value">{workshop.level}</span>
                     </div>
                     <div className="detail-row">
-                      <span className="detail-label">Students:</span>
-                      <span className="detail-value">Max {workshop.maxStudents}</span>
+                      <span className="detail-label">Venue:</span>
+                      <span className="detail-value">{workshop.venue}</span>
                     </div>
                     <div className="detail-row">
                       <span className="detail-label">Dates:</span>

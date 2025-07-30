@@ -8,6 +8,18 @@ import './Gallery.css';
 const Gallery = () => {
   const { navigateWithLoading } = useNavigationWithLoading();
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedArtwork, setSelectedArtwork] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleViewDetails = (artwork) => {
+    setSelectedArtwork(artwork);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedArtwork(null);
+  };
 
   // Enhanced gallery data with Indian art themes
   const artworks = [
@@ -159,9 +171,17 @@ const Gallery = () => {
                     alt={artwork.title}
                     className="artwork-image"
                     onError={(e) => {
-                      e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZjNmM2YzIi8+CjxwYXRoIGQ9Ik0xNTAgMTAwQzEyNy45MDkgMTAwIDExMCAxMTcuOTA5IDExMCAxNDBDMTEwIDE2Mi4wOTEgMTI3LjkwOSAxODAgMTUwIDE4MEMxNzIuMDkxIDE4MCAxOTAgMTYyLjA5MSAxOTAgMTQwQzE5MCAxMTcuOTA5IDE3Mi4wOTEgMTAwIDE1MCAxMDBaTTE1MCAyMDBDMTE2LjY2MyAyMDAgOTAgMTczLjMzNyA5MDE0MEM5MCAxMDYuNjYzIDExNi42NjMgODAgMTUwIDgwQzE4My4zMzcgODAgMjEwIDEwNi42NjMgMjEwIDE0MEMyMTAgMTczLjMzNyAxODMuMzM3IDIwMCAxNTAgMjAwWiIgZmlsbD0iI2M4YzhjOCIvPgo8L3N2Zz4K';
+                      e.target.style.display = 'none';
+                      const placeholder = e.target.parentNode.querySelector('.artwork-image-placeholder');
+                      if (placeholder) {
+                        placeholder.style.display = 'flex';
+                      }
                     }}
                   />
+                  <div className="artwork-image-placeholder" style={{ display: 'none' }}>
+                    <div className="kalakritam-logo-text">Kalakritam</div>
+                    <div className="image-not-available-small">Image not available</div>
+                  </div>
                   <div className="artwork-overlay">
                     <div className="artwork-overlay-content">
                       <h3>{artwork.title}</h3>
@@ -194,8 +214,12 @@ const Gallery = () => {
                   <div className="artwork-actions">
                     <span className="artwork-price-display">{artwork.price}</span>
                     <div className="action-buttons">
-                      <button className="btn-view">View Details</button>
-                      <button className="btn-inquiry">Inquire</button>
+                      <button 
+                        className="btn-view"
+                        onClick={() => handleViewDetails(artwork)}
+                      >
+                        View Details
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -245,6 +269,95 @@ const Gallery = () => {
           </div>
         </section>
       </div>
+
+      {/* Artwork Detail Modal */}
+      {isModalOpen && selectedArtwork && (
+        <div className="artwork-modal-overlay" onClick={closeModal}>
+          <div className="artwork-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-btn" onClick={closeModal}>
+              <div className="close-icon-circle">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+              </div>
+            </button>
+            
+            <div className="modal-content">
+              <div className="modal-image-section">
+                <img 
+                  src={selectedArtwork.image} 
+                  alt={selectedArtwork.title}
+                  className="modal-artwork-image"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="image-placeholder" style={{ display: 'none' }}>
+                  <div className="kalakritam-logo-text">Kalakritam</div>
+                  <div className="image-not-available">Image not available</div>
+                </div>
+                <div className="modal-image-info">
+                  <div className="image-quality-badge">High Resolution</div>
+                  <div className="artwork-category-badge">{selectedArtwork.category}</div>
+                </div>
+              </div>
+
+              <div className="modal-details-section">
+                <div className="modal-header">
+                  <div className="modal-title-section">
+                    <h2 className="modal-title">{selectedArtwork.title}</h2>
+                    <p className="modal-artist">by {selectedArtwork.artist}</p>
+                  </div>
+                  <div className="modal-price-section">
+                    <span className="price-label">Price</span>
+                    <div className="modal-price">{selectedArtwork.price}</div>
+                  </div>
+                </div>
+
+                <div className="modal-description">
+                  <h3>About This Artwork</h3>
+                  <p>{selectedArtwork.description}</p>
+                </div>
+
+                <div className="modal-specifications">
+                  <h3>Specifications</h3>
+                  <div className="spec-grid">
+                    <div className="spec-item">
+                      <span className="spec-label">Medium</span>
+                      <span className="spec-value">{selectedArtwork.medium}</span>
+                    </div>
+                    <div className="spec-item">
+                      <span className="spec-label">Year Created</span>
+                      <span className="spec-value">{selectedArtwork.year}</span>
+                    </div>
+                    <div className="spec-item">
+                      <span className="spec-label">Category</span>
+                      <span className="spec-value">{selectedArtwork.category}</span>
+                    </div>
+                    <div className="spec-item">
+                      <span className="spec-label">Artist</span>
+                      <span className="spec-value">{selectedArtwork.artist}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="modal-additional-info">
+                  <div className="artwork-authenticity">
+                    <h4>Authenticity Guaranteed</h4>
+                    <p>This artwork comes with a certificate of authenticity from Kalakritam Gallery.</p>
+                  </div>
+                  
+                  <div className="artwork-care">
+                    <h4>Care Instructions</h4>
+                    <p>Keep away from direct sunlight. Clean gently with a soft, dry cloth. Frame with UV-protective glass for long-term preservation.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       <Footer />
     </div>
