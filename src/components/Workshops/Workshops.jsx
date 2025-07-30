@@ -4,10 +4,23 @@ import Header from '../Header';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
 import './Workshops.css';
+import '../Gallery/Gallery.css';
 
 const Workshops = () => {
   const { navigateWithLoading } = useNavigationWithLoading();
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedWorkshop, setSelectedWorkshop] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleViewDetails = (workshop) => {
+    setSelectedWorkshop(workshop);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedWorkshop(null);
+  };
 
   // Enhanced workshops data with Indian art themes
   const workshops = [
@@ -27,7 +40,14 @@ const Workshops = () => {
       description: "Learn the ancient art of Madhubani painting with traditional techniques, natural pigments, and authentic patterns from Bihar's cultural heritage.",
       materials: "All materials provided including natural pigments, brushes, and handmade paper",
       maxStudents: 15,
-      prerequisites: "None - suitable for beginners"
+      prerequisites: "None - suitable for beginners",
+      learningImages: [
+        "/workshops/madhubani-basics.jpg",
+        "/workshops/madhubani-patterns.jpg", 
+        "/workshops/madhubani-colors.jpg",
+        "/workshops/madhubani-final.jpg"
+      ],
+      learningText: "Complete art kit with natural pigments, handmade paper, traditional brushes, and take-home artwork"
     },
     {
       id: 2,
@@ -45,7 +65,14 @@ const Workshops = () => {
       description: "Master the classical Kerala mural painting techniques with gold leaf application, traditional mineral colors, and temple art iconography.",
       materials: "Canvas, brushes, mineral pigments, gold leaf, and binding agents included",
       maxStudents: 10,
-      prerequisites: "Basic painting experience recommended"
+      prerequisites: "Basic painting experience recommended",
+      learningImages: [
+        "/workshops/kerala-base.jpg",
+        "/workshops/kerala-gold.jpg",
+        "/workshops/kerala-details.jpg", 
+        "/workshops/kerala-finished.jpg"
+      ],
+      learningText: "Professional canvas, gold leaf sheets, mineral pigments, fine brushes, and completed mural painting"
     },
     {
       id: 3,
@@ -63,7 +90,14 @@ const Workshops = () => {
       description: "Explore the beautiful Warli tribal art form using traditional white pigments on terracotta and learn about the cultural significance of each motif.",
       materials: "Terracotta surfaces, white pigments, brushes, and reference materials provided",
       maxStudents: 20,
-      prerequisites: "None - perfect for beginners"
+      prerequisites: "None - perfect for beginners",
+      learningImages: [
+        "/workshops/warli-motifs.jpg",
+        "/workshops/warli-dancing.jpg",
+        "/workshops/warli-village.jpg",
+        "/workshops/warli-complete.jpg"
+      ],
+      learningText: "Terracotta surfaces, white pigments, reference books, brushes, and your finished Warli artwork"
     },
     {
       id: 4,
@@ -81,7 +115,14 @@ const Workshops = () => {
       description: "Blend traditional Indian motifs with modern digital art techniques using professional software and create contemporary art pieces.",
       materials: "Digital tablets, software licenses, and styluses provided",
       maxStudents: 12,
-      prerequisites: "Basic computer skills required"
+      prerequisites: "Basic computer skills required",
+      learningImages: [
+        "/workshops/digital-setup.jpg",
+        "/workshops/digital-motifs.jpg",
+        "/workshops/digital-blending.jpg",
+        "/workshops/digital-final.jpg"
+      ],
+      learningText: "Professional tablet, software license, stylus, digital assets library, and high-res prints"
     },
     {
       id: 5,
@@ -99,7 +140,14 @@ const Workshops = () => {
       description: "Learn the intricate art of Rajasthani miniature painting with fine brushwork, detailed compositions, and traditional royal themes.",
       materials: "Fine brushes, watercolors, gold paint, and specialized paper included",
       maxStudents: 8,
-      prerequisites: "Previous painting experience essential"
+      prerequisites: "Previous painting experience essential",
+      learningImages: [
+        "/workshops/miniature-sketch.jpg",
+        "/workshops/miniature-colors.jpg",
+        "/workshops/miniature-details.jpg",
+        "/workshops/miniature-gold.jpg"
+      ],
+      learningText: "Fine brushes, watercolors, gold paint, specialized paper, magnifying tools, and framed artwork"
     },
     {
       id: 6,
@@ -117,7 +165,14 @@ const Workshops = () => {
       description: "Introduction to bronze sculpture techniques including modeling, molding, and casting using traditional lost-wax methods.",
       materials: "Clay, wax, bronze, tools, and safety equipment provided",
       maxStudents: 6,
-      prerequisites: "Physical ability to work with heavy materials"
+      prerequisites: "Physical ability to work with heavy materials",
+      learningImages: [
+        "/workshops/bronze-modeling.jpg",
+        "/workshops/bronze-molding.jpg",
+        "/workshops/bronze-casting.jpg",
+        "/workshops/bronze-finishing.jpg"
+      ],
+      learningText: "Clay, wax, bronze materials, sculpting tools, safety equipment, and your bronze sculpture"
     },
     {
       id: 7,
@@ -135,7 +190,14 @@ const Workshops = () => {
       description: "Learn the classical Tanjore painting style with gold foil work, gem inlaying, and traditional South Indian iconography.",
       materials: "Wood panels, gold foil, gems, paints, and adhesives included",
       maxStudents: 12,
-      prerequisites: "Basic painting skills recommended"
+      prerequisites: "Basic painting skills recommended",
+      learningImages: [
+        "/workshops/tanjore-base.jpg",
+        "/workshops/tanjore-painting.jpg",
+        "/workshops/tanjore-gold.jpg",
+        "/workshops/tanjore-gems.jpg"
+      ],
+      learningText: "Wood panel, gold foil, precious gems, paints, adhesives, and your completed Tanjore painting"
     },
     {
       id: 8,
@@ -153,7 +215,14 @@ const Workshops = () => {
       description: "Create beautiful mandala art combining traditional spiritual symbols with contemporary design aesthetics and color theories.",
       materials: "Canvas, acrylic paints, brushes, and geometric tools provided",
       maxStudents: 18,
-      prerequisites: "None - suitable for all levels"
+      prerequisites: "None - suitable for all levels",
+      learningImages: [
+        "/workshops/mandala-geometry.jpg",
+        "/workshops/mandala-patterns.jpg",
+        "/workshops/mandala-colors.jpg",
+        "/workshops/mandala-meditation.jpg"
+      ],
+      learningText: "Canvas, acrylic paints, brushes, geometric tools, meditation guide, and your mandala artwork"
     }
   ];
 
@@ -263,7 +332,12 @@ const Workshops = () => {
                   <div className="workshop-actions">
                     <span className="workshop-price-display">{workshop.price}</span>
                     <div className="action-buttons">
-                      <button className="btn-details">View Details</button>
+                      <button 
+                        className="btn-details"
+                        onClick={() => handleViewDetails(workshop)}
+                      >
+                        View Details
+                      </button>
                       <button className="btn-enroll">Enroll Now</button>
                     </div>
                   </div>
@@ -313,6 +387,127 @@ const Workshops = () => {
           </div>
         </section>
       </div>
+
+      {/* Workshop Detail Modal */}
+      {isModalOpen && selectedWorkshop && (
+        <div className="artwork-modal-overlay" onClick={closeModal}>
+          <div className="artwork-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-btn" onClick={closeModal}>
+              <div className="close-icon-circle">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+              </div>
+            </button>
+            
+            <div className="modal-content">
+              <div className="modal-image-section">
+                <img 
+                  src={selectedWorkshop.image} 
+                  alt={selectedWorkshop.title}
+                  className="modal-artwork-image"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="image-placeholder" style={{ display: 'none' }}>
+                  <div className="kalakritam-logo-text">Kalakritam</div>
+                  <div className="image-not-available">Image not available</div>
+                </div>
+                <div className="modal-image-info">
+                  <div className="image-quality-badge">Workshop</div>
+                  <div className="artwork-category-badge">{selectedWorkshop.category}</div>
+                </div>
+              </div>
+
+              <div className="modal-details-section">
+                <div className="modal-header">
+                  <div className="modal-title-section">
+                    <h2 className="modal-title">{selectedWorkshop.title}</h2>
+                    <p className="modal-artist">Instructor: {selectedWorkshop.instructor}</p>
+                  </div>
+                  <div className="modal-price-section">
+                    <span className="price-label">Price</span>
+                    <div className="modal-price">{selectedWorkshop.price}</div>
+                  </div>
+                </div>
+
+                <div className="modal-description">
+                  <h3>About This Workshop</h3>
+                  <p>{selectedWorkshop.description}</p>
+                </div>
+
+                <div className="modal-specifications">
+                  <h3>Workshop Details</h3>
+                  <div className="spec-grid">
+                    <div className="spec-item">
+                      <span className="spec-label">Duration</span>
+                      <span className="spec-value">{selectedWorkshop.duration}</span>
+                    </div>
+                    <div className="spec-item">
+                      <span className="spec-label">Level</span>
+                      <span className="spec-value">{selectedWorkshop.level}</span>
+                    </div>
+                    <div className="spec-item">
+                      <span className="spec-label">Venue</span>
+                      <span className="spec-value">{selectedWorkshop.venue}</span>
+                    </div>
+                    <div className="spec-item">
+                      <span className="spec-label">Schedule</span>
+                      <span className="spec-value">{selectedWorkshop.startDate} - {selectedWorkshop.endDate}</span>
+                    </div>
+                    <div className="spec-item">
+                      <span className="spec-label">Time</span>
+                      <span className="spec-value">{selectedWorkshop.time}</span>
+                    </div>
+                    <div className="spec-item">
+                      <span className="spec-label">Max Students</span>
+                      <span className="spec-value">{selectedWorkshop.maxStudents}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="modal-additional-info">
+                  <div className="artwork-authenticity">
+                    <h4>Materials Included</h4>
+                    <p>{selectedWorkshop.materials}</p>
+                  </div>
+                  
+                  <div className="artwork-care">
+                    <h4>Prerequisites</h4>
+                    <p>{selectedWorkshop.prerequisites}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="learning-showcase">
+                <h3>Things You Get</h3>
+                <p className="learning-description">{selectedWorkshop.learningText}</p>
+                
+                <div className="learning-collage">
+                  {selectedWorkshop.learningImages.map((imageSrc, index) => (
+                    <div key={index} className="learning-image-container">
+                      <img 
+                        src={imageSrc} 
+                        alt={`Workshop inclusion ${index + 1}`}
+                        className="learning-image"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'flex';
+                        }}
+                      />
+                      <div className="learning-image-placeholder" style={{ display: 'none' }}>
+                        <div className="kalakritam-logo-small">Kalakritam</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       <Footer />
     </div>

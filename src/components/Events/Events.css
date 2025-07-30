@@ -82,10 +82,11 @@
 
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: clamp(1rem, 4vw, 2rem);
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: clamp(1.5rem, 4vw, 2.5rem);
   margin-bottom: 4rem;
   width: 100%;
+  justify-items: center;
 }
 
 .event-card {
@@ -95,6 +96,8 @@
   overflow: hidden;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
+  width: 320px;
+  max-width: 100%;
 }
 
 .event-card:hover {
@@ -104,29 +107,265 @@
   box-shadow: 0 10px 30px rgba(195, 143, 33, 0.2);
 }
 
-.event-image {
-  height: 200px;
+/* Event Poster Styling - Large Poster Size (24×36 in / 2:3 ratio) */
+.event-poster {
+  height: 480px;
+  width: 320px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+  aspect-ratio: 2/3;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.poster-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.event-card:hover .poster-image {
+  transform: scale(1.05);
+}
+
+.poster-placeholder {
+  width: 100%;
+  height: 100%;
   background: linear-gradient(135deg, #003f3f 0%, #004545 100%);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
-}
-
-.event-placeholder {
-  text-align: center;
   color: #d4af85;
+  text-align: center;
+  gap: 0.5rem;
 }
 
-.event-category {
-  background: rgba(195, 143, 33, 0.8);
+.kalakritam-logo-text {
+  font-family: 'Samarkan', 'Cinzel', serif;
+  font-size: 1.8rem;
+  color: #c38f21;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.event-type {
+  font-size: 1rem;
+  color: #d4af85;
+  font-style: italic;
+}
+
+.event-date-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(195, 143, 33, 0.9);
   color: #000000;
-  padding: 0.4rem 0.8rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
+  backdrop-filter: blur(10px);
+}
+
+/* Updated Event Card */
+.event-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+}
+
+.event-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(195, 143, 33, 0.4);
+  box-shadow: 0 15px 40px rgba(195, 143, 33, 0.3);
+}
+
+/* Event Quick Details */
+.event-quick-details {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.event-quick-details div {
+  color: #d4af85;
+  margin-bottom: 0.3rem;
+}
+
+.event-quick-details strong {
+  color: #c38f21;
+}
+
+/* Updated Event Actions */
+.view-details-btn {
+  background: rgba(195, 143, 33, 0.1);
+  color: #c38f21;
+  border: 2px solid rgba(195, 143, 33, 0.3);
+  padding: 0.7rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.view-details-btn:hover {
+  background: rgba(195, 143, 33, 0.2);
+  border-color: rgba(195, 143, 33, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Calendar View Styles */
+.calendar-view {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.calendar-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.calendar-header h2 {
+  font-family: 'Samarkan', 'Cinzel', serif;
+  font-size: 2.5rem;
+  color: #c38f21;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.calendar-grid {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 2rem;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  margin-bottom: 1rem;
+}
+
+.weekday {
+  text-align: center;
+  font-weight: 600;
+  color: #c38f21;
+  padding: 1rem;
+  font-size: 1.1rem;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+}
+
+.calendar-day {
+  min-height: 120px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.calendar-day:hover {
+  background: rgba(195, 143, 33, 0.1);
+  border-color: rgba(195, 143, 33, 0.3);
+}
+
+.calendar-day.empty {
+  background: transparent;
+  border: none;
+}
+
+.day-number {
+  font-weight: 600;
+  color: #c38f21;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.day-event {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 8px;
+  margin-bottom: 0.2rem;
+  color: #000000;
+  font-weight: 500;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.day-event.workshop {
+  background: #c38f21;
+}
+
+.day-event.exhibition {
+  background: #d4af85;
+}
+
+.day-event.social {
+  background: #a67c00;
+}
+
+.day-event.wellness {
+  background: #b8821e;
+}
+
+/* Calendar Legend */
+.calendar-legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #d4af85;
+  font-size: 0.9rem;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.legend-color.workshop {
+  background: #c38f21;
+}
+
+.legend-color.exhibition {
+  background: #d4af85;
+}
+
+.legend-color.social {
+  background: #a67c00;
+}
+
+.legend-color.wellness {
+  background: #b8821e;
 }
 
 .event-content {
@@ -185,6 +424,253 @@
   background: linear-gradient(135deg, #c38f21 0%, #d4a124 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(195, 143, 33, 0.3);
+}
+
+/* Event Modal Styles */
+.event-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.event-modal {
+  background: linear-gradient(135deg, #002f2f 0%, #003838 100%);
+  border-radius: 20px;
+  max-width: 1000px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  border: 2px solid rgba(195, 143, 33, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(195, 143, 33, 0.2);
+  border: 2px solid rgba(195, 143, 33, 0.4);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.modal-close-btn:hover {
+  background: rgba(195, 143, 33, 0.4);
+  border-color: rgba(195, 143, 33, 0.6);
+  transform: scale(1.1);
+}
+
+.close-icon-circle svg {
+  color: #c38f21;
+}
+
+.modal-content {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 3rem;
+  padding: 3rem;
+  align-items: start;
+}
+
+.modal-poster-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-poster-image {
+  width: 320px;
+  height: 480px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 15px;
+  border: 3px solid rgba(195, 143, 33, 0.3);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  aspect-ratio: 2/3;
+}
+
+.modal-details-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.modal-header {
+  border-bottom: 2px solid rgba(195, 143, 33, 0.3);
+  padding-bottom: 1.5rem;
+}
+
+.modal-title {
+  font-family: 'Samarkan', 'Cinzel', serif;
+  font-size: 2.2rem;
+  color: #c38f21;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.modal-price-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.price-label {
+  font-size: 1rem;
+  color: #d4af85;
+  font-weight: 500;
+}
+
+.modal-price {
+  font-size: 1.8rem;
+  color: #c38f21;
+  font-weight: 700;
+}
+
+.modal-description h3 {
+  color: #c38f21;
+  font-size: 1.3rem;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+}
+
+.modal-description p {
+  color: #d4af85;
+  line-height: 1.7;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.modal-specifications h3 {
+  color: #c38f21;
+  font-size: 1.3rem;
+  margin: 0 0 1.5rem 0;
+  font-weight: 600;
+}
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem;
+  background: rgba(195, 143, 33, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(195, 143, 33, 0.2);
+}
+
+.spec-label {
+  font-size: 0.8rem;
+  color: #c38f21;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spec-value {
+  color: #d4af85;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.modal-highlights h3 {
+  color: #c38f21;
+  font-size: 1.3rem;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+}
+
+.highlights-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.highlights-list li {
+  color: #d4af85;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(195, 143, 33, 0.2);
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.highlights-list li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #c38f21;
+  font-weight: bold;
+}
+
+.highlights-list li:last-child {
+  border-bottom: none;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.register-modal-btn {
+  background: linear-gradient(135deg, #b8821e 0%, #c38f21 100%);
+  color: #000000;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.register-modal-btn:hover {
+  background: linear-gradient(135deg, #c38f21 0%, #d4a124 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(195, 143, 33, 0.4);
+}
+
+.share-btn {
+  background: rgba(195, 143, 33, 0.1);
+  color: #c38f21;
+  border: 2px solid rgba(195, 143, 33, 0.3);
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.share-btn:hover {
+  background: rgba(195, 143, 33, 0.2);
+  border-color: rgba(195, 143, 33, 0.5);
+  transform: translateY(-2px);
 }
 
 .learn-more-btn {
@@ -278,7 +764,7 @@
   }
   
   .events-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
   }
   
@@ -299,12 +785,193 @@
     flex-direction: column;
   }
   
-  .upcoming-highlights {
-    padding: 2rem 1.5rem;
+  /* Medium Poster Size (18×24 in) for tablets */
+  .event-poster {
+    height: 360px;
+    width: 240px;
+    aspect-ratio: 18/24;
   }
   
-  .highlight-features {
+  .event-card {
+    width: 240px;
+  }
+  
+  .kalakritam-logo-text {
+    font-size: 1.5rem;
+  }
+  
+  /* Calendar Responsive */
+  .calendar-grid {
+    padding: 1rem;
+  }
+  
+  /* Modal poster for tablets - same size as event card */
+  .modal-poster-image {
+    width: 240px;
+    height: 360px;
+    aspect-ratio: 18/24;
+  }
+}
+  
+  .calendar-header h2 {
+    font-size: 2rem;
+  }
+  
+  .weekday {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .calendar-day {
+    min-height: 80px;
+    padding: 0.3rem;
+  }
+  
+  .day-event {
+    font-size: 0.6rem;
+    padding: 0.1rem 0.3rem;
+  }
+  
+  .calendar-legend {
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .legend-item {
+    font-size: 0.8rem;
+  }
+  
+  /* Modal Responsive */
+  .event-modal {
+    margin: 1rem;
+    max-height: 95vh;
+  }
+  
+  .modal-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem;
+  }
+  
+  .modal-poster-image {
+    height: 300px;
+  }
+  
+  .modal-title {
+    font-size: 1.8rem;
+  }
+  
+  .spec-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+  }
+
+
+@media (max-width: 480px) {
+  .events-content {
+    padding: 1rem 0.5rem;
+  }
+  
+  .events-title {
+    font-size: 2rem;
+  }
+  
+  .events-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+  
+  .filter-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  /* Small Poster Size (11×17 in) for mobile */
+  .event-poster {
+    height: 255px;
+    width: 165px;
+    aspect-ratio: 11/17;
+    margin: 0 auto;
+  }
+  
+  .event-card {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  
+  .event-date-badge {
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.7rem;
+  }
+  
+  .kalakritam-logo-text {
+    font-size: 1.2rem;
+  }
+  
+  .event-content {
+    padding: 1rem;
+  }
+  
+  /* Calendar Mobile */
+  .calendar-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .calendar-grid {
+    padding: 0.5rem;
+  }
+  
+  .weekday {
+    padding: 0.3rem;
+    font-size: 0.7rem;
+  }
+  
+  .calendar-day {
+    min-height: 60px;
+    padding: 0.2rem;
+  }
+  
+  .day-number {
+    font-size: 0.8rem;
+  }
+  
+  .day-event {
+    font-size: 0.5rem;
+    padding: 0.1rem 0.2rem;
+  }
+  
+  /* Modal Mobile */
+  .modal-content {
+    padding: 1.5rem;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-close-btn {
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+  }
+  
+  /* Mobile modal poster - same size as event card */
+  .modal-poster-image {
+    width: 165px;
+    height: 255px;
+    aspect-ratio: 11/17;
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+  }
+  
+  .modal-price {
+    font-size: 1.5rem;
   }
 }

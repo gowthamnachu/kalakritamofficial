@@ -7,82 +7,135 @@ import './Events.css';
 
 const Events = () => {
   const { navigateWithLoading } = useNavigationWithLoading();
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedView, setSelectedView] = useState('upcoming');
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const events = [
+  const upcomingEvents = [
     {
       id: 1,
-      title: "Traditional Madhubani Art Exhibition",
-      date: "March 15-30, 2025",
-      time: "10:00 AM - 6:00 PM",
-      category: "exhibition",
+      title: "Traditional Madhubani Art Workshop",
+      date: "August 15, 2025",
+      time: "10:00 AM - 4:00 PM",
       location: "Main Gallery Hall",
-      description: "Explore the vibrant world of Madhubani paintings featuring works from renowned artists of Bihar.",
-      image: "/events/madhubani-exhibition.jpg",
-      price: "Free Entry"
+      description: "Immerse yourself in the vibrant world of Madhubani paintings. Learn traditional techniques from master artists of Bihar and create your own masterpiece.",
+      instructor: "Artist Sita Devi",
+      price: "₹2,500",
+      duration: "6 hours",
+      materials: "All materials provided including natural pigments, brushes, and handmade paper",
+      maxParticipants: 20,
+      poster: "/events/art poster.png",
+      highlights: [
+        "Learn traditional Madhubani techniques",
+        "Natural pigment preparation",
+        "Cultural storytelling through art",
+        "Take home your completed artwork"
+      ]
     },
     {
       id: 2,
-      title: "Contemporary Art Workshop",
-      date: "April 5-7, 2025",
-      time: "2:00 PM - 5:00 PM",
-      category: "workshop",
-      location: "Workshop Studio",
-      description: "Learn modern art techniques from master artists in this intensive 3-day workshop.",
-      image: "/events/contemporary-workshop.jpg",
-      price: "₹4,500"
+      title: "Contemporary Fusion Art Exhibition",
+      date: "August 22, 2025",
+      time: "6:00 PM - 9:00 PM",
+      location: "Contemporary Wing",
+      description: "Experience the fusion of traditional Indian art with modern contemporary styles. This exhibition showcases works from emerging and established artists.",
+      curator: "Dr. Rajesh Sharma",
+      price: "₹300",
+      duration: "3 hours",
+      artworks: "Over 50 contemporary fusion pieces",
+      artists: "25 featured artists",
+      poster: "/events/fusion-exhibition-poster.jpg",
+      highlights: [
+        "Interactive artist talks",
+        "Live demonstration sessions",
+        "Networking with artists",
+        "Art appreciation workshop"
+      ]
     },
     {
       id: 3,
-      title: "Indian Classical Music & Art Evening",
-      date: "April 12, 2025",
-      time: "7:00 PM - 9:00 PM",
-      category: "performance",
-      location: "Amphitheater",
-      description: "An enchanting evening combining classical Indian music with live painting performances.",
-      image: "/events/music-art-evening.jpg",
-      price: "₹800"
-    },
-    {
-      id: 4,
-      title: "Pottery & Ceramics Masterclass",
-      date: "April 20-22, 2025",
-      time: "10:00 AM - 4:00 PM",
-      category: "workshop",
+      title: "Pottery & Wheel Throwing Masterclass",
+      date: "August 29, 2025",
+      time: "2:00 PM - 6:00 PM",
       location: "Ceramics Studio",
-      description: "Master the ancient art of pottery with traditional wheel throwing techniques.",
-      image: "/events/pottery-masterclass.jpg",
-      price: "₹3,500"
-    },
-    {
-      id: 5,
-      title: "Digital Art in Indian Context",
-      date: "May 1-3, 2025",
-      time: "11:00 AM - 3:00 PM",
-      category: "exhibition",
-      location: "Digital Gallery",
-      description: "Discover how digital tools are revolutionizing traditional Indian art forms.",
-      image: "/events/digital-art.jpg",
-      price: "₹200"
-    },
-    {
-      id: 6,
-      title: "Art Therapy for Wellness",
-      date: "May 10, 2025",
-      time: "4:00 PM - 6:00 PM",
-      category: "workshop",
-      location: "Wellness Studio",
-      description: "Explore the healing power of art through guided therapy sessions.",
-      image: "/events/art-therapy.jpg",
-      price: "₹1,200"
+      description: "Master the ancient art of pottery with traditional wheel throwing techniques. Learn from skilled artisans and create functional pottery pieces.",
+      instructor: "Master Potter Ramesh Kumar",
+      price: "₹3,500",
+      duration: "4 hours",
+      materials: "Clay, glazes, and firing included",
+      maxParticipants: 12,
+      poster: "/events/pottery-masterclass-poster.jpg",
+      highlights: [
+        "Traditional wheel throwing techniques",
+        "Glazing and firing process",
+        "Create 3-4 pottery pieces",
+        "Ancient pottery traditions"
+      ]
     }
   ];
 
-  const categories = ['all', 'exhibition', 'workshop', 'performance'];
+  const monthlyCalendar = {
+    august2025: [
+      { date: 1, event: "Watercolor Basics", type: "workshop" },
+      { date: 5, event: "Artist Meet & Greet", type: "social" },
+      { date: 8, event: "Folk Art Exhibition Opens", type: "exhibition" },
+      { date: 12, event: "Children's Art Camp", type: "workshop" },
+      { date: 15, event: "Madhubani Workshop", type: "workshop" },
+      { date: 18, event: "Art Therapy Session", type: "wellness" },
+      { date: 22, event: "Fusion Art Exhibition", type: "exhibition" },
+      { date: 25, event: "Sketching Workshop", type: "workshop" },
+      { date: 29, event: "Pottery Masterclass", type: "workshop" }
+    ]
+  };
 
-  const filteredEvents = selectedCategory === 'all' 
-    ? events 
-    : events.filter(event => event.category === selectedCategory);
+  const handleEventClick = (event) => {
+    setSelectedEvent(event);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedEvent(null);
+  };
+
+  const getDaysInMonth = (year, month) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
+
+  const getFirstDayOfMonth = (year, month) => {
+    return new Date(year, month, 1).getDay();
+  };
+
+  const renderCalendar = () => {
+    const year = 2025;
+    const month = 7; // August (0-indexed)
+    const daysInMonth = getDaysInMonth(year, month);
+    const firstDay = getFirstDayOfMonth(year, month);
+    const days = [];
+    const events = monthlyCalendar.august2025;
+
+    // Empty cells for days before the first day of the month
+    for (let i = 0; i < firstDay; i++) {
+      days.push(<div key={`empty-${i}`} className="calendar-day empty"></div>);
+    }
+
+    // Days of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dayEvents = events.filter(event => event.date === day);
+      days.push(
+        <div key={day} className="calendar-day">
+          <div className="day-number">{day}</div>
+          {dayEvents.map((event, index) => (
+            <div key={index} className={`day-event ${event.type}`}>
+              {event.event}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return days;
+  };
 
   return (
     <div className="events-container">
@@ -99,78 +152,207 @@ const Events = () => {
 
         <section className="events-filter">
           <div className="filter-buttons">
-            {categories.map(category => (
-              <button
-                key={category}
-                className={`filter-btn ${selectedCategory === category ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(category)}
-              >
-                {category === 'all' ? 'All Events' : category.charAt(0).toUpperCase() + category.slice(1)}
-              </button>
-            ))}
+            <button
+              className={`filter-btn ${selectedView === 'upcoming' ? 'active' : ''}`}
+              onClick={() => setSelectedView('upcoming')}
+            >
+              Upcoming Events
+            </button>
+            <button
+              className={`filter-btn ${selectedView === 'calendar' ? 'active' : ''}`}
+              onClick={() => setSelectedView('calendar')}
+            >
+              Monthly Event Calendar
+            </button>
           </div>
         </section>
 
-        <section className="events-grid">
-          {filteredEvents.map(event => (
-            <div key={event.id} className="event-card">
-              <div className="event-image">
-                <div className="event-placeholder">
-                  <span className="event-category">{event.category}</span>
+        {selectedView === 'upcoming' && (
+          <section className="upcoming-events">
+            <div className="events-grid">
+              {upcomingEvents.map(event => (
+                <div key={event.id} className="event-card" onClick={() => handleEventClick(event)}>
+                  <div className="event-poster">
+                    <img 
+                      src={event.poster} 
+                      alt={event.title}
+                      className="poster-image"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                    <div className="poster-placeholder" style={{ display: 'none' }}>
+                      <div className="kalakritam-logo-text">Kalakritam</div>
+                      <div className="event-type">Event Poster</div>
+                    </div>
+                    <div className="event-date-badge">
+                      {new Date(event.date).toLocaleDateString('en-US', { 
+                        month: 'short', 
+                        day: 'numeric' 
+                      })}
+                    </div>
+                  </div>
+                  <div className="event-content">
+                    <h3 className="event-title">{event.title}</h3>
+                    <div className="event-quick-details">
+                      <div className="event-time">
+                        <strong>Time:</strong> {event.time}
+                      </div>
+                      <div className="event-location">
+                        <strong>Location:</strong> {event.location}
+                      </div>
+                      <div className="event-price">
+                        <strong>Price:</strong> {event.price}
+                      </div>
+                    </div>
+                    <p className="event-description">{event.description}</p>
+                    <div className="event-actions">
+                      <button className="view-details-btn">View Details</button>
+                      <button className="register-btn">Register Now</button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="event-content">
-                <h3 className="event-title">{event.title}</h3>
-                <div className="event-details">
-                  <div className="event-date">
-                    <strong>Date:</strong> {event.date}
-                  </div>
-                  <div className="event-time">
-                    <strong>Time:</strong> {event.time}
-                  </div>
-                  <div className="event-location">
-                    <strong>Location:</strong> {event.location}
-                  </div>
-                  <div className="event-price">
-                    <strong>Price:</strong> {event.price}
-                  </div>
-                </div>
-                <p className="event-description">{event.description}</p>
-                <div className="event-actions">
-                  <button className="register-btn">Register Now</button>
-                  <button className="learn-more-btn">Learn More</button>
-                </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </section>
-
-        {filteredEvents.length === 0 && (
-          <div className="no-events">
-            <p>No events found in this category.</p>
-          </div>
+          </section>
         )}
 
-        <section className="upcoming-highlights">
-          <h2>Event Highlights</h2>
-          <div className="highlights-content">
-            <p>Join us for an exciting lineup of exhibitions, workshops, and cultural performances that celebrate the rich heritage of Indian art. Whether you're a seasoned artist or just beginning your artistic journey, our events offer something special for everyone.</p>
-            <div className="highlight-features">
-              <div className="feature">
-                <h4>Expert Artists</h4>
-                <p>Learn from master artists and renowned practitioners</p>
+        {selectedView === 'calendar' && (
+          <section className="calendar-view">
+            <div className="calendar-header">
+              <h2>August 2025</h2>
+            </div>
+            <div className="calendar-grid">
+              <div className="calendar-weekdays">
+                <div className="weekday">Sun</div>
+                <div className="weekday">Mon</div>
+                <div className="weekday">Tue</div>
+                <div className="weekday">Wed</div>
+                <div className="weekday">Thu</div>
+                <div className="weekday">Fri</div>
+                <div className="weekday">Sat</div>
               </div>
-              <div className="feature">
-                <h4>Hands-on Experience</h4>
-                <p>Interactive workshops and practical learning sessions</p>
+              <div className="calendar-days">
+                {renderCalendar()}
               </div>
-              <div className="feature">
-                <h4>Cultural Immersion</h4>
-                <p>Deep dive into Indian art traditions and contemporary expressions</p>
+            </div>
+            <div className="calendar-legend">
+              <div className="legend-item">
+                <span className="legend-color workshop"></span>
+                <span>Workshop</span>
+              </div>
+              <div className="legend-item">
+                <span className="legend-color exhibition"></span>
+                <span>Exhibition</span>
+              </div>
+              <div className="legend-item">
+                <span className="legend-color social"></span>
+                <span>Social Event</span>
+              </div>
+              <div className="legend-item">
+                <span className="legend-color wellness"></span>
+                <span>Wellness</span>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Event Detail Modal */}
+        {isModalOpen && selectedEvent && (
+          <div className="event-modal-overlay" onClick={closeModal}>
+            <div className="event-modal" onClick={(e) => e.stopPropagation()}>
+              <button className="modal-close-btn" onClick={closeModal}>
+                <div className="close-icon-circle">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                  </svg>
+                </div>
+              </button>
+              
+              <div className="modal-content">
+                <div className="modal-poster-section">
+                  <img 
+                    src={selectedEvent.poster} 
+                    alt={selectedEvent.title}
+                    className="modal-poster-image"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  <div className="poster-placeholder" style={{ display: 'none' }}>
+                    <div className="kalakritam-logo-text">Kalakritam</div>
+                    <div className="event-type">Event Poster</div>
+                  </div>
+                </div>
+
+                <div className="modal-details-section">
+                  <div className="modal-header">
+                    <h2 className="modal-title">{selectedEvent.title}</h2>
+                    <div className="modal-price-section">
+                      <span className="price-label">Price</span>
+                      <div className="modal-price">{selectedEvent.price}</div>
+                    </div>
+                  </div>
+
+                  <div className="modal-description">
+                    <h3>About This Event</h3>
+                    <p>{selectedEvent.description}</p>
+                  </div>
+
+                  <div className="modal-specifications">
+                    <h3>Event Details</h3>
+                    <div className="spec-grid">
+                      <div className="spec-item">
+                        <span className="spec-label">Date</span>
+                        <span className="spec-value">{selectedEvent.date}</span>
+                      </div>
+                      <div className="spec-item">
+                        <span className="spec-label">Time</span>
+                        <span className="spec-value">{selectedEvent.time}</span>
+                      </div>
+                      <div className="spec-item">
+                        <span className="spec-label">Duration</span>
+                        <span className="spec-value">{selectedEvent.duration}</span>
+                      </div>
+                      <div className="spec-item">
+                        <span className="spec-label">Location</span>
+                        <span className="spec-value">{selectedEvent.location}</span>
+                      </div>
+                      {selectedEvent.instructor && (
+                        <div className="spec-item">
+                          <span className="spec-label">Instructor</span>
+                          <span className="spec-value">{selectedEvent.instructor}</span>
+                        </div>
+                      )}
+                      {selectedEvent.curator && (
+                        <div className="spec-item">
+                          <span className="spec-label">Curator</span>
+                          <span className="spec-value">{selectedEvent.curator}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="modal-highlights">
+                    <h3>Event Highlights</h3>
+                    <ul className="highlights-list">
+                      {selectedEvent.highlights.map((highlight, index) => (
+                        <li key={index}>{highlight}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="modal-actions">
+                    <button className="register-modal-btn">Register Now</button>
+                    <button className="share-btn">Share Event</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </section>
+        )}
       </main>
       
       <Footer />
