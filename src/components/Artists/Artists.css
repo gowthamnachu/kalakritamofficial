@@ -3,6 +3,8 @@
   background-color: #002f2f;
   color: white;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .artists-header {
@@ -110,9 +112,10 @@
 
 .artists-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(1rem, 4vw, 2rem);
   margin-bottom: 4rem;
+  width: 100%;
 }
 
 .artist-card {

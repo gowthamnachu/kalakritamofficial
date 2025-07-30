@@ -2,42 +2,54 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #002f2f 0%, #004444 100%);
   color: white;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .contact-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: clamp(1rem, 4vw, 20px);
+  width: 100%;
 }
 
 /* Hero Section */
 .contact-hero {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: clamp(3rem, 8vw, 60px);
 }
 
 .contact-title {
   font-family: 'Samarkan', 'Cinzel', serif;
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 6vw, 3.5rem);
   color: #c38f21;
   margin-bottom: 20px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
 }
 
 .contact-subtitle {
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 3vw, 1.3rem);
   color: #d4af85;
   font-weight: 300;
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
+  padding: 0 1rem;
 }
 
 .contact-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  margin-bottom: 3rem;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 6vw, 3rem);
+  margin-bottom: clamp(2rem, 6vw, 3rem);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .contact-form-section h2,

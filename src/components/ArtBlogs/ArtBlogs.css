@@ -2,35 +2,40 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #002f2f 0%, #004444 100%);
   color: white;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .artblogs-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: clamp(1rem, 4vw, 20px);
+  width: 100%;
 }
 
 /* Hero Section */
 .artblogs-hero {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: clamp(3rem, 8vw, 60px);
 }
 
 .artblogs-title {
   font-family: 'Samarkan', 'Cinzel', serif;
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 6vw, 3.5rem);
   color: #c38f21;
   margin-bottom: 20px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
 }
 
 .artblogs-subtitle {
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 3vw, 1.3rem);
   color: #d4af85;
   font-weight: 300;
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
+  padding: 0 1rem;
 }
 
 /* Featured Post */
@@ -184,9 +189,10 @@
 /* Blog Grid */
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 30px;
-  margin-bottom: 60px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(1.5rem, 4vw, 30px);
+  margin-bottom: clamp(3rem, 8vw, 60px);
+  width: 100%;
 }
 
 .blog-card {
@@ -326,16 +332,17 @@
 .newsletter-signup {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 15px;
-  padding: 40px;
+  padding: clamp(2rem, 6vw, 40px);
   text-align: center;
   border: 1px solid rgba(195, 143, 33, 0.2);
-  margin-bottom: 40px;
+  margin-bottom: clamp(2rem, 6vw, 40px);
   backdrop-filter: blur(10px);
+  width: 100%;
 }
 
 .newsletter-content h2 {
   font-family: 'Samarkan', 'Cinzel', serif;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   color: #c38f21;
   margin-bottom: 15px;
 }
@@ -343,7 +350,7 @@
 .newsletter-content p {
   color: #d4af85;
   margin-bottom: 25px;
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
 }
 
 .newsletter-form {
@@ -352,6 +359,7 @@
   max-width: 400px;
   margin: 0 auto;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .email-input {
@@ -361,7 +369,7 @@
   border-radius: 25px;
   background: rgba(255, 255, 255, 0.1);
   color: white;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 3vw, 1rem);
   min-width: 200px;
 }
 
@@ -385,6 +393,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
+  min-height: 44px;
 }
 
 .subscribe-btn:hover {
