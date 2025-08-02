@@ -408,9 +408,10 @@
   gap: 12px;
   padding-top: 20px;
   border-top: 1px solid rgba(195, 143, 33, 0.2);
+  justify-content: center;
 }
 
-.btn-details, .btn-contact {
+.btn-details {
   flex: 1;
   padding: 14px 24px;
   border: none;
@@ -423,9 +424,6 @@
   text-transform: uppercase;
   position: relative;
   overflow: hidden;
-}
-
-.btn-details {
   background: linear-gradient(135deg, #c38f21 0%, #d4af85 100%);
   color: #002f2f;
   box-shadow: 0 4px 15px rgba(195, 143, 33, 0.3);
@@ -446,24 +444,15 @@
   left: 100%;
 }
 
+.btn-full-width {
+  width: 100%;
+  max-width: 300px;
+}
+
 .btn-details:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(195, 143, 33, 0.5);
   background: linear-gradient(135deg, #d4af85 0%, #c38f21 100%);
-}
-
-.btn-contact {
-  background: transparent;
-  color: #c38f21;
-  border: 2px solid #c38f21;
-  box-shadow: 0 4px 15px rgba(195, 143, 33, 0.1);
-}
-
-.btn-contact:hover {
-  background: #c38f21;
-  color: #002f2f;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(195, 143, 33, 0.4);
 }
 
 .artist-specialty {
@@ -829,13 +818,14 @@
   }
   
   .artist-actions {
-    flex-direction: column;
-    gap: 10px;
+    justify-content: center;
   }
   
-  .btn-details, .btn-contact {
+  .btn-details {
     padding: 12px 20px;
     font-size: 0.95rem;
+    width: 100%;
+    max-width: 250px;
   }
   
   .learning-showcase {

@@ -4,6 +4,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
 import './Artists.css';
+import '../Gallery/Gallery.css'; // Import Gallery CSS for modal styles
 
 const Artists = () => {
   const { navigateWithLoading } = useNavigationWithLoading();
@@ -244,20 +245,15 @@ const Artists = () => {
                       <span className="detail-label">Artworks:</span>
                       <span className="detail-value">{artist.artworks}</span>
                     </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Students:</span>
-                      <span className="detail-value">{artist.students}</span>
-                    </div>
                   </div>
                   
                   <div className="artist-actions">
                     <button 
-                      className="btn-details"
+                      className="btn-details btn-full-width"
                       onClick={() => handleViewDetails(artist)}
                     >
                       View Profile
                     </button>
-                    <button className="btn-contact">Connect</button>
                   </div>
                 </div>
               </div>
@@ -376,10 +372,6 @@ const Artists = () => {
                       <span className="spec-value">{selectedArtist.artworks}</span>
                     </div>
                     <div className="spec-item">
-                      <span className="spec-label">Students</span>
-                      <span className="spec-value">{selectedArtist.students}</span>
-                    </div>
-                    <div className="spec-item">
                       <span className="spec-label">Exhibitions</span>
                       <span className="spec-value">{selectedArtist.exhibitions}</span>
                     </div>
@@ -394,12 +386,6 @@ const Artists = () => {
                         <li key={index}>{achievement}</li>
                       ))}
                     </ul>
-                  </div>
-                  
-                  <div className="artwork-care">
-                    <h4>Contact Information</h4>
-                    <p>Connect with {selectedArtist.name.split(' ')[0]} for collaborations, workshops, or art inquiries.</p>
-                    <p>Email: {selectedArtist.contact}</p>
                   </div>
                 </div>
               </div>
