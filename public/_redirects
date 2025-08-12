@@ -1,8 +1,24 @@
-# Minimal redirects for Cloudflare Pages
+# Cloudflare Pages Redirects for Kalakritam
 
-# SEO redirects only
+# SEO redirects for better indexing
+/gallery/   /gallery   301
+/workshops/ /workshops 301
+/events/    /events    301
+/artists/   /artists   301
+/artblogs/  /artblogs  301
+/contact/   /contact   301
+/about/     /about     301
+
+# Legacy URL redirects (if any)
+/art-gallery    /gallery    301
+/art-workshops  /workshops  301
+
+# Original SEO redirects
 /home  /  301
 /workshop  /workshops  301
 /artist  /artists  301
 /blog  /blogs  301
 /contact-us  /contact  301
+
+# SPA redirect - handle client-side routing (must be last)
+/*    /index.html   200
