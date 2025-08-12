@@ -12,7 +12,6 @@ const STATIC_ASSETS = [
   '/src/index.css',
   '/src/App.css',
   '/src/responsive-utilities.css',
-  '/src/assets/fonts/samarkan.ttf',
   '/intro-video.mp4',
   '/images/icon-192x192.png',
   '/images/icon-512x512.png'
