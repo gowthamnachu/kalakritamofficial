@@ -1,13 +1,10 @@
 /* Fallback using Google Fonts alternative if local font not available */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=The+Seasons&display=swap');
+/* These are now loaded via preconnect in HTML for better performance */
 
 /* Samarkan Font for Kalakritam */
 @font-face {
   font-family: 'Samarkan';
-  src: url('./samarkan.woff2') format('woff2'),
-       url('./samarkan.woff') format('woff'),
-       url('./samarkan.ttf') format('truetype');
+  src: url('./samarkan.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
