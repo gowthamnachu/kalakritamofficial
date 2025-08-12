@@ -15,6 +15,9 @@ export default defineConfig({
     }
   },
   build: {
+    modulePreload: {
+      polyfill: true
+    },
     rollupOptions: {
       external: (id) => {
         // Only externalize problematic Node.js modules, not React

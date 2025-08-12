@@ -12,7 +12,7 @@ const STATIC_ASSETS = [
   '/src/index.css',
   '/src/App.css',
   '/src/responsive-utilities.css',
-  '/fonts/samarkan.ttf',
+  '/src/assets/fonts/samarkan.ttf',
   '/intro-video.mp4',
   '/images/icon-192x192.png',
   '/images/icon-512x512.png'
@@ -289,12 +289,19 @@ self.addEventListener('message', (event) => {
 // Preload specific routes
 async function preloadRoutes(routes) {
   const cache = await caches.open(RUNTIME_CACHE);
+  const preloadedRoutes = new Set();
   
   for (const route of routes) {
+    // Avoid duplicate preloading
+    if (preloadedRoutes.has(route)) {
+      continue;
+    }
+    
     try {
       const response = await fetch(route);
       if (response.ok) {
         await cache.put(route, response);
+        preloadedRoutes.add(route);
         console.log('Preloaded route:', route);
       }
     } catch (error) {
