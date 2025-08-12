@@ -125,18 +125,26 @@
             .then(function(registration) {
               console.log('SW registered: ', registration);
               
-              // Preload critical routes
+              // Preload critical routes only if service worker is active
               if (registration.active) {
-                registration.active.postMessage({
-                  type: 'PRELOAD_ROUTES',
-                  routes: ['/workshops', '/gallery', '/about', '/artists']
-                });
+                try {
+                  registration.active.postMessage({
+                    type: 'PRELOAD_ROUTES',
+                    routes: ['/workshops', '/gallery', '/about', '/artists']
+                  });
+                } catch (error) {
+                  console.warn('Failed to send message to service worker:', error);
+                }
               }
             })
             .catch(function(registrationError) {
               console.log('SW registration failed: ', registrationError);
+              // Continue without service worker - site should still work
             });
         });
+      } else {
+        console.log('Service Worker not supported');
+        // Site will work without service worker
       }
     </script>
   </head>
