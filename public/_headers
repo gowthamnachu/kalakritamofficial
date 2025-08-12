@@ -74,6 +74,14 @@
   Content-Type: text/html; charset=utf-8
   Cache-Control: public, max-age=3600
 
+# Root and all paths - security headers
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
 # Service Worker
 /sw.js
   Content-Type: application/javascript; charset=utf-8
