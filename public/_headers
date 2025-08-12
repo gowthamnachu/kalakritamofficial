@@ -1,21 +1,31 @@
 # Cloudflare Pages Headers Configuration
 
-# Main site headers
-/*
-  X-Content-Type-Options: nosniff
-  X-Frame-Options: DENY
-  X-XSS-Protection: 1; mode=block
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: geolocation=(), microphone=(), camera=()
-
-# JavaScript modules - ensure proper MIME type
-/assets/*.js
-  Content-Type: application/javascript; charset=utf-8
+# JavaScript files - CRITICAL for module loading
+/assets/index-*.js
+  Content-Type: application/javascript
   Cache-Control: public, max-age=31536000, immutable
+
+/assets/vendor-*.js
+  Content-Type: application/javascript
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*-*.js
+  Content-Type: application/javascript
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.js
+  Content-Type: application/javascript
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.js
+  Content-Type: application/javascript
+
+*.js
+  Content-Type: application/javascript
 
 # ES modules
 *.mjs
-  Content-Type: application/javascript; charset=utf-8
+  Content-Type: application/javascript
 
 # CSS files
 /assets/*.css

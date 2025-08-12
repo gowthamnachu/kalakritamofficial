@@ -1,0 +1,31 @@
+name = "kalakritam-frontend"
+compatibility_date = "2024-08-12"
+
+[env.production]
+  name = "kalakritam-production"
+  compatibility_date = "2024-08-12"
+
+[[env.production.rules]]
+  type = "Text"
+  globs = ["**/*.js"]
+  fallthrough = true
+
+[[env.production.rules]]
+  type = "Data"
+  globs = ["**/*.wasm", "**/*.bin"]
+  fallthrough = true
+
+[build]
+command = "npm run build"
+cwd = "."
+watch_dir = "src"
+
+[build.upload]
+format = "modules"
+dir = "dist"
+main = "./index.js"
+rules = [
+  { type = "ESModule", globs = ["**/*.js"] },
+  { type = "Text", globs = ["**/*.html", "**/*.css"] },
+  { type = "Data", globs = ["**/*.woff", "**/*.woff2", "**/*.ttf", "**/*.otf"] }
+]
