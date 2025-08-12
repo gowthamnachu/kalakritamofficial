@@ -6,6 +6,60 @@ import { measureLazyLoadTime } from './hooks/usePerformanceTracking'
 import { seoManager } from './utils/seoManager.js'
 import './App.css'
 
+// Simple Error Boundary Component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('App Error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ 
+          padding: '40px', 
+          textAlign: 'center', 
+          background: '#002f2f', 
+          color: 'white', 
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <div>
+            <h1 style={{ color: '#c38f21' }}>🎨 Kalakritam</h1>
+            <h2>Something went wrong</h2>
+            <p>We're sorry, but there was an error loading the application.</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              style={{ 
+                background: '#c38f21', 
+                color: 'white', 
+                border: 'none', 
+                padding: '10px 20px', 
+                borderRadius: '5px',
+                cursor: 'pointer'
+              }}
+            >
+              Reload Page
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 // Lazy load all components for better performance with performance tracking
 const IntroVideo = React.lazy(() => {
   const measure = measureLazyLoadTime('IntroVideo');
@@ -324,9 +378,11 @@ function App() {
   }, []);
 
   return (
-    <LoadingProvider>
-      <AppContent />
-    </LoadingProvider>
+    <ErrorBoundary>
+      <LoadingProvider>
+        <AppContent />
+      </LoadingProvider>
+    </ErrorBoundary>
   )
 }
 
