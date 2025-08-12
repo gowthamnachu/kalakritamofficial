@@ -19,6 +19,7 @@ export const apiCall = async (endpoint, method = 'GET', data = null) => {
     
     const headers = {
       'Content-Type': 'application/json',
+      'Accept': 'application/json',
     };
     
     if (token) {
@@ -28,6 +29,8 @@ export const apiCall = async (endpoint, method = 'GET', data = null) => {
     const requestOptions = {
       method,
       headers,
+      mode: 'cors',
+      credentials: 'omit',
       credentials: 'include', // Essential for CORS with credentials
     };
     
