@@ -1,14 +1,11 @@
 # Cloudflare Pages Redirects for SPA
 
-# Handle all routes to index.html for client-side routing
-/*    /index.html   200
-
-# API routes should go to backend
-/api/*  https://kalakritam-backend.your-worker.workers.dev/:splat  200
-
-# Specific redirects for SEO
+# Specific redirects for SEO (must come before catch-all)
 /home  /  301
 /workshop  /workshops  301
 /artist  /artists  301
 /blog  /blogs  301
 /contact-us  /contact  301
+
+# Handle all routes to index.html for client-side routing (catch-all)
+/*    /index.html   200

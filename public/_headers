@@ -20,6 +20,7 @@
 /*.js
   Content-Type: application/javascript
 
+# All JavaScript files - fallback
 *.js
   Content-Type: application/javascript
 
