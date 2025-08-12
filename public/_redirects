@@ -7,7 +7,9 @@
 /blog  /blogs  301
 /contact-us  /contact  301
 
-# Handle all routes for client-side routing (but not files with extensions)
+# Static assets should be served as-is (no redirects needed - Cloudflare handles this automatically)
+
+# Handle specific SPA routes for client-side routing
 /workshops  /index.html  200
 /gallery  /index.html  200
 /about  /index.html  200
@@ -16,3 +18,8 @@
 /blogs  /index.html  200
 /contact  /index.html  200
 /admin/*  /index.html  200
+/workshops/*  /index.html  200
+/gallery/*  /index.html  200
+/artists/*  /index.html  200
+/events/*  /index.html  200
+/blogs/*  /index.html  200
