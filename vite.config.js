@@ -7,21 +7,8 @@ export default defineConfig({
   define: {
     global: 'globalThis',
   },
-  resolve: {
-    alias: {
-      // Handle problematic Node.js modules
-      'fsevents': false,
-      'module': false
-    }
-  },
   build: {
-    modulePreload: false,
     rollupOptions: {
-      external: (id) => {
-        // Only externalize problematic Node.js modules, not React
-        const nodeModules = ['fsevents', 'module', 'node:module', 'node:fs', 'node:path'];
-        return nodeModules.includes(id) || nodeModules.some(mod => id.includes(mod)) && !id.includes('react');
-      },
       output: {
         format: 'es',
         entryFileNames: 'assets/[name]-[hash].js',
