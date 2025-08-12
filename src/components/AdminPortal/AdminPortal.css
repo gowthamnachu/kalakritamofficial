@@ -1,0 +1,308 @@
+/* Admin Portal Component Styles */
+.admin-portal-container {
+  min-height: 100vh;
+  background-color: #002f2f;
+  color: white;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.admin-portal-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(2rem, 6vw, 3rem) clamp(1rem, 4vw, 2rem);
+  width: 100%;
+}
+
+/* Hero Section */
+.admin-portal-hero {
+  text-align: center;
+  margin-bottom: 4rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(195, 143, 33, 0.2);
+  position: relative;
+}
+
+.admin-header-actions {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.logout-btn {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logout-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+  transform: translateY(-1px);
+}
+
+.admin-portal-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #c38f21 0%, #d4af85 100%);
+  color: #002f2f;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 15px rgba(195, 143, 33, 0.3);
+}
+
+.admin-portal-title {
+  font-family: 'Samarkan', 'Cinzel', serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: #c38f21;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: clamp(1px, 0.5vw, 3px);
+  font-weight: 700;
+}
+
+.admin-portal-subtitle {
+  font-family: 'The Seasons', 'Cinzel', serif;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  color: #d4af85;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.admin-portal-description {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.admin-portal-description p {
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  line-height: 1.6;
+  color: #e0e0e0;
+  opacity: 0.9;
+}
+
+/* Admin Modules Section */
+.admin-modules-section {
+  margin-bottom: 4rem;
+}
+
+.admin-modules-section h2 {
+  font-family: 'Samarkan', 'Cinzel', serif;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  color: #c38f21;
+  text-align: center;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+}
+
+.admin-modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.admin-module-card {
+  background: linear-gradient(135deg, rgba(0, 24, 24, 0.95) 0%, rgba(0, 32, 32, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(195, 143, 33, 0.2);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-module-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(195, 143, 33, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.admin-module-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(195, 143, 33, 0.5);
+  box-shadow: 0 10px 30px rgba(195, 143, 33, 0.2);
+}
+
+.admin-module-card:hover::before {
+  opacity: 1;
+}
+
+.module-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.module-title {
+  font-family: 'The Seasons', 'Cinzel', serif;
+  font-size: 1.5rem;
+  color: #c38f21;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.module-description {
+  color: #d4af85;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.module-action-btn {
+  background: transparent;
+  border: 2px solid #c38f21;
+  color: #c38f21;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'The Seasons', 'Cinzel', serif;
+}
+
+.module-action-btn:hover {
+  background: rgba(195, 143, 33, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Quick Stats Section */
+.admin-quick-stats {
+  margin-bottom: 2rem;
+}
+
+.admin-quick-stats h2 {
+  font-family: 'Samarkan', 'Cinzel', serif;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  color: #c38f21;
+  text-align: center;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, rgba(0, 24, 24, 0.95) 0%, rgba(0, 32, 32, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(195, 143, 33, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(195, 143, 33, 0.4);
+  box-shadow: 0 8px 25px rgba(195, 143, 33, 0.15);
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  opacity: 0.8;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.stat-number {
+  font-family: 'Samarkan', 'Cinzel', serif;
+  font-size: 2rem;
+  color: #c38f21;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: 'The Seasons', 'Cinzel', serif;
+  color: #d4af85;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-top: 0.25rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-portal-content {
+    padding: 2rem 1rem;
+  }
+  
+  .admin-modules-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .admin-module-card {
+    padding: 1.5rem;
+  }
+  
+  .module-icon {
+    font-size: 2.5rem;
+  }
+  
+  .module-title {
+    font-size: 1.3rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-portal-hero {
+    margin-bottom: 2rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .stat-info {
+    align-items: center;
+  }
+}

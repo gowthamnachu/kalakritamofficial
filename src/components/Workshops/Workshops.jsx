@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
 import Header from '../Header';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
+import { config } from '../../config/environment';
 import './Workshops.css';
 import '../Gallery/Gallery.css';
 
@@ -11,6 +12,35 @@ const Workshops = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedWorkshop, setSelectedWorkshop] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [workshops, setWorkshops] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchWorkshops();
+  }, []);
+
+  const fetchWorkshops = async () => {
+    try {
+      setLoading(true);
+      console.log('Fetching workshops from:', `${config.apiBaseUrl}/workshops`);
+      const response = await fetch(`${config.apiBaseUrl}/workshops`);
+      console.log('Response status:', response.status);
+      const data = await response.json();
+      console.log('Response data:', data);
+      
+      if (data.success) {
+        setWorkshops(data.data);
+      } else {
+        setError('Failed to load workshops');
+      }
+    } catch (err) {
+      console.error('Error fetching workshops:', err);
+      setError('Failed to connect to server');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleViewDetails = (workshop) => {
     setSelectedWorkshop(workshop);
@@ -22,219 +52,43 @@ const Workshops = () => {
     setSelectedWorkshop(null);
   };
 
-  // Enhanced workshops data with Indian art themes
-  const workshops = [
-    {
-      id: 1,
-      title: "Traditional Madhubani Painting",
-      instructor: "Master Priya Sharma",
-      category: "upcoming",
-      level: "Beginner to Intermediate",
-      duration: "3 Days",
-      price: "₹4,500",
-      startDate: "August 15, 2025",
-      endDate: "August 17, 2025",
-      time: "10:00 AM - 4:00 PM",
-      venue: "Kalakritam Art Studio, Delhi",
-      image: "/workshops/madhubani-workshop.jpg",
-      description: "Learn the ancient art of Madhubani painting with traditional techniques, natural pigments, and authentic patterns from Bihar's cultural heritage.",
-      materials: "All materials provided including natural pigments, brushes, and handmade paper",
-      maxStudents: 15,
-      prerequisites: "None - suitable for beginners",
-      learningImages: [
-        "/workshops/madhubani-basics.jpg",
-        "/workshops/madhubani-patterns.jpg", 
-        "/workshops/madhubani-colors.jpg",
-        "/workshops/madhubani-final.jpg"
-      ],
-      learningText: "Complete art kit with natural pigments, handmade paper, traditional brushes, and take-home artwork"
-    },
-    {
-      id: 2,
-      title: "Kerala Mural Painting Masterclass",
-      instructor: "Guru Ramesh Nair",
-      category: "upcoming",
-      level: "Intermediate to Advanced",
-      duration: "5 Days",
-      price: "₹8,500",
-      startDate: "September 1, 2025",
-      endDate: "September 5, 2025",
-      time: "9:00 AM - 5:00 PM",
-      venue: "Heritage Art Center, Kochi",
-      image: "/workshops/kerala-mural-workshop.jpg",
-      description: "Master the classical Kerala mural painting techniques with gold leaf application, traditional mineral colors, and temple art iconography.",
-      materials: "Canvas, brushes, mineral pigments, gold leaf, and binding agents included",
-      maxStudents: 10,
-      prerequisites: "Basic painting experience recommended",
-      learningImages: [
-        "/workshops/kerala-base.jpg",
-        "/workshops/kerala-gold.jpg",
-        "/workshops/kerala-details.jpg", 
-        "/workshops/kerala-finished.jpg"
-      ],
-      learningText: "Professional canvas, gold leaf sheets, mineral pigments, fine brushes, and completed mural painting"
-    },
-    {
-      id: 3,
-      title: "Warli Tribal Art Workshop",
-      instructor: "Artist Anjali Devi",
-      category: "past",
-      level: "Beginner",
-      duration: "2 Days",
-      price: "₹3,200",
-      startDate: "June 25, 2025",
-      endDate: "June 26, 2025",
-      time: "10:00 AM - 3:00 PM",
-      venue: "Tribal Art Museum, Mumbai",
-      image: "/workshops/warli-workshop.jpg",
-      description: "Explore the beautiful Warli tribal art form using traditional white pigments on terracotta and learn about the cultural significance of each motif.",
-      materials: "Terracotta surfaces, white pigments, brushes, and reference materials provided",
-      maxStudents: 20,
-      prerequisites: "None - perfect for beginners",
-      learningImages: [
-        "/workshops/warli-motifs.jpg",
-        "/workshops/warli-dancing.jpg",
-        "/workshops/warli-village.jpg",
-        "/workshops/warli-complete.jpg"
-      ],
-      learningText: "Terracotta surfaces, white pigments, reference books, brushes, and your finished Warli artwork"
-    },
-    {
-      id: 4,
-      title: "Digital Art with Traditional Motifs",
-      instructor: "Artist Rahul Kumar",
-      category: "upcoming",
-      level: "Intermediate",
-      duration: "4 Days",
-      price: "₹6,800",
-      startDate: "September 10, 2025",
-      endDate: "September 13, 2025",
-      time: "11:00 AM - 5:00 PM",
-      venue: "Digital Arts Hub, Bangalore",
-      image: "/workshops/digital-art-workshop.jpg",
-      description: "Blend traditional Indian motifs with modern digital art techniques using professional software and create contemporary art pieces.",
-      materials: "Digital tablets, software licenses, and styluses provided",
-      maxStudents: 12,
-      prerequisites: "Basic computer skills required",
-      learningImages: [
-        "/workshops/digital-setup.jpg",
-        "/workshops/digital-motifs.jpg",
-        "/workshops/digital-blending.jpg",
-        "/workshops/digital-final.jpg"
-      ],
-      learningText: "Professional tablet, software license, stylus, digital assets library, and high-res prints"
-    },
-    {
-      id: 5,
-      title: "Rajasthani Miniature Painting",
-      instructor: "Master Meera Rajput",
-      category: "upcoming",
-      level: "Advanced",
-      duration: "6 Days",
-      price: "₹12,000",
-      startDate: "October 1, 2025",
-      endDate: "October 6, 2025",
-      time: "9:00 AM - 4:00 PM",
-      venue: "Royal Arts Academy, Jaipur",
-      image: "/workshops/miniature-workshop.jpg",
-      description: "Learn the intricate art of Rajasthani miniature painting with fine brushwork, detailed compositions, and traditional royal themes.",
-      materials: "Fine brushes, watercolors, gold paint, and specialized paper included",
-      maxStudents: 8,
-      prerequisites: "Previous painting experience essential",
-      learningImages: [
-        "/workshops/miniature-sketch.jpg",
-        "/workshops/miniature-colors.jpg",
-        "/workshops/miniature-details.jpg",
-        "/workshops/miniature-gold.jpg"
-      ],
-      learningText: "Fine brushes, watercolors, gold paint, specialized paper, magnifying tools, and framed artwork"
-    },
-    {
-      id: 6,
-      title: "Bronze Sculpture Basics",
-      instructor: "Sculptor Suresh Patel",
-      category: "past",
-      level: "Beginner to Intermediate",
-      duration: "7 Days",
-      price: "₹15,500",
-      startDate: "May 20, 2025",
-      endDate: "May 26, 2025",
-      time: "10:00 AM - 6:00 PM",
-      venue: "Sculpture Workshop, Chennai",
-      image: "/workshops/bronze-sculpture-workshop.jpg",
-      description: "Introduction to bronze sculpture techniques including modeling, molding, and casting using traditional lost-wax methods.",
-      materials: "Clay, wax, bronze, tools, and safety equipment provided",
-      maxStudents: 6,
-      prerequisites: "Physical ability to work with heavy materials",
-      learningImages: [
-        "/workshops/bronze-modeling.jpg",
-        "/workshops/bronze-molding.jpg",
-        "/workshops/bronze-casting.jpg",
-        "/workshops/bronze-finishing.jpg"
-      ],
-      learningText: "Clay, wax, bronze materials, sculpting tools, safety equipment, and your bronze sculpture"
-    },
-    {
-      id: 7,
-      title: "Tanjore Painting with Gold Work",
-      instructor: "Artist Lakshmi Venkat",
-      category: "upcoming",
-      level: "Intermediate",
-      duration: "4 Days",
-      price: "₹7,200",
-      startDate: "August 30, 2025",
-      endDate: "September 2, 2025",
-      time: "10:00 AM - 4:00 PM",
-      venue: "Traditional Arts Center, Thanjavur",
-      image: "/workshops/tanjore-workshop.jpg",
-      description: "Learn the classical Tanjore painting style with gold foil work, gem inlaying, and traditional South Indian iconography.",
-      materials: "Wood panels, gold foil, gems, paints, and adhesives included",
-      maxStudents: 12,
-      prerequisites: "Basic painting skills recommended",
-      learningImages: [
-        "/workshops/tanjore-base.jpg",
-        "/workshops/tanjore-painting.jpg",
-        "/workshops/tanjore-gold.jpg",
-        "/workshops/tanjore-gems.jpg"
-      ],
-      learningText: "Wood panel, gold foil, precious gems, paints, adhesives, and your completed Tanjore painting"
-    },
-    {
-      id: 8,
-      title: "Contemporary Mandala Art",
-      instructor: "Artist Vikram Singh",
-      category: "past",
-      level: "Beginner to Intermediate",
-      duration: "3 Days",
-      price: "₹4,800",
-      startDate: "July 15, 2025",
-      endDate: "July 17, 2025",
-      time: "10:00 AM - 3:00 PM",
-      venue: "Modern Art Studio, Pune",
-      image: "/workshops/mandala-workshop.jpg",
-      description: "Create beautiful mandala art combining traditional spiritual symbols with contemporary design aesthetics and color theories.",
-      materials: "Canvas, acrylic paints, brushes, and geometric tools provided",
-      maxStudents: 18,
-      prerequisites: "None - suitable for all levels",
-      learningImages: [
-        "/workshops/mandala-geometry.jpg",
-        "/workshops/mandala-patterns.jpg",
-        "/workshops/mandala-colors.jpg",
-        "/workshops/mandala-meditation.jpg"
-      ],
-      learningText: "Canvas, acrylic paints, brushes, geometric tools, meditation guide, and your mandala artwork"
-    }
-  ];
+  // Since the API doesn't return categories, show all workshops
+  const filteredWorkshops = workshops;
 
-  const categories = [
-    'all',
-    'upcoming',
-    'past'
-  ];
+  if (loading) {
+    return (
+      <div className="workshops-container">
+        <VideoLogo />
+        <Header currentPage="workshops" />
+        <div className="workshops-page-content">
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p>Loading workshops...</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
-  const filteredWorkshops = selectedCategory === 'all'
-    ? workshops
-    : workshops.filter(workshop => workshop.category === selectedCategory);
+  if (error) {
+    return (
+      <div className="workshops-container">
+        <VideoLogo />
+        <Header currentPage="workshops" />
+        <div className="workshops-page-content">
+          <div className="error-container">
+            <h2>Unable to load workshops</h2>
+            <p>{error}</p>
+            <button onClick={fetchWorkshops} className="retry-btn">
+              Try Again
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="workshops-container">
@@ -252,21 +106,6 @@ const Workshops = () => {
           </div>
         </header>
 
-        <section className="workshops-filters">
-          <h3>Filter by Category</h3>
-          <div className="category-filters">
-            {categories.map(category => (
-              <button
-                key={category}
-                className={`filter-btn ${selectedCategory === category ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(category)}
-              >
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </button>
-            ))}
-          </div>
-        </section>
-
         <main className="workshops-content">
           <div className="workshops-count">
             <p>Showing {filteredWorkshops.length} workshop{filteredWorkshops.length !== 1 ? 's' : ''}</p>
@@ -277,7 +116,7 @@ const Workshops = () => {
               <div key={workshop.id} className="workshop-card">
                 <div className="workshop-image-container">
                   <img 
-                    src={workshop.image} 
+                    src={workshop.imageUrl} 
                     alt={workshop.title}
                     className="workshop-image"
                     onError={(e) => {
@@ -296,7 +135,7 @@ const Workshops = () => {
                     <div className="workshop-overlay-content">
                       <h3>{workshop.title}</h3>
                       <p>by {workshop.instructor}</p>
-                      <span className="workshop-price">{workshop.price}</span>
+                      <span className="workshop-price">₹{workshop.price}</span>
                     </div>
                   </div>
                 </div>
@@ -312,25 +151,33 @@ const Workshops = () => {
                       <span className="detail-value">{workshop.duration}</span>
                     </div>
                     <div className="detail-row">
-                      <span className="detail-label">Level:</span>
-                      <span className="detail-value">{workshop.level}</span>
+                      <span className="detail-label">Start Date:</span>
+                      <span className="detail-value">{new Date(workshop.startDate).toLocaleDateString('en-US', { 
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                      })}</span>
                     </div>
                     <div className="detail-row">
-                      <span className="detail-label">Venue:</span>
-                      <span className="detail-value">{workshop.venue}</span>
+                      <span className="detail-label">End Date:</span>
+                      <span className="detail-value">{new Date(workshop.endDate).toLocaleDateString('en-US', { 
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                      })}</span>
                     </div>
                     <div className="detail-row">
-                      <span className="detail-label">Dates:</span>
-                      <span className="detail-value">{workshop.startDate} - {workshop.endDate}</span>
+                      <span className="detail-label">Max Participants:</span>
+                      <span className="detail-value">{workshop.maxParticipants}</span>
                     </div>
                     <div className="detail-row">
-                      <span className="detail-label">Time:</span>
-                      <span className="detail-value">{workshop.time}</span>
+                      <span className="detail-label">Available Spots:</span>
+                      <span className="detail-value">{workshop.maxParticipants - workshop.currentParticipants}</span>
                     </div>
                   </div>
                   
                   <div className="workshop-actions">
-                    <span className="workshop-price-display">{workshop.price}</span>
+                    <span className="workshop-price-display">₹{workshop.price}</span>
                     <div className="action-buttons">
                       <button 
                         className="btn-details"
@@ -364,26 +211,14 @@ const Workshops = () => {
 
         <section className="workshops-info">
           <div className="info-content">
-            <h2>About Our Workshops</h2>
+            <h2>Weekend Art Workshops in Hyderabad - Cafes & Restaurants</h2>
             <p>
-              Our workshops are designed to preserve and promote India's rich artistic heritage while fostering innovation in contemporary art forms. 
-              Each workshop is led by master artists and experienced instructors who bring decades of expertise and cultural knowledge. 
-              We provide all necessary materials and maintain small class sizes to ensure personalized attention and hands-on learning.
+              Experience unique <strong>art workshops in Hyderabad</strong> at Kalakritam, where creativity meets the cozy ambiance 
+              of cafes and restaurants. Our weekend workshops focus on traditional Indian art techniques and contemporary expressions, 
+              providing a relaxed and inspiring environment for artistic learning. Join our community of art enthusiasts who gather 
+              every weekend to explore creativity, learn new skills, and connect with fellow artists in beautiful, social settings 
+              across Hyderabad. Each workshop includes all materials and offers personalized guidance for all skill levels.
             </p>
-            <div className="workshops-stats">
-              <div className="stat-item">
-                <span className="stat-number">50+</span>
-                <span className="stat-label">Workshops</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">25+</span>
-                <span className="stat-label">Master Artists</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">500+</span>
-                <span className="stat-label">Students Trained</span>
-              </div>
-            </div>
           </div>
         </section>
       </div>
@@ -403,7 +238,7 @@ const Workshops = () => {
             <div className="modal-content">
               <div className="modal-image-section">
                 <img 
-                  src={selectedWorkshop.image} 
+                  src={selectedWorkshop.imageUrl} 
                   alt={selectedWorkshop.title}
                   className="modal-artwork-image"
                   onError={(e) => {
@@ -417,7 +252,6 @@ const Workshops = () => {
                 </div>
                 <div className="modal-image-info">
                   <div className="image-quality-badge">Workshop</div>
-                  <div className="artwork-category-badge">{selectedWorkshop.category}</div>
                 </div>
               </div>
 
@@ -429,7 +263,7 @@ const Workshops = () => {
                   </div>
                   <div className="modal-price-section">
                     <span className="price-label">Price</span>
-                    <div className="modal-price">{selectedWorkshop.price}</div>
+                    <div className="modal-price">₹{selectedWorkshop.price}</div>
                   </div>
                 </div>
 
@@ -446,62 +280,47 @@ const Workshops = () => {
                       <span className="spec-value">{selectedWorkshop.duration}</span>
                     </div>
                     <div className="spec-item">
-                      <span className="spec-label">Level</span>
-                      <span className="spec-value">{selectedWorkshop.level}</span>
+                      <span className="spec-label">Start Date</span>
+                      <span className="spec-value">{new Date(selectedWorkshop.startDate).toLocaleDateString('en-US', { 
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}</span>
                     </div>
                     <div className="spec-item">
-                      <span className="spec-label">Venue</span>
-                      <span className="spec-value">{selectedWorkshop.venue}</span>
+                      <span className="spec-label">End Date</span>
+                      <span className="spec-value">{new Date(selectedWorkshop.endDate).toLocaleDateString('en-US', { 
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}</span>
                     </div>
                     <div className="spec-item">
-                      <span className="spec-label">Schedule</span>
-                      <span className="spec-value">{selectedWorkshop.startDate} - {selectedWorkshop.endDate}</span>
+                      <span className="spec-label">Start Time</span>
+                      <span className="spec-value">{new Date(selectedWorkshop.startDate).toLocaleTimeString('en-US', { 
+                        hour: 'numeric', 
+                        minute: '2-digit', 
+                        hour12: true 
+                      })}</span>
                     </div>
                     <div className="spec-item">
-                      <span className="spec-label">Time</span>
-                      <span className="spec-value">{selectedWorkshop.time}</span>
+                      <span className="spec-label">Max Participants</span>
+                      <span className="spec-value">{selectedWorkshop.maxParticipants}</span>
                     </div>
                     <div className="spec-item">
-                      <span className="spec-label">Max Students</span>
-                      <span className="spec-value">{selectedWorkshop.maxStudents}</span>
+                      <span className="spec-label">Available Spots</span>
+                      <span className="spec-value">{selectedWorkshop.maxParticipants - selectedWorkshop.currentParticipants}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="modal-additional-info">
                   <div className="artwork-authenticity">
-                    <h4>Materials Included</h4>
-                    <p>{selectedWorkshop.materials}</p>
+                    <h4>Workshop Information</h4>
+                    <p>This workshop provides hands-on learning experience with expert guidance from {selectedWorkshop.instructor}. All necessary materials and guidance will be provided during the session.</p>
                   </div>
-                  
-                  <div className="artwork-care">
-                    <h4>Prerequisites</h4>
-                    <p>{selectedWorkshop.prerequisites}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="learning-showcase">
-                <h3>Things You Get</h3>
-                <p className="learning-description">{selectedWorkshop.learningText}</p>
-                
-                <div className="learning-collage">
-                  {selectedWorkshop.learningImages.map((imageSrc, index) => (
-                    <div key={index} className="learning-image-container">
-                      <img 
-                        src={imageSrc} 
-                        alt={`Workshop inclusion ${index + 1}`}
-                        className="learning-image"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                      <div className="learning-image-placeholder" style={{ display: 'none' }}>
-                        <div className="kalakritam-logo-small">Kalakritam</div>
-                      </div>
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>

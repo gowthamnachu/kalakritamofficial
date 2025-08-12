@@ -1,0 +1,30 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://kalakritam.in/sitemap.xml
+
+# Allow all search engines to access main content
+Allow: /
+Allow: /about
+Allow: /workshops
+Allow: /gallery
+Allow: /artists
+Allow: /events
+Allow: /contact
+Allow: /blogs
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /login
+Disallow: /_app/
+Disallow: /_document
+Disallow: /static/
+Disallow: /.well-known/
+
+# Crawl delay (optional)
+Crawl-delay: 1
+
+# Host declaration
+Host: https://kalakritam.in

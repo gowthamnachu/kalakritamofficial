@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { config } from '../../config/environment';
 import Header from '../Header';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
@@ -10,6 +11,40 @@ const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedArtwork, setSelectedArtwork] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [artworks, setArtworks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchArtworks();
+  }, []);
+
+  const fetchArtworks = async () => {
+    try {
+      setLoading(true);
+      console.log('Fetching artworks from:', `${config.apiBaseUrl}/gallery`);
+      const response = await fetch(`${config.apiBaseUrl}/gallery`);
+      console.log('Response status:', response.status);
+      const data = await response.json();
+      console.log('Response data:', data);
+      
+      if (data.success) {
+        // Transform image URLs to handle localhost URLs
+        const transformedData = data.data.map(artwork => ({
+          ...artwork,
+          imageUrl: config.transformImageUrl(artwork.image_url || artwork.imageUrl)
+        }));
+        setArtworks(transformedData);
+      } else {
+        setError('Failed to load artworks');
+      }
+    } catch (err) {
+      console.error('Error fetching artworks:', err);
+      setError('Failed to connect to server');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleViewDetails = (artwork) => {
     setSelectedArtwork(artwork);
@@ -21,110 +56,51 @@ const Gallery = () => {
     setSelectedArtwork(null);
   };
 
-  // Enhanced gallery data with Indian art themes
-  const artworks = [
-    {
-      id: 1,
-      title: "Madhubani Peacock",
-      artist: "Priya Sharma",
-      category: "traditional",
-      image: "/gallery/madhubani-peacock.jpg",
-      description: "Traditional Madhubani painting featuring a vibrant peacock with intricate patterns and natural colors.",
-      price: "₹15,000",
-      year: "2024",
-      medium: "Natural pigments on handmade paper"
-    },
-    {
-      id: 2,
-      title: "Kerala Mural Goddess",
-      artist: "Ramesh Nair",
-      category: "traditional",
-      image: "/gallery/kerala-mural.jpg",
-      description: "Classical Kerala mural painting depicting a goddess with traditional gold and mineral colors.",
-      price: "₹25,000",
-      year: "2023",
-      medium: "Natural pigments on canvas"
-    },
-    {
-      id: 3,
-      title: "Warli Village Life",
-      artist: "Anjali Devi",
-      category: "tribal",
-      image: "/gallery/warli-village.jpg",
-      description: "Authentic Warli tribal art depicting daily village life with traditional white pigments.",
-      price: "₹8,500",
-      year: "2024",
-      medium: "White pigment on terracotta"
-    },
-    {
-      id: 4,
-      title: "Contemporary Lotus",
-      artist: "Rahul Kumar",
-      category: "contemporary",
-      image: "/gallery/contemporary-lotus.jpg",
-      description: "Modern interpretation of the sacred lotus using digital art techniques and traditional motifs.",
-      price: "₹12,000",
-      year: "2024",
-      medium: "Digital art print on canvas"
-    },
-    {
-      id: 5,
-      title: "Rajasthani Miniature",
-      artist: "Meera Rajput",
-      category: "miniature",
-      image: "/gallery/rajasthani-miniature.jpg",
-      description: "Exquisite Rajasthani miniature painting with fine details and royal themes.",
-      price: "₹18,500",
-      year: "2023",
-      medium: "Watercolor on paper"
-    },
-    {
-      id: 6,
-      title: "Ganesha Bronze",
-      artist: "Suresh Patel",
-      category: "sculpture",
-      image: "/gallery/ganesha-bronze.jpg",
-      description: "Traditional bronze sculpture of Lord Ganesha crafted using ancient lost-wax technique.",
-      price: "₹35,000",
-      year: "2024",
-      medium: "Bronze sculpture"
-    },
-    {
-      id: 7,
-      title: "Tanjore Radha Krishna",
-      artist: "Lakshmi Venkat",
-      category: "traditional",
-      image: "/gallery/tanjore-painting.jpg",
-      description: "Classical Tanjore painting with gold foil work depicting Radha Krishna.",
-      price: "₹22,000",
-      year: "2023",
-      medium: "Gold foil and gems on wood"
-    },
-    {
-      id: 8,
-      title: "Abstract Mandala",
-      artist: "Vikram Singh",
-      category: "contemporary",
-      image: "/gallery/abstract-mandala.jpg",
-      description: "Contemporary mandala art blending traditional spiritual symbols with modern aesthetics.",
-      price: "₹14,000",
-      year: "2024",
-      medium: "Acrylic on canvas"
-    }
-  ];
-
-  const categories = [
-    'all', 
-    'traditional', 
-    'contemporary', 
-    'tribal', 
-    'miniature', 
-    'sculpture'
-  ];
+  // Extract unique categories from artworks, filtering out null/undefined values
+  const categories = ['all', ...new Set(
+    artworks
+      .map(artwork => artwork.category)
+      .filter(category => category != null && category !== '')
+  )];
 
   const filteredArtworks = selectedCategory === 'all' 
     ? artworks 
     : artworks.filter(artwork => artwork.category === selectedCategory);
+
+  if (loading) {
+    return (
+      <div className="gallery-container">
+        <VideoLogo />
+        <Header currentPage="gallery" />
+        <div className="gallery-page-content">
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p>Loading artworks...</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="gallery-container">
+        <VideoLogo />
+        <Header currentPage="gallery" />
+        <div className="gallery-page-content">
+          <div className="error-container">
+            <h2>Unable to load gallery</h2>
+            <p>{error}</p>
+            <button onClick={fetchArtworks} className="retry-btn">
+              Try Again
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="gallery-container">
@@ -151,7 +127,10 @@ const Gallery = () => {
                 className={`filter-btn ${selectedCategory === category ? 'active' : ''}`}
                 onClick={() => setSelectedCategory(category)}
               >
-                {category.charAt(0).toUpperCase() + category.slice(1)}
+                {category && typeof category === 'string' 
+                  ? category.charAt(0).toUpperCase() + category.slice(1)
+                  : 'Unknown'
+                }
               </button>
             ))}
           </div>
@@ -167,7 +146,7 @@ const Gallery = () => {
               <div key={artwork.id} className="artwork-card">
                 <div className="artwork-image-container">
                   <img 
-                    src={artwork.image} 
+                    src={artwork.imageUrl} 
                     alt={artwork.title}
                     className="artwork-image"
                     onError={(e) => {
@@ -245,27 +224,14 @@ const Gallery = () => {
 
         <section className="gallery-info">
           <div className="info-content">
-            <h2>About Our Collection</h2>
+            <h2>Art Gallery Hyderabad - Kalakritam's Workshop Creations</h2>
             <p>
-              Our gallery features over 200 carefully curated artworks from renowned Indian artists. 
-              Each piece represents the rich cultural heritage and artistic traditions of India, 
-              from ancient techniques passed down through generations to contemporary interpretations 
-              that bridge the gap between tradition and modernity.
+              Discover the inspiring creations from our <strong>art workshops in Hyderabad</strong> at Kalakritam's gallery. 
+              Our collection showcases artwork created during our weekend workshops held in cafes and restaurants across the city. 
+              Each piece represents the creative journey of our workshop participants, featuring traditional Indian art techniques 
+              and contemporary expressions learned through our hands-on workshop experiences. Explore the artistic growth and 
+              cultural heritage celebrated in every workshop creation.
             </p>
-            <div className="gallery-stats">
-              <div className="stat-item">
-                <span className="stat-number">200+</span>
-                <span className="stat-label">Artworks</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">50+</span>
-                <span className="stat-label">Artists</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">15+</span>
-                <span className="stat-label">Art Forms</span>
-              </div>
-            </div>
           </div>
         </section>
       </div>
@@ -285,7 +251,7 @@ const Gallery = () => {
             <div className="modal-content">
               <div className="modal-image-section">
                 <img 
-                  src={selectedArtwork.image} 
+                  src={selectedArtwork.imageUrl} 
                   alt={selectedArtwork.title}
                   className="modal-artwork-image"
                   onError={(e) => {

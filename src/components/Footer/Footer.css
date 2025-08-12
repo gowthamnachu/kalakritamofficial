@@ -94,8 +94,15 @@
 
 .social-links {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   margin-top: 1rem;
+}
+
+.social-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .social-link {
@@ -104,12 +111,23 @@
   padding: 0.5rem;
   border-radius: 50%;
   background: rgba(195, 143, 33, 0.1);
+  flex-shrink: 0;
 }
 
 .social-link:hover {
   color: #c38f21;
   background: rgba(195, 143, 33, 0.2);
   transform: translateY(-2px);
+}
+
+.social-text {
+  color: #d4af85;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.social-item:hover .social-text {
+  color: #c38f21;
 }
 
 .admin-login-btn {

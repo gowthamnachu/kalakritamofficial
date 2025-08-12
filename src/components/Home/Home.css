@@ -75,6 +75,36 @@
   line-height: 1.2;
 }
 
+.main-title {
+  font-family: 'Samarkan', 'Cinzel', serif;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  color: #c38f21;
+  margin-bottom: clamp(1rem, 3vw, 1.5rem);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: clamp(1px, 0.5vw, 3px);
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.tagline {
+  font-family: 'The Seasons', 'Cinzel', serif;
+  font-style: italic;
+  color: #d4af85;
+  font-weight: 400;
+  letter-spacing: clamp(0.5px, 0.3vw, 2px);
+}
+
+.sub-title {
+  font-family: 'Samarkan', 'Cinzel', serif;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  color: #d4af85;
+  margin-bottom: clamp(1.5rem, 4vw, 2rem);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: clamp(0.5px, 0.3vw, 2px);
+  line-height: 1.3;
+  font-weight: 600;
+}
+
 .hero-text p {
   font-size: clamp(1rem, 3vw, 1.3rem);
   color: #d4af85;
@@ -116,10 +146,13 @@
 
 .section-title {
   text-align: center;
-  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  font-family: 'Samarkan', 'Cinzel', serif;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
   color: #c38f21;
-  margin-bottom: 1rem;
+  margin-bottom: clamp(1rem, 3vw, 2rem);
   font-weight: 600;
+  letter-spacing: clamp(0.5px, 0.3vw, 1.5px);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .about-section {
@@ -161,8 +194,8 @@
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: clamp(1rem, 4vw, 2rem);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(1.5rem, 4vw, 2rem);
   margin-top: 2rem;
   width: 100%;
 }
@@ -176,6 +209,9 @@
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   width: 100%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
 .feature-card:hover {
@@ -185,8 +221,35 @@
   box-shadow: 0 10px 30px rgba(195, 143, 33, 0.2);
 }
 
+.card-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(195, 143, 33, 0.2) 0%, rgba(212, 175, 133, 0.1) 100%);
+  border-radius: 50%;
+  color: #c38f21;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(195, 143, 33, 0.3);
+}
+
+.feature-card:hover .card-icon {
+  background: linear-gradient(135deg, rgba(195, 143, 33, 0.3) 0%, rgba(212, 175, 133, 0.2) 100%);
+  border-color: rgba(195, 143, 33, 0.5);
+  transform: scale(1.1);
+  color: #d4a124;
+}
+
+.card-icon svg {
+  width: 32px;
+  height: 32px;
+  transition: all 0.3s ease;
+}
+
 .feature-card h3 {
-  font-size: clamp(1.2rem, 4vw, 1.5rem);
+  font-size: clamp(1.2rem, 4vw, 1.4rem);
   margin-bottom: 1rem;
   color: #c38f21;
   font-weight: 600;
@@ -196,6 +259,68 @@
   color: #d4af85;
   line-height: 1.6;
   font-size: clamp(0.9rem, 3vw, 1rem);
+  margin-bottom: 1.5rem;
+  word-spacing: 0.1em;
+  letter-spacing: 0.02em;
+}
+
+.card-cta {
+  background: linear-gradient(135deg, #c38f21 0%, #d4a124 100%);
+  color: #000;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.card-cta:hover {
+  background: linear-gradient(135deg, #d4a124 0%, #e5b235 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(195, 143, 33, 0.3);
+}
+
+.cta-section {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.primary-cta, .secondary-cta {
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.primary-cta {
+  background: linear-gradient(135deg, #c38f21 0%, #d4a124 100%);
+  color: #000;
+}
+
+.secondary-cta {
+  background: transparent;
+  color: #c38f21;
+  border: 2px solid #c38f21;
+}
+
+.primary-cta:hover {
+  background: linear-gradient(135deg, #d4a124 0%, #e5b235 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(195, 143, 33, 0.3);
+}
+
+.secondary-cta:hover {
+  background: rgba(195, 143, 33, 0.1);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {

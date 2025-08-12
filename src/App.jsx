@@ -1,8 +1,9 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { LoadingProvider, useLoading } from './contexts/LoadingContext.jsx'
 import Loading from './components/Loading'
 import { measureLazyLoadTime } from './hooks/usePerformanceTracking'
+import { seoManager } from './utils/seoManager.js'
 import './App.css'
 
 // Lazy load all components for better performance with performance tracking
@@ -77,6 +78,88 @@ const ArtBlogs = React.lazy(() => {
     return module;
   });
 });
+
+const AdminLogin = React.lazy(() => {
+  const measure = measureLazyLoadTime('AdminLogin');
+  return import('./components/AdminLogin').then(module => {
+    measure();
+    return module;
+  });
+});
+
+const AdminPortal = React.lazy(() => {
+  const measure = measureLazyLoadTime('AdminPortal');
+  return import('./components/AdminPortal').then(module => {
+    measure();
+    return module;
+  });
+});
+
+const AdminGallery = React.lazy(() => {
+  const measure = measureLazyLoadTime('AdminGallery');
+  return import('./components/AdminGallery').then(module => {
+    measure();
+    return module;
+  });
+});
+
+const AdminWorkshops = React.lazy(() => {
+  const measure = measureLazyLoadTime('AdminWorkshops');
+  return import('./components/AdminWorkshops').then(module => {
+    measure();
+    return module;
+  });
+});
+
+const AdminEvents = React.lazy(() => {
+  const measure = measureLazyLoadTime('AdminEvents');
+  return import('./components/AdminEvents').then(module => {
+    measure();
+    return module;
+  });
+});
+
+const AdminArtists = React.lazy(() => {
+  const measure = measureLazyLoadTime('AdminArtists');
+  return import('./components/AdminArtists').then(module => {
+    measure();
+    return module;
+  });
+});
+
+const AdminBlogs = React.lazy(() => {
+  const measure = measureLazyLoadTime('AdminBlogs');
+  return import('./components/AdminBlogs').then(module => {
+    measure();
+    return module;
+  });
+});
+
+const AdminContact = React.lazy(() => {
+  const measure = measureLazyLoadTime('AdminContact');
+  return import('./components/AdminContact').then(module => {
+    measure();
+    return module;
+  });
+});
+
+const AdminTickets = React.lazy(() => {
+  const measure = measureLazyLoadTime('AdminTickets');
+  return import('./components/AdminTickets').then(module => {
+    measure();
+    return module;
+  });
+});
+
+const TicketVerification = React.lazy(() => {
+  const measure = measureLazyLoadTime('TicketVerification');
+  return import('./components/TicketVerification').then(module => {
+    measure();
+    return module;
+  });
+});
+
+
 
 // Preload commonly visited components for better UX
 const preloadComponent = (componentImport) => {
@@ -209,6 +292,21 @@ const AppContent = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/artblogs" element={<ArtBlogs />} />
+                
+                {/* Admin Routes */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin/portal" element={<AdminPortal />} />
+                <Route path="/admin/gallery" element={<AdminGallery />} />
+                <Route path="/admin/workshops" element={<AdminWorkshops />} />
+                <Route path="/admin/events" element={<AdminEvents />} />
+                <Route path="/admin/artists" element={<AdminArtists />} />
+                <Route path="/admin/blogs" element={<AdminBlogs />} />
+                <Route path="/admin/contact" element={<AdminContact />} />
+                <Route path="/admin/tickets" element={<AdminTickets />} />
+                
+                {/* Public Ticket Verification Route */}
+                <Route path="/verify-ticket/:ticketId" element={<TicketVerification />} />
+                
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Suspense>
@@ -220,6 +318,11 @@ const AppContent = () => {
 };
 
 function App() {
+  // Initialize SEO manager on app load
+  useEffect(() => {
+    seoManager.init();
+  }, []);
+
   return (
     <LoadingProvider>
       <AppContent />

@@ -898,3 +898,65 @@
     flex: 1;
   }
 }
+
+/* Loading and Error States */
+.loading-container, .error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  min-height: 50vh;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(195, 143, 33, 0.2);
+  border-top: 4px solid #c38f21;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1.5rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-container h2 {
+  color: #c38f21;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+
+.error-container p {
+  color: #d4af85;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.retry-btn {
+  background: linear-gradient(135deg, #c38f21 0%, #b8821e 100%);
+  color: #002f2f;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+  background: linear-gradient(135deg, #d4a124 0%, #c38f21 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(195, 143, 33, 0.3);
+}
+
+.loading-container p {
+  color: #d4af85;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}

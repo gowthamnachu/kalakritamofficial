@@ -29,6 +29,14 @@
   line-height: 1.2;
 }
 
+.tagline {
+  font-family: 'The Seasons', 'Cinzel', serif;
+  font-style: italic;
+  color: #d4af85;
+  font-weight: 400;
+  letter-spacing: clamp(0.5px, 0.3vw, 2px);
+}
+
 .about-subtitle {
   font-size: clamp(1rem, 3vw, 1.3rem);
   color: #d4af85;
@@ -63,6 +71,8 @@
   line-height: 1.7;
   margin-bottom: 1.5rem;
   text-align: justify;
+  word-spacing: 0.1em;
+  letter-spacing: 0.02em;
 }
 
 .story-content em {
@@ -108,6 +118,8 @@
   font-size: 1rem;
   color: #d4af85;
   line-height: 1.6;
+  word-spacing: 0.1em;
+  letter-spacing: 0.02em;
 }
 
 .values-section {

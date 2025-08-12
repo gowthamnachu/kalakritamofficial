@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
 import Header from '../Header';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
+import { config } from '../../config/environment';
 import './Artists.css';
 import '../Gallery/Gallery.css'; // Import Gallery CSS for modal styles
 
@@ -11,6 +12,32 @@ const Artists = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedArtist, setSelectedArtist] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [artists, setArtists] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchArtists();
+  }, []);
+
+  const fetchArtists = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${config.apiBaseUrl}/artists`);
+      const data = await response.json();
+      
+      if (data.success) {
+        setArtists(data.data);
+      } else {
+        setError('Failed to load artists');
+      }
+    } catch (err) {
+      console.error('Error fetching artists:', err);
+      setError('Failed to connect to server');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleViewDetails = (artist) => {
     setSelectedArtist(artist);
@@ -22,145 +49,47 @@ const Artists = () => {
     setSelectedArtist(null);
   };
 
-  const artists = [
-    {
-      id: 1,
-      name: "Priya Sharma",
-      specialty: "Traditional Madhubani",
-      category: "traditional",
-      experience: "15+ years",
-      location: "Bihar, India",
-      image: "/artists/priya-sharma.jpg",
-      bio: "Master artist specializing in traditional Madhubani paintings with expertise in natural pigments and ancient techniques. Her work has been exhibited in galleries across India and internationally.",
-      achievements: ["National Art Award 2020", "UNESCO Cultural Heritage Recognition", "Featured in International Art Fair"],
-      artworks: "50+ Traditional Paintings",
-      students: "200+ Students Trained",
-      exhibitions: "15 Solo Exhibitions",
-      contact: "priya.sharma@kalakritam.com",
-      portfolio: [
-        "/portfolio/priya-1.jpg",
-        "/portfolio/priya-2.jpg", 
-        "/portfolio/priya-3.jpg",
-        "/portfolio/priya-4.jpg"
-      ]
-    },
-    {
-      id: 2,
-      name: "Rahul Kumar",
-      specialty: "Contemporary Digital Art",
-      category: "contemporary",
-      experience: "8+ years",
-      location: "Mumbai, India",
-      image: "/artists/rahul-kumar.jpg",
-      bio: "Digital artist creating stunning contemporary pieces that blend traditional Indian motifs with modern technology. Pioneer in digital art movement in India.",
-      achievements: ["Digital Art Excellence Award 2021", "Featured in Tech Art Magazine", "Solo Exhibition Mumbai 2022"],
-      artworks: "100+ Digital Artworks",
-      students: "150+ Students Trained",
-      exhibitions: "10 Digital Art Shows",
-      contact: "rahul.kumar@kalakritam.com",
-      portfolio: [
-        "/portfolio/rahul-1.jpg",
-        "/portfolio/rahul-2.jpg",
-        "/portfolio/rahul-3.jpg", 
-        "/portfolio/rahul-4.jpg"
-      ]
-    },
-    {
-      id: 3,
-      name: "Anjali Devi",
-      specialty: "Warli Tribal Art",
-      category: "traditional",
-      experience: "20+ years",
-      location: "Maharashtra, India",
-      image: "/artists/anjali-devi.jpg",
-      bio: "Traditional Warli artist preserving ancient tribal art forms through authentic techniques passed down through generations. Cultural heritage ambassador for tribal arts.",
-      achievements: ["Tribal Art Preservation Award", "Cultural Heritage Ambassador", "International Folk Art Festival Winner"],
-      artworks: "80+ Warli Paintings",
-      students: "300+ Students Trained",
-      exhibitions: "20 Cultural Exhibitions",
-      contact: "anjali.devi@kalakritam.com",
-      portfolio: [
-        "/portfolio/anjali-1.jpg",
-        "/portfolio/anjali-2.jpg",
-        "/portfolio/anjali-3.jpg",
-        "/portfolio/anjali-4.jpg"
-      ]
-    },
-    {
-      id: 4,
-      name: "Vikram Singh",
-      specialty: "Rajasthani Miniature",
-      category: "traditional",
-      experience: "12+ years",
-      location: "Rajasthan, India",
-      image: "/artists/vikram-singh.jpg",
-      bio: "Master of Rajasthani miniature painting with expertise in intricate brushwork and royal themes. Preserving the royal art traditions of Rajasthan.",
-      achievements: ["Royal Art Heritage Award", "Miniature Art Championship", "Featured in National Geographic"],
-      artworks: "60+ Miniature Paintings",
-      students: "120+ Students Trained", 
-      exhibitions: "12 Heritage Exhibitions",
-      contact: "vikram.singh@kalakritam.com",
-      portfolio: [
-        "/portfolio/vikram-1.jpg",
-        "/portfolio/vikram-2.jpg",
-        "/portfolio/vikram-3.jpg",
-        "/portfolio/vikram-4.jpg"
-      ]
-    },
-    {
-      id: 5,
-      name: "Meera Patel",
-      specialty: "Abstract Fusion",
-      category: "contemporary", 
-      experience: "10+ years",
-      location: "Bangalore, India",
-      image: "/artists/meera-patel.jpg",
-      bio: "Contemporary artist creating abstract fusion art that combines traditional Indian elements with modern abstract techniques. Known for vibrant color palettes.",
-      achievements: ["Contemporary Art Award 2023", "Fusion Art Pioneer", "International Abstract Art Festival"],
-      artworks: "75+ Abstract Paintings",
-      students: "180+ Students Trained",
-      exhibitions: "8 Contemporary Shows",
-      contact: "meera.patel@kalakritam.com",
-      portfolio: [
-        "/portfolio/meera-1.jpg",
-        "/portfolio/meera-2.jpg",
-        "/portfolio/meera-3.jpg",
-        "/portfolio/meera-4.jpg"
-      ]
-    },
-    {
-      id: 6,
-      name: "Suresh Reddy",
-      specialty: "Sculpture & Bronze Work",
-      category: "sculpture",
-      experience: "18+ years",
-      location: "Hyderabad, India",
-      image: "/artists/suresh-reddy.jpg",
-      bio: "Master sculptor specializing in bronze work and traditional Indian sculpture. His work bridges ancient techniques with contemporary forms.",
-      achievements: ["National Sculpture Award", "Bronze Art Excellence", "Cultural Ministry Recognition"],
-      artworks: "40+ Sculptures",
-      students: "90+ Students Trained",
-      exhibitions: "15 Sculpture Exhibitions",
-      contact: "suresh.reddy@kalakritam.com",
-      portfolio: [
-        "/portfolio/suresh-1.jpg",
-        "/portfolio/suresh-2.jpg",
-        "/portfolio/suresh-3.jpg",
-        "/portfolio/suresh-4.jpg"
-      ]
-    }
-  ];
+  // Extract unique categories from artists
+  const categories = ['all', ...new Set(artists.map(artist => artist.specialization || 'general'))];
 
-  const categories = [
-    'all',
-    'traditional',
-    'contemporary', 
-    'sculpture'
-  ];
+  const filteredArtists = selectedCategory === 'all' 
+    ? artists 
+    : artists.filter(artist => (artist.specialization || 'general') === selectedCategory);
 
-  const filteredArtists = selectedCategory === 'all'
-    ? artists
-    : artists.filter(artist => artist.category === selectedCategory);
+  if (loading) {
+    return (
+      <div className="artists-container">
+        <VideoLogo />
+        <Header currentPage="artists" />
+        <div className="artists-page-content">
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p>Loading artists...</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="artists-container">
+        <VideoLogo />
+        <Header currentPage="artists" />
+        <div className="artists-page-content">
+          <div className="error-container">
+            <h2>Unable to load artists</h2>
+            <p>{error}</p>
+            <button onClick={fetchArtists} className="retry-btn">
+              Try Again
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="artists-container">
@@ -203,7 +132,7 @@ const Artists = () => {
               <div key={artist.id} className="artist-card">
                 <div className="artist-image-container">
                   <img 
-                    src={artist.image} 
+                    src={artist.imageUrl} 
                     alt={artist.name}
                     className="artist-image"
                     onError={(e) => {
@@ -221,29 +150,29 @@ const Artists = () => {
                   <div className="artist-overlay">
                     <div className="artist-overlay-content">
                       <h3>{artist.name}</h3>
-                      <p>{artist.specialty}</p>
-                      <span className="artist-experience">{artist.experience}</span>
+                      <p>{artist.specialization}</p>
+                      <span className="artist-experience">{artist.achievements ? artist.achievements.length + '+ Awards' : 'Established Artist'}</span>
                     </div>
                   </div>
                 </div>
                 
                 <div className="artist-info">
                   <h4 className="artist-name">{artist.name}</h4>
-                  <p className="artist-specialty">{artist.specialty}</p>
+                  <p className="artist-specialty">{artist.specialization}</p>
                   <p className="artist-bio">{artist.bio}</p>
                   
                   <div className="artist-details">
                     <div className="detail-row">
-                      <span className="detail-label">Experience:</span>
-                      <span className="detail-value">{artist.experience}</span>
+                      <span className="detail-label">Specialization:</span>
+                      <span className="detail-value">{artist.specialization}</span>
                     </div>
                     <div className="detail-row">
-                      <span className="detail-label">Location:</span>
-                      <span className="detail-value">{artist.location}</span>
+                      <span className="detail-label">Status:</span>
+                      <span className="detail-value">{artist.isActive ? 'Active' : 'Inactive'}</span>
                     </div>
                     <div className="detail-row">
-                      <span className="detail-label">Artworks:</span>
-                      <span className="detail-value">{artist.artworks}</span>
+                      <span className="detail-label">Featured:</span>
+                      <span className="detail-value">{artist.isFeatured ? 'Yes' : 'No'}</span>
                     </div>
                   </div>
                   
@@ -278,26 +207,14 @@ const Artists = () => {
 
         <section className="artists-info">
           <div className="info-content">
-            <h2>About Our Artists</h2>
+            <h2>Workshop Instructors - Art Teachers Hyderabad</h2>
             <p>
-              Our artists are the heart of Kalakritam, representing diverse art forms and cultural traditions from across India. 
-              Each artist brings decades of expertise, cultural knowledge, and passionate dedication to preserving and evolving 
-              artistic heritage. They serve as mentors, creators, and cultural ambassadors in our artistic community.
+              Meet our passionate <strong>art instructors in Hyderabad</strong> who bring creativity to life in our weekend workshop sessions. 
+              Our instructors specialize in various traditional and contemporary art forms, creating engaging experiences in the unique 
+              ambiance of cafes and restaurants across the city. Each instructor is dedicated to sharing their artistic knowledge and 
+              cultural heritage through hands-on workshop experiences, making art accessible and enjoyable for participants of all skill levels. 
+              Discover the artists who make our weekend workshops truly special and inspiring.
             </p>
-            <div className="artists-stats">
-              <div className="stat-item">
-                <span className="stat-number">25+</span>
-                <span className="stat-label">Master Artists</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">15+</span>
-                <span className="stat-label">Art Forms</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">1000+</span>
-                <span className="stat-label">Students Trained</span>
-              </div>
-            </div>
           </div>
         </section>
       </div>
@@ -317,7 +234,7 @@ const Artists = () => {
             <div className="modal-content">
               <div className="modal-image-section">
                 <img 
-                  src={selectedArtist.image} 
+                  src={selectedArtist.imageUrl} 
                   alt={selectedArtist.name}
                   className="modal-artwork-image"
                   onError={(e) => {
@@ -331,7 +248,7 @@ const Artists = () => {
                 </div>
                 <div className="modal-image-info">
                   <div className="image-quality-badge">Artist</div>
-                  <div className="artwork-category-badge">{selectedArtist.category}</div>
+                  <div className="artwork-category-badge">{selectedArtist.specialization}</div>
                 </div>
               </div>
 
@@ -339,11 +256,11 @@ const Artists = () => {
                 <div className="modal-header">
                   <div className="modal-title-section">
                     <h2 className="modal-title">{selectedArtist.name}</h2>
-                    <p className="modal-artist">{selectedArtist.specialty}</p>
+                    <p className="modal-artist">{selectedArtist.specialization}</p>
                   </div>
                   <div className="modal-price-section">
-                    <span className="price-label">Experience</span>
-                    <div className="modal-price">{selectedArtist.experience}</div>
+                    <span className="price-label">Featured</span>
+                    <div className="modal-price">{selectedArtist.featured ? 'Yes' : 'No'}</div>
                   </div>
                 </div>
 
@@ -356,61 +273,53 @@ const Artists = () => {
                   <h3>Artist Details</h3>
                   <div className="spec-grid">
                     <div className="spec-item">
-                      <span className="spec-label">Specialty</span>
-                      <span className="spec-value">{selectedArtist.specialty}</span>
+                      <span className="spec-label">Specialization</span>
+                      <span className="spec-value">{selectedArtist.specialization}</span>
                     </div>
                     <div className="spec-item">
-                      <span className="spec-label">Experience</span>
-                      <span className="spec-value">{selectedArtist.experience}</span>
+                      <span className="spec-label">Email</span>
+                      <span className="spec-value">{selectedArtist.email}</span>
                     </div>
                     <div className="spec-item">
-                      <span className="spec-label">Location</span>
-                      <span className="spec-value">{selectedArtist.location}</span>
+                      <span className="spec-label">Phone</span>
+                      <span className="spec-value">{selectedArtist.phone}</span>
                     </div>
                     <div className="spec-item">
-                      <span className="spec-label">Artworks</span>
-                      <span className="spec-value">{selectedArtist.artworks}</span>
+                      <span className="spec-label">Website</span>
+                      <span className="spec-value">
+                        <a href={selectedArtist.website} target="_blank" rel="noopener noreferrer">
+                          {selectedArtist.website}
+                        </a>
+                      </span>
                     </div>
                     <div className="spec-item">
-                      <span className="spec-label">Exhibitions</span>
-                      <span className="spec-value">{selectedArtist.exhibitions}</span>
+                      <span className="spec-label">Status</span>
+                      <span className="spec-value">{selectedArtist.active ? 'Active' : 'Inactive'}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="modal-additional-info">
                   <div className="artwork-authenticity">
-                    <h4>Achievements</h4>
-                    <ul>
-                      {selectedArtist.achievements.map((achievement, index) => (
-                        <li key={index}>{achievement}</li>
-                      ))}
-                    </ul>
+                    <h4>Social Links</h4>
+                    {selectedArtist.socialLinks && Object.keys(selectedArtist.socialLinks).length > 0 ? (
+                      <div className="social-links">
+                        {Object.entries(selectedArtist.socialLinks).map(([platform, link]) => (
+                          <div key={platform} className="social-link">
+                            <span className="platform">{platform.charAt(0).toUpperCase() + platform.slice(1)}:</span>
+                            <span className="link">{link}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p>No social links available</p>
+                    )}
                   </div>
                 </div>
-              </div>
 
-              <div className="learning-showcase">
-                <h3>Portfolio Showcase</h3>
-                <p className="learning-description">Explore some of {selectedArtist.name.split(' ')[0]}'s finest works</p>
-                
-                <div className="learning-collage">
-                  {selectedArtist.portfolio.map((imageSrc, index) => (
-                    <div key={index} className="learning-image-container">
-                      <img 
-                        src={imageSrc} 
-                        alt={`Portfolio piece ${index + 1}`}
-                        className="learning-image"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                      <div className="learning-image-placeholder" style={{ display: 'none' }}>
-                        <div className="kalakritam-logo-small">Kalakritam</div>
-                      </div>
-                    </div>
-                  ))}
+                <div className="modal-actions">
+                  <button className="contact-artist-btn">Contact Artist</button>
+                  <button className="view-portfolio-btn">View Portfolio</button>
                 </div>
               </div>
             </div>

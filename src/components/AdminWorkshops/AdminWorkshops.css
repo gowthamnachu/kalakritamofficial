@@ -1,0 +1,33 @@
+/* Admin Workshops specific styles - extends AdminGallery styles */
+
+/* Additional styles specific to workshops management */
+.workshop-level-badge {
+  background: rgba(139, 69, 19, 0.2);
+  color: #deb887;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.instructor-cell {
+  color: #d4af85;
+  font-style: italic;
+}
+
+.duration-cell {
+  color: #c38f21;
+  font-weight: 500;
+}
+
+/* Workshop specific detail grid adjustments */
+.detail-item.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Responsive adjustments for workshops table */
+@media (max-width: 768px) {
+  .artworks-table {
+    min-width: 900px; /* Wider for workshop data */
+  }
+}
