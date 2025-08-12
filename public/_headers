@@ -1,42 +1,64 @@
-# Kalakritam Security and SEO Configuration
+# Cloudflare Pages Headers Configuration
 
-## Security Headers (.htaccess equivalent for Vite/React deployment)
+# Main site headers
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
 
-# Security Headers
-Header always set X-Content-Type-Options nosniff
-Header always set X-Frame-Options DENY
-Header always set X-XSS-Protection "1; mode=block"
-Header always set Referrer-Policy "strict-origin-when-cross-origin"
-Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+# JavaScript modules - ensure proper MIME type
+/assets/*.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
 
-# Content Security Policy
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://www.google.com;"
+# ES modules
+*.mjs
+  Content-Type: application/javascript; charset=utf-8
 
-## For Cloudflare Workers Deployment
+# CSS files
+/assets/*.css
+  Content-Type: text/css; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
 
-export default {
-  async fetch(request, env) {
-    const response = await fetch(request);
-    
-    // Add security headers
-    const newResponse = new Response(response.body, response);
-    
-    newResponse.headers.set('X-Content-Type-Options', 'nosniff');
-    newResponse.headers.set('X-Frame-Options', 'DENY');
-    newResponse.headers.set('X-XSS-Protection', '1; mode=block');
-    newResponse.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-    
-    return newResponse;
-  }
-};
+# Font files
+/assets/*.ttf
+  Content-Type: font/ttf
+  Cache-Control: public, max-age=31536000, immutable
 
-## Performance Headers
-# Cache static assets
-<FilesMatch "\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$">
-  Header set Cache-Control "public, max-age=31536000, immutable"
-</FilesMatch>
+/assets/*.woff
+  Content-Type: font/woff
+  Cache-Control: public, max-age=31536000, immutable
 
-# Cache HTML files for shorter time
-<FilesMatch "\.(html|htm)$">
-  Header set Cache-Control "public, max-age=3600"
-</FilesMatch>
+/assets/*.woff2
+  Content-Type: font/woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images
+/assets/*.png
+  Content-Type: image/png
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.jpg
+  Content-Type: image/jpeg
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.svg
+  Content-Type: image/svg+xml
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML files
+*.html
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+# Service Worker
+/sw.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: no-cache
+
+# Manifest
+/manifest.json
+  Content-Type: application/manifest+json; charset=utf-8
+  Cache-Control: public, max-age=86400

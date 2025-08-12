@@ -23,6 +23,10 @@ export default defineConfig({
         return nodeModules.includes(id) || nodeModules.some(mod => id.includes(mod)) && !id.includes('react');
       },
       output: {
+        format: 'es',
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
         manualChunks: {
           // Vendor chunks for better caching
           vendor: ['react', 'react-dom', 'react-router-dom']
