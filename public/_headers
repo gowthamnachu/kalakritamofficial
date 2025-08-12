@@ -20,10 +20,6 @@
 /*.js
   Content-Type: application/javascript
 
-# All JavaScript files - fallback
-*.js
-  Content-Type: application/javascript
-
 # ES modules
 *.mjs
   Content-Type: application/javascript
