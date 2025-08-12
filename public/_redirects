@@ -20,23 +20,23 @@
 /blog  /blogs  301
 /contact-us  /contact  301
 
-# SPA redirect - handle client-side routing for paths without file extensions
-# This excludes index.html, assets, and other files to prevent infinite loops
-/workshops/*  /index.html  200
-/gallery/*    /index.html  200
-/about/*      /index.html  200
-/artists/*    /index.html  200
-/events/*     /index.html  200
-/blogs/*      /index.html  200
-/contact/*    /index.html  200
-/admin/*      /index.html  200
+# SPA redirect - handle client-side routing by redirecting to root
+# Cloudflare Pages serves index.html at root without redirect loops
+/workshops/*  /  200
+/gallery/*    /  200
+/about/*      /  200
+/artists/*    /  200
+/events/*     /  200
+/blogs/*      /  200
+/contact/*    /  200
+/admin/*      /  200
 
 # Handle direct route access (no trailing paths)
-/workshops    /index.html  200
-/gallery      /index.html  200
-/about        /index.html  200
-/artists      /index.html  200
-/events       /index.html  200
-/blogs        /index.html  200
-/contact      /index.html  200
-/admin        /index.html  200
+/workshops    /  200
+/gallery      /  200
+/about        /  200
+/artists      /  200
+/events       /  200
+/blogs        /  200
+/contact      /  200
+/admin        /  200
