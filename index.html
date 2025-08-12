@@ -117,36 +117,12 @@
     }
     </script>
     
-    <!-- Service Worker Registration -->
+    <!-- Service Worker Removed - Site runs normally without it -->
+    <!-- 
     <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
-              console.log('SW registered: ', registration);
-              
-              // Preload critical routes only if service worker is active
-              if (registration.active) {
-                try {
-                  registration.active.postMessage({
-                    type: 'PRELOAD_ROUTES',
-                    routes: ['/workshops', '/gallery', '/about', '/artists']
-                  });
-                } catch (error) {
-                  console.warn('Failed to send message to service worker:', error);
-                }
-              }
-            })
-            .catch(function(registrationError) {
-              console.log('SW registration failed: ', registrationError);
-              // Continue without service worker - site should still work
-            });
-        });
-      } else {
-        console.log('Service Worker not supported');
-        // Site will work without service worker
-      }
+      // Service worker registration removed for better production stability
     </script>
+    -->
   </head>
   <body>
     <div id="root"></div>
