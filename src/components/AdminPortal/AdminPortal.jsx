@@ -1,12 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
 import AdminHeader from '../AdminHeader';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
+import { galleryApi, workshopsApi, eventsApi, artistsApi } from '../../lib/adminApi';
 import './AdminPortal.css';
 
 const AdminPortal = () => {
   const { navigateWithLoading } = useNavigationWithLoading();
+  const [stats, setStats] = useState({
+    artworks: 0,
+    workshops: 0,
+    events: 0,
+    artists: 0
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDashboardStats();
+  }, []);
+
+  const fetchDashboardStats = async () => {
+    try {
+      setLoading(true);
+      
+      // Fetch all data in parallel
+      const [artworksRes, workshopsRes, eventsRes, artistsRes] = await Promise.allSettled([
+        galleryApi.getAll(),
+        workshopsApi.getAll(),
+        eventsApi.getAll(),
+        artistsApi.getAll()
+      ]);
+
+      // Extract counts from successful responses
+      const newStats = {
+        artworks: artworksRes.status === 'fulfilled' ? (artworksRes.value?.data?.length || 0) : 0,
+        workshops: workshopsRes.status === 'fulfilled' ? (workshopsRes.value?.data?.length || 0) : 0,
+        events: eventsRes.status === 'fulfilled' ? (eventsRes.value?.data?.length || 0) : 0,
+        artists: artistsRes.status === 'fulfilled' ? (artistsRes.value?.data?.length || 0) : 0
+      };
+
+      setStats(newStats);
+    } catch (error) {
+      console.error('Error fetching dashboard stats:', error);
+      // Keep default values on error
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogout = () => {
     if (confirm('Are you sure you want to logout?')) {
@@ -115,36 +156,43 @@ const AdminPortal = () => {
 
         <section className="admin-quick-stats">
           <h2>Quick Overview</h2>
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-icon">🖼️</div>
-              <div className="stat-info">
-                <span className="stat-number">200+</span>
-                <span className="stat-label">Artworks</span>
+          {loading ? (
+            <div className="stats-loading">
+              <div className="loading-spinner"></div>
+              <p>Loading dashboard statistics...</p>
+            </div>
+          ) : (
+            <div className="stats-grid">
+              <div className="stat-card">
+                <div className="stat-icon">🖼️</div>
+                <div className="stat-info">
+                  <span className="stat-number">{stats.artworks}</span>
+                  <span className="stat-label">Artworks</span>
+                </div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-icon">🎨</div>
+                <div className="stat-info">
+                  <span className="stat-number">{stats.workshops}</span>
+                  <span className="stat-label">Workshops</span>
+                </div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-icon">📅</div>
+                <div className="stat-info">
+                  <span className="stat-number">{stats.events}</span>
+                  <span className="stat-label">Events</span>
+                </div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-icon">👨‍🎨</div>
+                <div className="stat-info">
+                  <span className="stat-number">{stats.artists}</span>
+                  <span className="stat-label">Artists</span>
+                </div>
               </div>
             </div>
-            <div className="stat-card">
-              <div className="stat-icon">🎨</div>
-              <div className="stat-info">
-                <span className="stat-number">50+</span>
-                <span className="stat-label">Workshops</span>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon">📅</div>
-              <div className="stat-info">
-                <span className="stat-number">25+</span>
-                <span className="stat-label">Events</span>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon">👨‍🎨</div>
-              <div className="stat-info">
-                <span className="stat-number">30+</span>
-                <span className="stat-label">Artists</span>
-              </div>
-            </div>
-          </div>
+          )}
         </section>
       </main>
       

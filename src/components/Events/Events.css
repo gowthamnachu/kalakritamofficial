@@ -1,3 +1,6 @@
+/* Import Universal Card Styles */
+@import '../UniversalCard/UniversalCard.css';
+
 .events-container {
   min-height: 100vh;
   background-color: #002f2f;
@@ -82,7 +85,7 @@
 
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: clamp(1.5rem, 4vw, 2.5rem);
   margin-bottom: 4rem;
   width: 100%;
@@ -568,7 +571,7 @@
 
 .spec-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
 }
 
@@ -728,7 +731,7 @@
 
 .highlight-features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 2rem;
 }
 

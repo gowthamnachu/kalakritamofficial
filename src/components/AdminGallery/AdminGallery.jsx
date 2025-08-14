@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { toast } from '../../utils/notifications.js';
 import AdminHeader from '../AdminHeader';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
@@ -137,13 +138,13 @@ const AdminGallery = () => {
       
       if (response.success) {
         setArtworks(artworks.filter(artwork => artwork.id !== artworkId));
-        alert('Artwork deleted successfully');
+        toast.success('Artwork deleted successfully');
       } else {
-        alert('Failed to delete artwork: ' + (response.message || 'Unknown error'));
+        toast.error('Failed to delete artwork: ' + (response.message || 'Unknown error'));
       }
     } catch (err) {
       console.error('Error deleting artwork:', err);
-      alert('Failed to delete artwork: ' + err.message);
+      toast.error('Failed to delete artwork: ' + err.message);
     }
   };
 
@@ -192,6 +193,8 @@ const AdminGallery = () => {
       
       console.log('Submitting artwork data matching exact Neon DB schema:', artworkData);
       
+      const loadingId = toast.dataSaving(`${modalMode === 'create' ? 'Creating' : 'Updating'} artwork...`);
+      
       let response;
       if (modalMode === 'create') {
         response = await galleryApi.addArtwork(artworkData);
@@ -199,16 +202,18 @@ const AdminGallery = () => {
         response = await galleryApi.updateArtwork(selectedArtwork.id, artworkData);
       }
       
+      toast.dismiss(loadingId);
       if (response.success) {
-        alert(`Artwork ${modalMode === 'create' ? 'created' : 'updated'} successfully`);
+        toast.success(`Artwork ${modalMode === 'create' ? 'created' : 'updated'} successfully`);
         setIsModalOpen(false);
         fetchArtworks(); // Refresh the list
       } else {
-        alert(`Failed to ${modalMode} artwork: ${response.message || 'Unknown error'}`);
+        toast.error(`Failed to ${modalMode} artwork: ${response.message || 'Unknown error'}`);
       }
     } catch (err) {
+      if (typeof loadingId !== 'undefined') toast.dismiss(loadingId);
       console.error('Error saving artwork:', err);
-      alert(`Failed to ${modalMode} artwork: ${err.message}`);
+      toast.error(`Failed to ${modalMode} artwork: ${err.message}`);
     }
   };
 

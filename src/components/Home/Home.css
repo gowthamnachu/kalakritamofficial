@@ -1,3 +1,6 @@
+/* Import Universal Card Styles */
+@import '../UniversalCard/UniversalCard.css';
+
 .home-container {
   min-height: 100vh;
   background-color: #002f2f;
@@ -71,7 +74,7 @@
   color: #c38f21;
   margin-bottom: 1.5rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  letter-spacing: clamp(1px, 0.5vw, 2px);
+  letter-spacing: 0px;
   line-height: 1.2;
 }
 
@@ -81,7 +84,7 @@
   color: #c38f21;
   margin-bottom: clamp(1rem, 3vw, 1.5rem);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  letter-spacing: clamp(1px, 0.5vw, 3px);
+  letter-spacing: 0px;
   line-height: 1.2;
   font-weight: 700;
 }
@@ -100,7 +103,7 @@
   color: #d4af85;
   margin-bottom: clamp(1.5rem, 4vw, 2rem);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-  letter-spacing: clamp(0.5px, 0.3vw, 2px);
+  letter-spacing: 0px;
   line-height: 1.3;
   font-weight: 600;
 }
@@ -151,7 +154,7 @@
   color: #c38f21;
   margin-bottom: clamp(1rem, 3vw, 2rem);
   font-weight: 600;
-  letter-spacing: clamp(0.5px, 0.3vw, 1.5px);
+  letter-spacing: 0px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -194,31 +197,48 @@
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: clamp(1.5rem, 4vw, 2rem);
   margin-top: 2rem;
   width: 100%;
 }
 
 .feature-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, rgba(195, 143, 33, 0.12) 0%, rgba(212, 175, 133, 0.08) 100%);
   padding: clamp(1.5rem, 4vw, 2rem);
-  border-radius: 15px;
+  border-radius: 25px;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  border: 1px solid rgba(195, 143, 33, 0.25);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
   width: 100%;
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #c38f21, #d4af85, #c38f21);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(195, 143, 33, 0.3);
-  box-shadow: 0 10px 30px rgba(195, 143, 33, 0.2);
+  transform: translateY(-12px) scale(1.02);
+  background: linear-gradient(135deg, rgba(195, 143, 33, 0.15) 0%, rgba(212, 175, 133, 0.1) 100%);
+  border-color: rgba(195, 143, 33, 0.5);
+  box-shadow: 0 20px 60px rgba(195, 143, 33, 0.4);
+}
+
+.feature-card:hover::before {
+  opacity: 1;
 }
 
 .card-icon {
@@ -265,22 +285,41 @@
 }
 
 .card-cta {
-  background: linear-gradient(135deg, #c38f21 0%, #d4a124 100%);
-  color: #000;
+  background: linear-gradient(135deg, #c38f21 0%, #d4af85 100%);
+  color: #002f2f;
   border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 25px;
+  padding: 14px 24px;
+  border-radius: 30px;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-top: auto;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(195, 143, 33, 0.3);
+}
+
+.card-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.card-cta:hover::before {
+  left: 100%;
 }
 
 .card-cta:hover {
-  background: linear-gradient(135deg, #d4a124 0%, #e5b235 100%);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(195, 143, 33, 0.3);
+  box-shadow: 0 6px 20px rgba(195, 143, 33, 0.4);
 }
 
 .cta-section {

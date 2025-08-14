@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { toast } from '../../utils/notifications.js';
 import Header from '../Header';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
@@ -7,6 +8,7 @@ import './About.css';
 
 const About = () => {
   const { navigateWithLoading } = useNavigationWithLoading();
+  const toastShown = useRef(false);
 
   useEffect(() => {
     // SEO meta tags for About page
@@ -31,6 +33,15 @@ const About = () => {
       keywords.name = 'keywords';
       keywords.content = 'about Kalakritam, art workshops Hyderabad, art gallery history, manifesting through art, traditional art classes, contemporary art training, Indian art education, cultural heritage, art community Hyderabad, kala kritam meaning';
       document.head.appendChild(keywords);
+    }
+    
+    // Welcome toast - prevent duplicates
+    if (!toastShown.current) {
+      toast.info('Learn about our journey', {
+        description: 'Discover the story behind Kalakritam',
+        duration: 3000
+      });
+      toastShown.current = true;
     }
   }, []);
 

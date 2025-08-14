@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { toast } from '../../utils/notifications.js';
 import AdminHeader from '../AdminHeader';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
@@ -87,10 +88,10 @@ const AdminContact = () => {
     try {
       await contactsApi.delete(inquiryId);
       setInquiries(inquiries.filter(inquiry => inquiry.id !== inquiryId));
-      alert('Inquiry deleted successfully');
+      toast.success('Inquiry deleted successfully');
     } catch (err) {
       console.error('Error deleting inquiry:', err);
-      alert('Failed to delete inquiry');
+      toast.error('Failed to delete inquiry');
     }
   };
 
@@ -107,15 +108,15 @@ const AdminContact = () => {
       const result = await contactsApi.reply(replyData);
       
       if (result.success) {
-        alert('Reply sent successfully');
+        toast.success('Reply sent successfully');
         updateInquiryStatus(selectedInquiry.id, 'replied');
         setIsModalOpen(false);
       } else {
-        alert('Failed to send reply');
+        toast.error('Failed to send reply');
       }
     } catch (err) {
       console.error('Error sending reply:', err);
-      alert('Failed to send reply');
+      toast.error('Failed to send reply');
     }
   };
 

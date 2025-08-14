@@ -40,6 +40,27 @@
   box-sizing: border-box;
 }
 
+/* Global fix for Samarkan font letter spacing across entire website */
+*[style*="Samarkan"],
+*[class*="samarkan"],
+*[class*="title"],
+*[class*="brand"],
+*[class*="logo"],
+.samarkan,
+[style*="font-family: 'Samarkan'"],
+[style*="font-family:Samarkan"],
+[style*="fontFamily: 'Samarkan"],
+[style*="fontFamily:Samarkan"] {
+  letter-spacing: 0px !important;
+}
+
+/* Specifically target elements with Samarkan font family in computed styles */
+* {
+  &:has([style*="Samarkan"]) {
+    letter-spacing: 0px !important;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }

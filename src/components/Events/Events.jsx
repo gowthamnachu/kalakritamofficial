@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { toast } from '../../utils/notifications.js';
 import Header from '../Header';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
@@ -14,16 +15,24 @@ const Events = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const fetchCalled = useRef(false);
 
   useEffect(() => {
-    fetchEvents();
+    if (!fetchCalled.current) {
+      fetchEvents();
+      fetchCalled.current = true;
+    }
   }, []);
 
   const fetchEvents = async () => {
     try {
       setLoading(true);
+      const loadingId = toast.dataLoading('Loading events...');
+      
       const response = await fetch(`${config.apiBaseUrl}/events`);
       const data = await response.json();
+      
+      toast.dismiss(loadingId);
       
       if (data.success) {
         // Transform image URLs to handle localhost URLs like gallery
@@ -32,12 +41,15 @@ const Events = () => {
           imageUrl: config.transformImageUrl(event.image_url || event.imageUrl)
         }));
         setEvents(transformedData);
+        toast.dataLoaded(`Loaded ${transformedData.length} events`);
       } else {
         setError('Failed to load events');
+        toast.error('Failed to load events');
       }
     } catch (err) {
       console.error('Error fetching events:', err);
       setError('Failed to connect to server');
+      toast.serverError('Failed to connect to server');
     } finally {
       setLoading(false);
     }

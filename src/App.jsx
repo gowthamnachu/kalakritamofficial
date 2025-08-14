@@ -1,9 +1,12 @@
 import React, { Suspense, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { LoadingProvider, useLoading } from './contexts/LoadingContext.jsx'
+import { NotificationProvider } from './contexts/NotificationContext.jsx'
 import Loading from './components/Loading'
+import GlobalToastContainer from './components/GlobalToastContainer'
 import { measureLazyLoadTime } from './hooks/usePerformanceTracking'
 import { seoManager } from './utils/seoManager.js'
+import useServerConnection from './hooks/useServerConnection.js'
 import './App.css'
 
 // Lazy load all components for better performance with performance tracking
@@ -151,6 +154,16 @@ const AdminTickets = React.lazy(() => {
   });
 });
 
+const ToastDemo = React.lazy(() => {
+  const measure = measureLazyLoadTime('ToastDemo');
+  return import('./components/ToastDemo').then(module => {
+    measure();
+    return module;
+  });
+});
+
+// Preload commonly visited components for better UX
+
 const TicketVerification = React.lazy(() => {
   const measure = measureLazyLoadTime('TicketVerification');
   return import('./components/TicketVerification').then(module => {
@@ -275,9 +288,28 @@ class LazyLoadingErrorBoundary extends React.Component {
 const AppContent = () => {
   const { isLoading } = useLoading();
 
+  // Initialize server connection monitoring
+  const serverConnection = useServerConnection({
+    checkInterval: 30000, // Check every 30 seconds
+    timeout: 8000, // 8 second timeout
+    retryAttempts: 3,
+    retryDelay: 2000,
+    endpoints: ['/api/health', '/api/status', '/'], // Health check endpoints
+    onConnect: () => {
+      console.log('Server connection established');
+    },
+    onDisconnect: (error) => {
+      console.warn('Server connection lost:', error);
+    },
+    onError: (error) => {
+      console.error('Server connection error:', error);
+    }
+  });
+
   return (
     <>
       {isLoading && <Loading />}
+      <GlobalToastContainer />
       <Router>
         <div className="app">
           <LazyLoadingErrorBoundary>
@@ -288,10 +320,14 @@ const AppContent = () => {
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/workshops" element={<Workshops />} />
                 <Route path="/artists" element={<Artists />} />
+                <Route path="/arts" element={<Navigate to="/artists" replace />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/artblogs" element={<ArtBlogs />} />
+                
+                {/* Demo Routes (for development/testing) */}
+                <Route path="/toast-demo" element={<ToastDemo />} />
                 
                 {/* Admin Routes */}
                 <Route path="/admin/login" element={<AdminLogin />} />
@@ -304,8 +340,9 @@ const AppContent = () => {
                 <Route path="/admin/contact" element={<AdminContact />} />
                 <Route path="/admin/tickets" element={<AdminTickets />} />
                 
-                {/* Public Ticket Verification Route */}
+                {/* Public Ticket Verification Routes */}
                 <Route path="/verify-ticket/:ticketId" element={<TicketVerification />} />
+                <Route path="/verify/:ticketId" element={<TicketVerification />} />
                 
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
@@ -325,7 +362,9 @@ function App() {
 
   return (
     <LoadingProvider>
-      <AppContent />
+      <NotificationProvider>
+        <AppContent />
+      </NotificationProvider>
     </LoadingProvider>
   )
 }

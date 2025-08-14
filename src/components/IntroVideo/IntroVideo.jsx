@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from '../../utils/notifications.js';
 import './IntroVideo.css';
 
 const IntroVideo = () => {
@@ -18,6 +19,12 @@ const IntroVideo = () => {
       
       // Store video completion state
       sessionStorage.setItem('videoCompleted', 'true');
+      
+      // Show welcome toast
+      toast.success('Welcome to Kalakritam!', {
+        description: 'Discover the art of creation',
+        duration: 3000
+      });
       
       // Redirect to home page after transition
       setTimeout(() => {

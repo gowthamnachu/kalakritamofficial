@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { toast } from '../../utils/notifications.js';
 import Header from '../Header';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
@@ -15,25 +16,36 @@ const Artists = () => {
   const [artists, setArtists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const fetchCalled = useRef(false);
 
   useEffect(() => {
-    fetchArtists();
+    if (!fetchCalled.current) {
+      fetchArtists();
+      fetchCalled.current = true;
+    }
   }, []);
 
   const fetchArtists = async () => {
     try {
       setLoading(true);
+      const loadingId = toast.dataLoading('Loading artists...');
+      
       const response = await fetch(`${config.apiBaseUrl}/artists`);
       const data = await response.json();
       
+      toast.dismiss(loadingId);
+      
       if (data.success) {
         setArtists(data.data);
+        toast.dataLoaded(`Loaded ${data.data.length} artists`);
       } else {
         setError('Failed to load artists');
+        toast.error('Failed to load artists');
       }
     } catch (err) {
       console.error('Error fetching artists:', err);
       setError('Failed to connect to server');
+      toast.serverError('Failed to connect to server');
     } finally {
       setLoading(false);
     }
@@ -42,6 +54,7 @@ const Artists = () => {
   const handleViewDetails = (artist) => {
     setSelectedArtist(artist);
     setIsModalOpen(true);
+    toast.info(`Viewing profile: ${artist.name}`);
   };
 
   const closeModal = () => {
@@ -49,7 +62,7 @@ const Artists = () => {
     setSelectedArtist(null);
   };
 
-  // Extract unique categories from artists
+  // Extract unique categories from artists (refreshed)
   const categories = ['all', ...new Set(artists.map(artist => artist.specialization || 'general'))];
 
   const filteredArtists = selectedCategory === 'all' 

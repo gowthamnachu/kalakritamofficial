@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { toast } from '../../utils/notifications.js';
 import AdminHeader from '../AdminHeader';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
@@ -146,10 +147,10 @@ const AdminBlogs = () => {
     try {
       await blogsApi.delete(blogId);
       setBlogs(blogs.filter(blog => blog.id !== blogId));
-      alert('Blog deleted successfully');
+      toast.success('Blog deleted successfully');
     } catch (err) {
       console.error('Error deleting blog:', err);
-      alert('Failed to delete blog');
+      toast.error('Failed to delete blog');
     }
   };
 
@@ -181,6 +182,8 @@ const AdminBlogs = () => {
         og_image: formData.ogImage
       };
 
+      const loadingId = toast.dataSaving(`${modalMode === 'create' ? 'Creating' : 'Updating'} blog...`);
+      
       let result;
       if (modalMode === 'create') {
         result = await blogsApi.create(blogData);
@@ -188,12 +191,14 @@ const AdminBlogs = () => {
         result = await blogsApi.update(selectedBlog.id, blogData);
       }
 
-      alert(`Blog ${modalMode === 'create' ? 'created' : 'updated'} successfully`);
+      toast.dismiss(loadingId);
+      toast.success(`Blog ${modalMode === 'create' ? 'created' : 'updated'} successfully`);
       setIsModalOpen(false);
       fetchBlogs(); // Refresh the list
     } catch (err) {
+      if (typeof loadingId !== 'undefined') toast.dismiss(loadingId);
       console.error('Error saving blog:', err);
-      alert(`Failed to ${modalMode} blog: ${err.message}`);
+      toast.error(`Failed to ${modalMode} blog: ${err.message}`);
     }
   };
 

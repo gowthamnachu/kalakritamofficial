@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { toast } from '../../utils/notifications.js';
 import './FileUpload.css';
 
 const FileUpload = ({ 
@@ -18,15 +19,21 @@ const FileUpload = ({
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      alert('Please select a valid image file');
+      toast.validationError('Please select a valid image file');
       return;
     }
 
     // Validate file size (10MB limit)
     if (file.size > 10 * 1024 * 1024) {
-      alert('File size must be less than 10MB');
+      toast.validationError('File size must be less than 10MB');
       return;
     }
+
+    // Show success notification
+    toast.success(`Selected: ${file.name}`, {
+      description: `File size: ${(file.size / 1024 / 1024).toFixed(2)} MB`,
+      duration: 3000
+    });
 
     // Create preview
     const reader = new FileReader();
@@ -42,6 +49,7 @@ const FileUpload = ({
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+    toast.info('Image removed');
     onFileRemove?.();
   };
 

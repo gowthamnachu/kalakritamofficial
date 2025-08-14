@@ -10,6 +10,34 @@
   font-display: swap;
 }
 
+/* Global Samarkan font styling - fix letter spacing gaps */
+/* Universal selector for any element using Samarkan font */
+* {
+  &[style*="Samarkan"],
+  &[class*="samarkan"] {
+    letter-spacing: 0px !important;
+  }
+}
+
+/* Specific selectors for Samarkan font usage */
+*[style*="Samarkan"],
+*[class*="samarkan"],
+.samarkan,
+[style*="font-family: 'Samarkan'"],
+[style*="font-family:Samarkan"],
+[style*="fontFamily: 'Samarkan"],
+[style*="fontFamily:Samarkan"] {
+  letter-spacing: 0px !important;
+}
+
+/* CSS class-based selectors for common Samarkan usage patterns */
+.font-samarkan,
+.samarkan-font,
+*[class*="title"]:has-text("KALAKRITAM"),
+*[style*="font-family"][style*="Samarkan"] {
+  letter-spacing: 0px !important;
+}
+
 .kalakritam-title {
   font-family: 'Samarkan', 'Cinzel', serif !important;
   font-weight: 700;

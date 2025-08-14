@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
 import { config } from '../../config/environment';
+import { toast } from '../../utils/notifications.js';
 import Header from '../Header';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
+import Particles from '../Particles';
 import './Gallery.css';
 
 const Gallery = () => {
@@ -14,19 +16,29 @@ const Gallery = () => {
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const fetchCalled = useRef(false);
 
   useEffect(() => {
-    fetchArtworks();
+    if (!fetchCalled.current) {
+      fetchArtworks();
+      fetchCalled.current = true;
+    }
   }, []);
 
   const fetchArtworks = async () => {
     try {
       setLoading(true);
+      
+      // Show loading notification
+      const loadingId = toast.dataLoading('Loading gallery...');
+      
       console.log('Fetching artworks from:', `${config.apiBaseUrl}/gallery`);
       const response = await fetch(`${config.apiBaseUrl}/gallery`);
       console.log('Response status:', response.status);
       const data = await response.json();
       console.log('Response data:', data);
+      
+      toast.dismiss(loadingId);
       
       if (data.success) {
         // Transform image URLs to handle localhost URLs
@@ -35,12 +47,16 @@ const Gallery = () => {
           imageUrl: config.transformImageUrl(artwork.image_url || artwork.imageUrl)
         }));
         setArtworks(transformedData);
+        toast.dataLoaded(`Loaded ${transformedData.length} artworks`);
       } else {
         setError('Failed to load artworks');
+        toast.error('Failed to load artworks');
       }
     } catch (err) {
       console.error('Error fetching artworks:', err);
-      setError('Failed to connect to server');
+      const errorMessage = 'Failed to connect to server';
+      setError(errorMessage);
+      toast.serverError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -104,6 +120,21 @@ const Gallery = () => {
 
   return (
     <div className="gallery-container">
+      {/* Particles Background */}
+      <div className="gallery-particles-background">
+        <Particles
+          particleColors={['#c38f21', '#ffffff', '#c38f21']}
+          particleCount={1000}
+          particleSpread={10}
+          speed={0.2}
+          particleBaseSize={200}
+          moveParticlesOnHover={true}
+          particleHoverFactor={2}
+          alphaParticles={true}
+          disableRotation={false}
+        />
+      </div>
+      
       {/* Video Logo */}
       <VideoLogo />
       
@@ -143,12 +174,12 @@ const Gallery = () => {
           
           <div className="gallery-grid">
             {filteredArtworks.map(artwork => (
-              <div key={artwork.id} className="artwork-card">
-                <div className="artwork-image-container">
+              <div key={artwork.id} className="artwork-card universal-card">
+                <div className="artwork-image-container universal-card-image-container">
                   <img 
                     src={artwork.imageUrl} 
                     alt={artwork.title}
-                    className="artwork-image"
+                    className="artwork-image universal-card-image"
                     onError={(e) => {
                       e.target.style.display = 'none';
                       const placeholder = e.target.parentNode.querySelector('.artwork-image-placeholder');
@@ -157,49 +188,46 @@ const Gallery = () => {
                       }
                     }}
                   />
-                  <div className="artwork-image-placeholder" style={{ display: 'none' }}>
-                    <div className="kalakritam-logo-text">Kalakritam</div>
-                    <div className="image-not-available-small">Image not available</div>
+                  <div className="artwork-image-placeholder universal-card-image-placeholder" style={{ display: 'none' }}>
+                    <div className="universal-card-logo-text">Kalakritam</div>
+                    <div className="universal-card-image-not-available">Image not available</div>
                   </div>
-                  <div className="artwork-overlay">
-                    <div className="artwork-overlay-content">
+                  <div className="artwork-overlay universal-card-overlay">
+                    <div className="artwork-overlay-content universal-card-overlay-content">
                       <h3>{artwork.title}</h3>
                       <p>by {artwork.artist}</p>
-                      <span className="artwork-price">{artwork.price}</span>
+                      <span className="highlight-text">{artwork.price}</span>
                     </div>
                   </div>
                 </div>
                 
-                <div className="artwork-info">
-                  <h4 className="artwork-title">{artwork.title}</h4>
-                  <p className="artwork-artist">by {artwork.artist}</p>
-                  <p className="artwork-description">{artwork.description}</p>
+                <div className="artwork-info universal-card-content">
+                  <h4 className="artwork-title universal-card-title">{artwork.title}</h4>
+                  <p className="artwork-artist universal-card-subtitle">by {artwork.artist}</p>
+                  <p className="artwork-description universal-card-description">{artwork.description}</p>
                   
-                  <div className="artwork-details">
-                    <div className="detail-row">
-                      <span className="detail-label">Medium:</span>
-                      <span className="detail-value">{artwork.medium}</span>
+                  <div className="artwork-details universal-card-details">
+                    <div className="detail-row universal-card-detail-row">
+                      <span className="detail-label universal-card-detail-label">Medium:</span>
+                      <span className="detail-value universal-card-detail-value">{artwork.medium}</span>
                     </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Year:</span>
-                      <span className="detail-value">{artwork.year}</span>
+                    <div className="detail-row universal-card-detail-row">
+                      <span className="detail-label universal-card-detail-label">Year:</span>
+                      <span className="detail-value universal-card-detail-value">{artwork.year}</span>
                     </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Category:</span>
-                      <span className="detail-value">{artwork.category}</span>
+                    <div className="detail-row universal-card-detail-row">
+                      <span className="detail-label universal-card-detail-label">Category:</span>
+                      <span className="detail-value universal-card-detail-value">{artwork.category}</span>
                     </div>
                   </div>
                   
-                  <div className="artwork-actions">
-                    <span className="artwork-price-display">{artwork.price}</span>
-                    <div className="action-buttons">
-                      <button 
-                        className="btn-view"
-                        onClick={() => handleViewDetails(artwork)}
-                      >
-                        View Details
-                      </button>
-                    </div>
+                  <div className="artwork-actions universal-card-actions">
+                    <button 
+                      className="btn-view universal-card-btn"
+                      onClick={() => handleViewDetails(artwork)}
+                    >
+                      View Details
+                    </button>
                   </div>
                 </div>
               </div>

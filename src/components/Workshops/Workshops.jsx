@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { toast } from '../../utils/notifications.js';
 import Header from '../Header';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
@@ -15,28 +16,39 @@ const Workshops = () => {
   const [workshops, setWorkshops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const fetchCalled = useRef(false);
 
   useEffect(() => {
-    fetchWorkshops();
+    if (!fetchCalled.current) {
+      fetchWorkshops();
+      fetchCalled.current = true;
+    }
   }, []);
 
   const fetchWorkshops = async () => {
     try {
       setLoading(true);
+      const loadingId = toast.dataLoading('Loading workshops...');
+      
       console.log('Fetching workshops from:', `${config.apiBaseUrl}/workshops`);
       const response = await fetch(`${config.apiBaseUrl}/workshops`);
       console.log('Response status:', response.status);
       const data = await response.json();
       console.log('Response data:', data);
       
+      toast.dismiss(loadingId);
+      
       if (data.success) {
         setWorkshops(data.data);
+        toast.dataLoaded(`Loaded ${data.data.length} workshops`);
       } else {
         setError('Failed to load workshops');
+        toast.error('Failed to load workshops');
       }
     } catch (err) {
       console.error('Error fetching workshops:', err);
       setError('Failed to connect to server');
+      toast.serverError('Failed to connect to server');
     } finally {
       setLoading(false);
     }
@@ -45,6 +57,7 @@ const Workshops = () => {
   const handleViewDetails = (workshop) => {
     setSelectedWorkshop(workshop);
     setIsModalOpen(true);
+    toast.info(`Viewing details for: ${workshop.title}`);
   };
 
   const closeModal = () => {
@@ -113,12 +126,12 @@ const Workshops = () => {
           
           <div className="workshops-grid">
             {filteredWorkshops.map(workshop => (
-              <div key={workshop.id} className="workshop-card">
-                <div className="workshop-image-container">
+              <div key={workshop.id} className="workshop-card universal-card">
+                <div className="workshop-image-container universal-card-image-container">
                   <img 
                     src={workshop.imageUrl} 
                     alt={workshop.title}
-                    className="workshop-image"
+                    className="workshop-image universal-card-image"
                     onError={(e) => {
                       e.target.style.display = 'none';
                       const placeholder = e.target.parentNode.querySelector('.workshop-image-placeholder');
@@ -127,66 +140,62 @@ const Workshops = () => {
                       }
                     }}
                   />
-                  <div className="workshop-image-placeholder" style={{ display: 'none' }}>
-                    <div className="kalakritam-logo-text">Kalakritam</div>
-                    <div className="image-not-available-small">Image not available</div>
+                  <div className="workshop-image-placeholder universal-card-image-placeholder" style={{ display: 'none' }}>
+                    <div className="universal-card-logo-text">Kalakritam</div>
+                    <div className="universal-card-image-not-available">Image not available</div>
                   </div>
-                  <div className="workshop-overlay">
-                    <div className="workshop-overlay-content">
+                  <div className="workshop-overlay universal-card-overlay">
+                    <div className="workshop-overlay-content universal-card-overlay-content">
                       <h3>{workshop.title}</h3>
                       <p>by {workshop.instructor}</p>
-                      <span className="workshop-price">₹{workshop.price}</span>
+                      <span className="highlight-text">₹{workshop.price}</span>
                     </div>
                   </div>
                 </div>
                 
-                <div className="workshop-info">
-                  <h4 className="workshop-title">{workshop.title}</h4>
-                  <p className="workshop-instructor">by {workshop.instructor}</p>
-                  <p className="workshop-description">{workshop.description}</p>
+                <div className="workshop-info universal-card-content">
+                  <h4 className="workshop-title universal-card-title">{workshop.title}</h4>
+                  <p className="workshop-instructor universal-card-subtitle">by {workshop.instructor}</p>
+                  <p className="workshop-description universal-card-description">{workshop.description}</p>
                   
-                  <div className="workshop-details">
-                    <div className="detail-row">
-                      <span className="detail-label">Duration:</span>
-                      <span className="detail-value">{workshop.duration}</span>
+                  <div className="workshop-details universal-card-details">
+                    <div className="detail-row universal-card-detail-row">
+                      <span className="detail-label universal-card-detail-label">Duration:</span>
+                      <span className="detail-value universal-card-detail-value">{workshop.duration}</span>
                     </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Start Date:</span>
-                      <span className="detail-value">{new Date(workshop.startDate).toLocaleDateString('en-US', { 
+                    <div className="detail-row universal-card-detail-row">
+                      <span className="detail-label universal-card-detail-label">Start Date:</span>
+                      <span className="detail-value universal-card-detail-value">{new Date(workshop.startDate).toLocaleDateString('en-US', { 
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric'
                       })}</span>
                     </div>
-                    <div className="detail-row">
-                      <span className="detail-label">End Date:</span>
-                      <span className="detail-value">{new Date(workshop.endDate).toLocaleDateString('en-US', { 
+                    <div className="detail-row universal-card-detail-row">
+                      <span className="detail-label universal-card-detail-label">End Date:</span>
+                      <span className="detail-value universal-card-detail-value">{new Date(workshop.endDate).toLocaleDateString('en-US', { 
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric'
                       })}</span>
                     </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Max Participants:</span>
-                      <span className="detail-value">{workshop.maxParticipants}</span>
+                    <div className="detail-row universal-card-detail-row">
+                      <span className="detail-label universal-card-detail-label">Max Participants:</span>
+                      <span className="detail-value universal-card-detail-value">{workshop.maxParticipants}</span>
                     </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Available Spots:</span>
-                      <span className="detail-value">{workshop.maxParticipants - workshop.currentParticipants}</span>
+                    <div className="detail-row universal-card-detail-row">
+                      <span className="detail-label universal-card-detail-label">Available Spots:</span>
+                      <span className="detail-value universal-card-detail-value">{workshop.maxParticipants - workshop.currentParticipants}</span>
                     </div>
                   </div>
                   
-                  <div className="workshop-actions">
-                    <span className="workshop-price-display">₹{workshop.price}</span>
-                    <div className="action-buttons">
-                      <button 
-                        className="btn-details"
-                        onClick={() => handleViewDetails(workshop)}
-                      >
-                        View Details
-                      </button>
-                      <button className="btn-enroll">Enroll Now</button>
-                    </div>
+                  <div className="workshop-actions universal-card-actions">
+                    <button 
+                      className="btn-details universal-card-btn"
+                      onClick={() => handleViewDetails(workshop)}
+                    >
+                      View Details
+                    </button>
                   </div>
                 </div>
               </div>

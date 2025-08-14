@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { toast } from '../../utils/notifications.js';
 import Header from '../Header';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
@@ -26,7 +27,32 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate form
+    if (!formData.name.trim()) {
+      toast.validationError('Please enter your name');
+      return;
+    }
+    
+    if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email)) {
+      toast.validationError('Please enter a valid email address');
+      return;
+    }
+    
+    if (!formData.subject.trim()) {
+      toast.validationError('Please enter a subject');
+      return;
+    }
+    
+    if (!formData.message.trim()) {
+      toast.validationError('Please enter your message');
+      return;
+    }
+    
     setIsSubmitting(true);
+    
+    // Show loading notification
+    const loadingId = toast.formSubmitting('Sending your message...');
     
     try {
       const response = await fetch(`${config.apiBaseUrl}/contact`, {
@@ -38,16 +64,24 @@ const Contact = () => {
       });
 
       const data = await response.json();
+      
+      toast.dismiss(loadingId);
 
       if (data.success) {
-        alert('Thank you for your message! We will get back to you soon.');
+        toast.formSubmitted('Thank you for your message! We will get back to you soon.');
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
-        alert('Failed to send your message. Please try again.');
+        toast.formError('Failed to send your message. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting contact form:', error);
-      alert('Failed to send your message. Please check your internet connection and try again.');
+      toast.dismiss(loadingId);
+      
+      if (error.message.includes('NetworkError') || error.message.includes('fetch')) {
+        toast.serverError('Unable to connect to server. Please check your internet connection.');
+      } else {
+        toast.formError('Failed to send your message. Please try again later.');
+      }
     } finally {
       setIsSubmitting(false);
     }

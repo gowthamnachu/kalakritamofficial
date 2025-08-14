@@ -26,7 +26,7 @@
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   color: #c38f21;
   margin-bottom: 0.5rem;
-  letter-spacing: 2px;
+  letter-spacing: 0px;
 }
 
 .verification-header p {
@@ -36,17 +36,441 @@
   margin: 0;
 }
 
-/* Loading State */
-.loading-container {
+/* Premium Ticket Verification Styles */
+
+.ticket-status-header {
   text-align: center;
-  padding: 4rem 2rem;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(195, 143, 33, 0.1), rgba(212, 175, 133, 0.1));
+  border-radius: 20px;
+  border: 1px solid rgba(195, 143, 33, 0.2);
 }
 
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid #c38f21;
+.status-icon-wrapper {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.status-icon-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+
+.status-icon-large {
+  font-size: 3rem;
+  z-index: 1;
+}
+
+.status-title {
+  font-size: 2rem;
+  margin: 0.5rem 0;
+  font-family: 'Samarkan', serif;
+  letter-spacing: 0px;
+}
+
+.status-subtitle {
+  color: #d4af85;
+  font-size: 1.1rem;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Premium Ticket Card */
+.premium-ticket-card {
+  background: linear-gradient(145deg, #003a3a, #002f2f);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(195, 143, 33, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.premium-ticket-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #c38f21, #d4af85, #c38f21);
+}
+
+.ticket-card-header {
+  position: relative;
+  padding: 2rem;
+  background: linear-gradient(135deg, #c38f21, #d4af85);
+  color: #002f2f;
+}
+
+.ticket-card-bg {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.ticket-header-content {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+}
+
+.kalakritam-brand h3 {
+  font-family: 'Samarkan', serif;
+  font-size: 1.8rem;
+  margin: 0;
+  letter-spacing: 0px;
+}
+
+.kalakritam-brand p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.ticket-number-badge {
+  background: rgba(0, 47, 47, 0.2);
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.ticket-card-body {
+  padding: 2rem;
+}
+
+.section-title {
+  color: #c38f21;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-family: 'Samarkan', serif;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.event-info-section {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(195, 143, 33, 0.2);
+}
+
+.event-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 1rem;
+  font-family: 'Samarkan', serif;
+}
+
+.event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #d4af85;
+}
+
+.meta-icon {
+  font-size: 1rem;
+  color: #c38f21;
+  font-weight: bold;
+}
+
+.meta-text {
+  font-size: 1rem;
+}
+
+.customer-info-section {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(195, 143, 33, 0.2);
+}
+
+.info-grid-premium {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-item-premium {
+  background: rgba(195, 143, 33, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(195, 143, 33, 0.2);
+}
+
+.info-label-premium {
+  color: #d4af85;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.info-value-premium {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Timeline */
+.ticket-timeline-section {
+  margin-bottom: 2rem;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #c38f21, #d4af85);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -2rem;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #c38f21;
+  border: 3px solid #002f2f;
+  z-index: 1;
+}
+
+.timeline-dot.verified {
+  background: #28a745;
+}
+
+.timeline-content {
+  padding-left: 1rem;
+}
+
+.timeline-title {
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.timeline-date {
+  color: #d4af85;
+  font-size: 0.9rem;
+}
+
+/* Status Badge */
+.status-badge-section {
+  margin-bottom: 2rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.status-badge.valid {
+  background: linear-gradient(135deg, #28a74520, #28a74540);
+  color: #28a745;
+  border: 2px solid #28a745;
+}
+
+.status-badge.used {
+  background: linear-gradient(135deg, #ffc10720, #ffc10740);
+  color: #ffc107;
+  border: 2px solid #ffc107;
+}
+
+.status-badge.cancelled {
+  background: linear-gradient(135deg, #dc354520, #dc354540);
+  color: #dc3545;
+  border: 2px solid #dc3545;
+}
+
+.badge-icon {
+  font-size: 1.3rem;
+}
+
+/* Ticket Footer */
+.ticket-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(195, 143, 33, 0.2);
+}
+
+.verification-qr {
+  text-align: center;
+}
+
+.qr-placeholder {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #c38f21, #d4af85);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #002f2f;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.verification-qr p {
+  color: #d4af85;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.support-info {
+  text-align: right;
+}
+
+.support-info p {
+  margin: 0.3rem 0;
+  color: #d4af85;
+  font-size: 0.9rem;
+}
+
+/* Instructions */
+.verification-instructions {
+  margin-top: 2rem;
+}
+
+.instruction-card {
+  background: linear-gradient(135deg, rgba(195, 143, 33, 0.1), rgba(212, 175, 133, 0.1));
+  border: 1px solid rgba(195, 143, 33, 0.2);
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.instruction-card h4 {
+  color: #c38f21;
+  margin-bottom: 1rem;
+  font-family: 'Samarkan', serif;
+}
+
+.instruction-card ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.instruction-card li {
+  color: #d4af85;
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .ticket-card-header {
+    padding: 1.5rem;
+  }
+  
+  .ticket-header-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .ticket-card-body {
+    padding: 1.5rem;
+  }
+  
+  .event-meta {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .info-grid-premium {
+    grid-template-columns: 1fr;
+  }
+  
+  .ticket-card-footer {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .support-info {
+    text-align: center;
+  }
+}
+
+/* Loading Styles for Dashboard */
+.stats-loading {
+  text-align: center;
+  padding: 3rem;
+  color: #d4af85;
+}
+
+.stats-loading .loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(195, 143, 33, 0.3);
+  border-top: 3px solid #c38f21;
+  border-radius: 50%;
+/* Loading Styles for Dashboard */
+.stats-loading {
+  text-align: center;
+  padding: 3rem;
+  color: #d4af85;
+}
+
+.stats-loading .loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(195, 143, 33, 0.3);
+  border-top: 3px solid #c38f21;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 1rem;
@@ -411,4 +835,5 @@
   .verification-footer {
     padding: 1.5rem;
   }
+}
 }

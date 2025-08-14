@@ -1,3 +1,146 @@
+/* From Uiverse.io by ZacharyCrespin */ 
+@keyframes square-animation {
+ 0% {
+  left: 0;
+  top: 0;
+ }
+
+ 10.5% {
+  left: 0;
+  top: 0;
+ }
+
+ 12.5% {
+  left: 32px;
+  top: 0;
+ }
+
+ 23% {
+  left: 32px;
+  top: 0;
+ }
+
+ 25% {
+  left: 64px;
+  top: 0;
+ }
+
+ 35.5% {
+  left: 64px;
+  top: 0;
+ }
+
+ 37.5% {
+  left: 64px;
+  top: 32px;
+ }
+
+ 48% {
+  left: 64px;
+  top: 32px;
+ }
+
+ 50% {
+  left: 32px;
+  top: 32px;
+ }
+
+ 60.5% {
+  left: 32px;
+  top: 32px;
+ }
+
+ 62.5% {
+  left: 32px;
+  top: 64px;
+ }
+
+ 73% {
+  left: 32px;
+  top: 64px;
+ }
+
+ 75% {
+  left: 0;
+  top: 64px;
+ }
+
+ 85.5% {
+  left: 0;
+  top: 64px;
+ }
+
+ 87.5% {
+  left: 0;
+  top: 32px;
+ }
+
+ 98% {
+  left: 0;
+  top: 32px;
+ }
+
+ 100% {
+  left: 0;
+  top: 0;
+ }
+}
+
+.loader {
+ position: relative;
+ width: 96px;
+ height: 96px;
+ transform: rotate(45deg);
+ margin: 2rem auto;
+}
+
+.loader-square {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 28px;
+ height: 28px;
+ margin: 2px;
+ border-radius: 4px;
+ background: linear-gradient(135deg, #c38f21, #e6b33a);
+ background-size: cover;
+ background-position: center;
+ animation: square-animation 10s ease-in-out infinite both;
+ box-shadow: 0 2px 8px rgba(195, 143, 33, 0.3);
+}
+
+.loader-square:nth-of-type(1) {
+ animation-delay: 0s;
+}
+
+.loader-square:nth-of-type(2) {
+ animation-delay: -1.4285714286s;
+}
+
+.loader-square:nth-of-type(3) {
+ animation-delay: -2.8571428571s;
+}
+
+.loader-square:nth-of-type(4) {
+ animation-delay: -4.2857142857s;
+}
+
+.loader-square:nth-of-type(5) {
+ animation-delay: -5.7142857143s;
+}
+
+.loader-square:nth-of-type(6) {
+ animation-delay: -7.1428571429s;
+}
+
+.loader-square:nth-of-type(7) {
+ animation-delay: -8.5714285714s;
+}
+
+.loader-square:nth-of-type(8) {
+ animation-delay: -10s;
+}
+
 .loading-overlay {
   position: fixed;
   top: 0;
@@ -38,7 +181,7 @@
   font-size: 3.5rem;
   color: #c38f21;
   font-weight: 700;
-  letter-spacing: 3px;
+  letter-spacing: 0px;
   margin: 0 0 1rem 0;
   text-transform: uppercase;
   animation: glow 3s ease-in-out infinite alternate;
@@ -54,69 +197,6 @@
   margin: 0 0 2rem 0;
   animation: pulse 2.5s ease-in-out infinite;
 }
-
-.loading-progress {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-.progress-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.progress-bar {
-  width: 280px;
-  height: 6px;
-  background: rgba(195, 143, 33, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 3px;
-  overflow: hidden;
-  box-shadow: 
-    0 0 15px rgba(195, 143, 33, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(195, 143, 33, 0.25);
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #c38f21 0%, #d4af85 50%, #c38f21 100%);
-  border-radius: 3px;
-  transition: width 0.3s ease;
-  box-shadow: 0 0 20px rgba(195, 143, 33, 0.8);
-}
-
-.progress-percentage {
-  font-size: 1.2rem;
-  color: #d4af85;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-shadow: 0 0 10px rgba(212, 175, 133, 0.5);
-}
-
-.loading-dots {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.loading-dots span {
-  width: 12px;
-  height: 12px;
-  background: linear-gradient(45deg, #c38f21, #d4af85);
-  border-radius: 50%;
-  animation: bounce 1.8s ease-in-out infinite both;
-  box-shadow: 0 0 15px rgba(195, 143, 33, 0.5);
-}
-
-.loading-dots span:nth-child(1) { animation-delay: -0.4s; }
-.loading-dots span:nth-child(2) { animation-delay: -0.2s; }
-.loading-dots span:nth-child(3) { animation-delay: 0s; }
 
 .loading-status {
   display: flex;

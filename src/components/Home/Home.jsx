@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { toast } from '../../utils/notifications.js';
 import Header from '../Header';
 import Footer from '../Footer';
 import './Home.css';
@@ -10,6 +11,24 @@ const Home = () => {
   const [showVideoLogo, setShowVideoLogo] = useState(false);
   const navigate = useNavigate();
   const { navigateWithLoading } = useNavigationWithLoading();
+  const toastShown = useRef(false);
+
+  // Navigation handler with toast feedback
+  const handleNavigation = (path, sectionName) => {
+    toast.info(`Exploring ${sectionName}...`);
+    navigateWithLoading(path);
+  };
+
+  useEffect(() => {
+    // Welcome toast when component mounts - prevent duplicates
+    if (!toastShown.current) {
+      toast.success('Welcome to Kalakritam!', {
+        description: 'Discover art workshops and creative experiences',
+        duration: 4000
+      });
+      toastShown.current = true;
+    }
+  }, []);
 
   useEffect(() => {
     // Check if video was completed or if we're coming from intro
@@ -135,7 +154,7 @@ const Home = () => {
             <button 
               className="cta-button" 
               aria-label="Explore Kalakritam art workshops in Hyderabad"
-              onClick={() => navigateWithLoading('/workshops')}
+              onClick={() => handleNavigation('/workshops', 'Art Workshops')}
             >
               Join Art Workshops
             </button>
@@ -145,7 +164,7 @@ const Home = () => {
         <section className="features-section">
           <h2 className="section-title">Experience Indian Art at Kalakritam - Hyderabad's Premier Art Destination</h2>
           <div className="features-grid">
-            <article className="feature-card" onClick={() => navigateWithLoading('/gallery')}>
+            <article className="feature-card" onClick={() => handleNavigation('/gallery', 'Art Gallery')}>
               <div className="card-icon">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>

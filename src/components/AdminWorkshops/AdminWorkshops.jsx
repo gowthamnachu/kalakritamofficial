@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { toast } from '../../utils/notifications.js';
 import AdminHeader from '../AdminHeader';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
@@ -148,10 +149,10 @@ const AdminWorkshops = () => {
     try {
       await workshopsApi.delete(workshopId);
       setWorkshops(workshops.filter(workshop => workshop.id !== workshopId));
-      alert('Workshop deleted successfully');
+      toast.success('Workshop deleted successfully');
     } catch (err) {
       console.error('Error deleting workshop:', err);
-      alert('Failed to delete workshop');
+      toast.error('Failed to delete workshop');
     }
   };
 
@@ -184,18 +185,21 @@ const AdminWorkshops = () => {
       };
 
       let result;
+      const loadingId = toast.dataSaving(`${modalMode === 'create' ? 'Creating' : 'Updating'} workshop...`);
+      
       if (modalMode === 'create') {
         result = await workshopsApi.create(workshopData);
       } else {
         result = await workshopsApi.update(selectedWorkshop.id, workshopData);
       }
 
-      alert(`Workshop ${modalMode === 'create' ? 'created' : 'updated'} successfully`);
+      toast.dismiss(loadingId);
+      toast.success(`Workshop ${modalMode === 'create' ? 'created' : 'updated'} successfully`);
       setIsModalOpen(false);
       fetchWorkshops(); // Refresh the list
     } catch (err) {
       console.error('Error saving workshop:', err);
-      alert(`Failed to ${modalMode} workshop: ${err.message}`);
+      toast.error(`Failed to ${modalMode} workshop: ${err.message}`);
     }
   };
 

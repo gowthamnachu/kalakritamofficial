@@ -1,5 +1,6 @@
 // API utility functions for admin operations
 import { config } from '../config/environment.js';
+import { toast } from '../utils/notifications.js';
 
 // Common API call function with admin authentication
 export const apiCall = async (endpoint, method = 'GET', data = null) => {
@@ -108,11 +109,28 @@ export const contactsApi = {
 
 // Tickets API functions
 export const ticketsApi = {
-  getAll: () => apiCall('tickets'),
-  create: (ticket) => apiCall('tickets', 'POST', ticket),
-  update: (id, ticket) => apiCall(`tickets/${id}`, 'PUT', ticket),
-  delete: (id) => apiCall(`tickets/${id}`, 'DELETE'),
+  getAll: async () => {
+    try {
+      return await apiCall('admin/tickets');
+    } catch (error) {
+      console.warn('Admin tickets endpoint not available, trying public tickets:', error);
+      try {
+        return await apiCall('tickets');
+      } catch (fallbackError) {
+        console.warn('Tickets endpoint not available, returning empty array:', fallbackError);
+        return {
+          success: false,
+          data: [],
+          message: 'Tickets endpoint not yet implemented'
+        };
+      }
+    }
+  },
+  create: (ticket) => apiCall('admin/tickets', 'POST', ticket),
+  update: (id, ticket) => apiCall(`admin/tickets/${id}`, 'PUT', ticket),
+  delete: (id) => apiCall(`admin/tickets/${id}`, 'DELETE'),
   verify: (ticketCode) => apiCall('tickets/verify', 'POST', { code: ticketCode }),
+  verifyById: (ticketId) => apiCall(`tickets/verify/${ticketId}`, 'GET'),
 };
 
 // Authentication API functions

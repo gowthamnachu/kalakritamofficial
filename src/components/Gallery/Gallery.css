@@ -1,11 +1,26 @@
+/* Import Universal Card Styles */
+@import '../UniversalCard/UniversalCard.css';
+
 /* Gallery Container */
 .gallery-container {
   min-height: 100vh;
-  background-color: #002f2f;
+  background-color: #000000;
   color: white;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   width: 100%;
   overflow-x: hidden;
+  position: relative;
+}
+
+/* Particles Background */
+.gallery-particles-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .gallery-page-content {
@@ -13,6 +28,8 @@
   margin: 0 auto;
   padding: clamp(1rem, 4vw, 2rem);
   width: 100%;
+  position: relative;
+  z-index: 10;
 }
 
 /* Gallery Header */
@@ -182,69 +199,10 @@
 /* Gallery Grid */
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: clamp(1rem, 4vw, 2rem);
-  margin-bottom: 3rem;
-  width: 100%;
-}
-
-/* Artwork Card */
-.artwork-card {
-  background: linear-gradient(145deg, #003333 0%, #004040 100%);
-  border-radius: 15px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(195, 143, 33, 0.2);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-.artwork-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(195, 143, 33, 0.2);
-  border-color: rgba(195, 143, 33, 0.4);
-}
-
-/* Artwork Image */
-.artwork-image-container {
-  position: relative;
-  width: 100%;
-  height: 250px;
-  overflow: hidden;
-  background: #001818;
-}
-
-.artwork-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.artwork-card:hover .artwork-image {
-  transform: scale(1.05);
-}
-
-.artwork-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 50%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
-  display: flex;
-  align-items: flex-end;
-  padding: 1.5rem;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.artwork-card:hover .artwork-overlay {
-  opacity: 1;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  padding: 20px 0;
+  justify-items: center;
 }
 
 .artwork-overlay-content h3 {

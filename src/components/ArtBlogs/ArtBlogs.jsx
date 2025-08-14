@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { toast } from '../../utils/notifications.js';
 import Header from '../Header';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
@@ -15,25 +16,36 @@ const ArtBlogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const fetchCalled = useRef(false);
 
   useEffect(() => {
-    fetchBlogs();
+    if (!fetchCalled.current) {
+      fetchBlogs();
+      fetchCalled.current = true;
+    }
   }, []);
 
   const fetchBlogs = async () => {
     try {
       setLoading(true);
+      const loadingId = toast.dataLoading('Loading blog posts...');
+      
       const response = await fetch(`${config.apiBaseUrl}/blogs`);
       const data = await response.json();
       
+      toast.dismiss(loadingId);
+      
       if (data.success) {
         setBlogs(data.data);
+        toast.dataLoaded(`Loaded ${data.data.length} blog posts`);
       } else {
         setError('Failed to load blogs');
+        toast.error('Failed to load blogs');
       }
     } catch (err) {
       console.error('Error fetching blogs:', err);
       setError('Failed to connect to server');
+      toast.serverError('Failed to connect to server');
     } finally {
       setLoading(false);
     }
@@ -90,6 +102,7 @@ const ArtBlogs = () => {
     setSelectedBlog(blog);
     setIsModalOpen(true);
     document.body.style.overflow = 'hidden';
+    toast.info(`Reading: ${blog.title}`);
   };
 
   const closeModal = () => {
@@ -119,34 +132,36 @@ const ArtBlogs = () => {
 
         <section className="featured-post">
           <h2>Featured Article</h2>
-          <div className="featured-card">
-            <div className="featured-image">
-              <div className="featured-placeholder">
-                <span className="featured-label">Featured</span>
+          {featuredPost && (
+            <div className="featured-card">
+              <div className="featured-image">
+                <div className="featured-placeholder">
+                  <span className="featured-label">Featured</span>
+                </div>
+              </div>
+              <div className="featured-content">
+                <div className="featured-meta">
+                  <span className="featured-category">{featuredPost.category}</span>
+                  <span className="featured-date">{new Date(featuredPost.createdAt).toLocaleDateString()}</span>
+                  <span className="featured-read-time">{featuredPost.readTime}</span>
+                </div>
+                <h3 className="featured-title">{featuredPost.title}</h3>
+                <p className="featured-author">by {featuredPost.author}</p>
+                <p className="featured-excerpt">{featuredPost.excerpt}</p>
+                <div className="featured-tags">
+                  {featuredPost.tags && featuredPost.tags.map(tag => (
+                    <span key={tag} className="tag">{tag}</span>
+                  ))}
+                </div>
+                <button 
+                  className="read-more-btn"
+                  onClick={() => openModal(featuredPost)}
+                >
+                  View Details
+                </button>
               </div>
             </div>
-            <div className="featured-content">
-              <div className="featured-meta">
-                <span className="featured-category">{featuredPost.category}</span>
-                <span className="featured-date">{new Date(featuredPost.createdAt).toLocaleDateString()}</span>
-                <span className="featured-read-time">{featuredPost.readTime}</span>
-              </div>
-              <h3 className="featured-title">{featuredPost.title}</h3>
-              <p className="featured-author">by {featuredPost.author}</p>
-              <p className="featured-excerpt">{featuredPost.excerpt}</p>
-              <div className="featured-tags">
-                {featuredPost.tags.map(tag => (
-                  <span key={tag} className="tag">{tag}</span>
-                ))}
-              </div>
-              <button 
-                className="read-more-btn"
-                onClick={() => openModal(featuredPost)}
-              >
-                View Details
-              </button>
-            </div>
-          </div>
+          )}
         </section>
 
         <section className="blog-filter">

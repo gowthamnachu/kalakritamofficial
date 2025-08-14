@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { toast } from '../../utils/notifications.js';
 import AdminHeader from '../AdminHeader';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
@@ -154,13 +155,13 @@ const AdminEvents = () => {
       
       if (response.success) {
         setEvents(events.filter(event => event.id !== eventId));
-        alert('Event deleted successfully');
+        toast.success('Event deleted successfully');
       } else {
-        alert('Failed to delete event: ' + (response.message || 'Unknown error'));
+        toast.error('Failed to delete event: ' + (response.message || 'Unknown error'));
       }
     } catch (err) {
       console.error('Error deleting event:', err);
-      alert('Failed to delete event: ' + err.message);
+      toast.error('Failed to delete event: ' + err.message);
     }
   };
 
@@ -207,6 +208,8 @@ const AdminEvents = () => {
       
       console.log('Submitting event data matching exact Neon DB schema:', eventData);
       
+      const loadingId = toast.dataSaving(`${modalMode === 'create' ? 'Creating' : 'Updating'} event...`);
+      
       let response;
       if (modalMode === 'create') {
         response = await eventsApi.addEvent(eventData);
@@ -214,8 +217,9 @@ const AdminEvents = () => {
         response = await eventsApi.updateEvent(selectedEvent.id, eventData);
       }
       
+      toast.dismiss(loadingId);
       if (response.success) {
-        alert(`Event ${modalMode === 'create' ? 'created' : 'updated'} successfully`);
+        toast.success(`Event ${modalMode === 'create' ? 'created' : 'updated'} successfully`);
         setIsModalOpen(false);
         fetchEvents();
         setFormData({
@@ -239,11 +243,12 @@ const AdminEvents = () => {
           ogImage: ''
         });
       } else {
-        alert(`Failed to ${modalMode} event: ${response.message || 'Unknown error'}`);
+        toast.error(`Failed to ${modalMode} event: ${response.message || 'Unknown error'}`);
       }
     } catch (err) {
+      if (typeof loadingId !== 'undefined') toast.dismiss(loadingId);
       console.error('Error saving event:', err);
-      alert(`Failed to ${modalMode} event: ${err.message}`);
+      toast.error(`Failed to ${modalMode} event: ${err.message}`);
     }
   };
 

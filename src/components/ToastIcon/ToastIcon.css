@@ -1,0 +1,81 @@
+/* Toast Icon Styles */
+.toast-icon-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.toast-icon-svg svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.toast-icon-emoji {
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.toast-icon-custom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Spinning animation for loading icons */
+.toast-icon-spin {
+  animation: toast-spin 1s linear infinite;
+}
+
+@keyframes toast-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Icon color variations for different notification types */
+.notification.success .toast-icon-svg {
+  color: #48bb78;
+}
+
+.notification.error .toast-icon-svg {
+  color: #f56565;
+}
+
+.notification.warning .toast-icon-svg {
+  color: #ed8936;
+}
+
+.notification.info .toast-icon-svg {
+  color: #4299e1;
+}
+
+.notification.loading .toast-icon-svg {
+  color: #667eea;
+}
+
+/* Hover effects for interactive icons */
+.toast-icon-svg:hover {
+  transform: scale(1.05);
+  transition: transform 0.1s ease;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .toast-icon-spin {
+    animation: none;
+  }
+  
+  .toast-icon-svg:hover {
+    transform: none;
+  }
+}

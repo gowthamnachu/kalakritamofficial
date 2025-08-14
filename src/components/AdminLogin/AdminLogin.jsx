@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
 import { authApi } from '../../lib/adminApi';
+import { toast } from '../../utils/notifications.js';
 import VideoLogo from '../VideoLogo';
+import Orb from '../Orb';
 import './AdminLogin.css';
 
 const AdminLogin = () => {
@@ -99,6 +101,7 @@ const AdminLogin = () => {
     // Validate form
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
+      toast.validationError(Object.values(validationErrors)[0]);
       setError(Object.values(validationErrors)[0]);
       return;
     }
@@ -106,11 +109,16 @@ const AdminLogin = () => {
     setIsLoading(true);
     setError('');
 
+    // Show loading notification
+    const loadingId = toast.authLoading('Authenticating...');
+
     try {
       console.log('Attempting login with:', { email: formData.email });
       
       const result = await authApi.login(formData);
       console.log('Login result:', result);
+
+      toast.dismiss(loadingId);
 
       if (result.success) {
         // Store token and user data
@@ -119,23 +127,38 @@ const AdminLogin = () => {
         
         console.log('Login successful, stored token and user data');
         
+        // Show success notification
+        toast.authSuccess('Login successful! Redirecting...');
+        
         // Redirect to admin portal home page
-        navigateWithLoading('/admin/portal');
+        setTimeout(() => {
+          navigateWithLoading('/admin/portal');
+        }, 1000);
       } else {
         // Handle specific error messages
-        setError(result.error || 'Login failed. Please check your credentials and try again.');
+        const errorMessage = result.error || 'Login failed. Please check your credentials and try again.';
+        toast.authError(errorMessage);
+        setError(errorMessage);
       }
     } catch (error) {
       console.error('Login error:', error);
+      toast.dismiss(loadingId);
+      
+      let errorMessage;
       if (error.message.includes('NetworkError') || error.message.includes('fetch')) {
-        setError('Unable to connect to the server. Please check your internet connection.');
+        errorMessage = 'Unable to connect to the server. Please check your internet connection.';
+        toast.serverError(errorMessage);
       } else if (error.message.includes('401') || error.message.includes('Unauthorized')) {
-        setError('Invalid email or password. Please check your credentials and try again.');
+        errorMessage = 'Invalid email or password. Please check your credentials and try again.';
+        toast.authError(errorMessage);
       } else if (error.message.includes('429')) {
-        setError('Too many login attempts. Please wait a moment before trying again.');
+        errorMessage = 'Too many login attempts. Please wait a moment before trying again.';
+        toast.warning(errorMessage);
       } else {
-        setError('An unexpected error occurred. Please try again.');
+        errorMessage = 'An unexpected error occurred. Please try again.';
+        toast.error(errorMessage);
       }
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -147,6 +170,14 @@ const AdminLogin = () => {
 
   return (
     <div className="admin-login-container">
+      {/* Orb Background */}
+      <Orb 
+        hue={45} 
+        hoverIntensity={0.2} 
+        rotateOnHover={true} 
+        forceHoverState={false} 
+      />
+      
       {/* Video Logo */}
       <VideoLogo />
       

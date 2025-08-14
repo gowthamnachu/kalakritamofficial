@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
+import { toast } from '../../utils/notifications.js';
 import AdminHeader from '../AdminHeader';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
@@ -127,10 +128,10 @@ const AdminArtists = () => {
     try {
       await artistsApi.delete(artistId);
       setArtists(artists.filter(artist => artist.id !== artistId));
-      alert('Artist deleted successfully');
+      toast.success('Artist deleted successfully');
     } catch (err) {
       console.error('Error deleting artist:', err);
-      alert('Failed to delete artist');
+      toast.error('Failed to delete artist');
     }
   };
 
@@ -170,6 +171,8 @@ const AdminArtists = () => {
         og_image: formData.ogImage
       };
 
+      const loadingId = toast.dataSaving(`${modalMode === 'create' ? 'Creating' : 'Updating'} artist...`);
+      
       let result;
       if (modalMode === 'create') {
         result = await artistsApi.create(artistData);
@@ -177,12 +180,14 @@ const AdminArtists = () => {
         result = await artistsApi.update(selectedArtist.id, artistData);
       }
 
-      alert(`Artist ${modalMode === 'create' ? 'created' : 'updated'} successfully`);
+      toast.dismiss(loadingId);
+      toast.success(`Artist ${modalMode === 'create' ? 'created' : 'updated'} successfully`);
       setIsModalOpen(false);
       fetchArtists(); // Refresh the list
     } catch (err) {
+      if (typeof loadingId !== 'undefined') toast.dismiss(loadingId);
       console.error('Error saving artist:', err);
-      alert(`Failed to ${modalMode} artist: ${err.message}`);
+      toast.error(`Failed to ${modalMode} artist: ${err.message}`);
     }
   };
 

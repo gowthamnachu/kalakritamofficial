@@ -1,3 +1,6 @@
+/* Import Universal Card Styles */
+@import '../UniversalCard/UniversalCard.css';
+
 .artblogs-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #002f2f 0%, #004444 100%);
@@ -189,7 +192,7 @@
 /* Blog Grid */
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: clamp(1.5rem, 4vw, 30px);
   margin-bottom: clamp(3rem, 8vw, 60px);
   width: 100%;
