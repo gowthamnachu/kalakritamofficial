@@ -3,12 +3,23 @@
 
 .home-container {
   min-height: 100vh;
-  background-color: #002f2f;
+  background-color: #000000;
   color: white;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   position: relative;
   width: 100%;
   overflow-x: hidden;
+}
+
+/* Particles Background */
+.home-particles-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .video-logo-container {

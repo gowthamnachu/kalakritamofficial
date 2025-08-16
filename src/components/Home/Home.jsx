@@ -4,6 +4,7 @@ import { useNavigationWithLoading } from '../../hooks/useNavigationWithLoading';
 import { toast } from '../../utils/notifications.js';
 import Header from '../Header';
 import Footer from '../Footer';
+import Particles from '../Particles';
 import './Home.css';
 import '../../assets/fonts/fonts.css';
 
@@ -121,6 +122,21 @@ const Home = () => {
 
   return (
     <div className="home-container">
+      {/* Particles Background */}
+      <div className="home-particles-background">
+        <Particles
+          particleColors={['#c38f21', '#ffffff', '#c38f21']}
+          particleCount={1000}
+          particleSpread={10}
+          speed={0.2}
+          particleBaseSize={200}
+          moveParticlesOnHover={true}
+          particleHoverFactor={2}
+          alphaParticles={true}
+          disableRotation={false}
+        />
+      </div>
+      
       {/* Video Logo in top-left corner */}
       {showVideoLogo && (
         <div className="video-logo-container">

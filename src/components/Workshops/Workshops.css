@@ -4,9 +4,20 @@
 /* Container */
 .workshops-container {
   min-height: 100vh;
-  background-color: #002f2f;
+  background-color: #000000;
   color: white;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+/* Particles Background */
+.workshops-particles-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .workshops-page-content {

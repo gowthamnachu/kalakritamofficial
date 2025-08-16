@@ -4,6 +4,7 @@ import { toast } from '../../utils/notifications.js';
 import Header from '../Header';
 import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
+import Particles from '../Particles';
 import { config } from '../../config/environment';
 import '../Gallery/Gallery.css';
 import './ArtBlogs.css';
@@ -119,6 +120,21 @@ const ArtBlogs = () => {
 
   return (
     <div className="artblogs-container">
+      {/* Particles Background */}
+      <div className="artblogs-particles-background">
+        <Particles
+          particleColors={['#c38f21', '#ffffff', '#c38f21']}
+          particleCount={1000}
+          particleSpread={10}
+          speed={0.2}
+          particleBaseSize={200}
+          moveParticlesOnHover={true}
+          particleHoverFactor={2}
+          alphaParticles={true}
+          disableRotation={false}
+        />
+      </div>
+      
       {/* Video Logo */}
       <VideoLogo />
       

@@ -4,7 +4,7 @@
   "description": "Art Workshops in Hyderabad - Traditional & Contemporary Indian Art Classes | Manifesting Through Art",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#002f2f",
+  "background_color": "#000000",
   "theme_color": "#c38f21",
   "orientation": "portrait-primary",
   "scope": "/",

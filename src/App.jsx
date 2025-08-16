@@ -4,6 +4,7 @@ import { LoadingProvider, useLoading } from './contexts/LoadingContext.jsx'
 import { NotificationProvider } from './contexts/NotificationContext.jsx'
 import Loading from './components/Loading'
 import GlobalToastContainer from './components/GlobalToastContainer'
+import Particles from './components/Particles'
 import { measureLazyLoadTime } from './hooks/usePerformanceTracking'
 import { seoManager } from './utils/seoManager.js'
 import useServerConnection from './hooks/useServerConnection.js'
@@ -224,7 +225,7 @@ const LazyLoadingFallback = () => (
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    background: '#002f2f',
+    background: '#000000',
     color: '#c38f21',
     fontSize: '1.2rem',
     fontFamily: 'Samarkan, serif'
@@ -257,7 +258,7 @@ class LazyLoadingErrorBoundary extends React.Component {
           justifyContent: 'center',
           alignItems: 'center',
           height: '100vh',
-          background: '#002f2f',
+          background: '#000000',
           color: '#c38f21',
           textAlign: 'center',
           fontFamily: 'Samarkan, serif'
@@ -268,7 +269,7 @@ class LazyLoadingErrorBoundary extends React.Component {
             style={{
               padding: '10px 20px',
               background: '#c38f21',
-              color: '#002f2f',
+              color: '#000000',
               border: 'none',
               borderRadius: '5px',
               cursor: 'pointer',
@@ -312,42 +313,57 @@ const AppContent = () => {
       <GlobalToastContainer />
       <Router>
         <div className="app">
-          <LazyLoadingErrorBoundary>
-            <Suspense fallback={<LazyLoadingFallback />}>
-              <Routes>
-                <Route path="/" element={<IntroVideo />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/gallery" element={<Gallery />} />
-                <Route path="/workshops" element={<Workshops />} />
-                <Route path="/artists" element={<Artists />} />
-                <Route path="/arts" element={<Navigate to="/artists" replace />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/events" element={<Events />} />
-                <Route path="/artblogs" element={<ArtBlogs />} />
-                
-                {/* Demo Routes (for development/testing) */}
-                <Route path="/toast-demo" element={<ToastDemo />} />
-                
-                {/* Admin Routes */}
-                <Route path="/admin/login" element={<AdminLogin />} />
-                <Route path="/admin/portal" element={<AdminPortal />} />
-                <Route path="/admin/gallery" element={<AdminGallery />} />
-                <Route path="/admin/workshops" element={<AdminWorkshops />} />
-                <Route path="/admin/events" element={<AdminEvents />} />
-                <Route path="/admin/artists" element={<AdminArtists />} />
-                <Route path="/admin/blogs" element={<AdminBlogs />} />
-                <Route path="/admin/contact" element={<AdminContact />} />
-                <Route path="/admin/tickets" element={<AdminTickets />} />
-                
-                {/* Public Ticket Verification Routes */}
-                <Route path="/verify-ticket/:ticketId" element={<TicketVerification />} />
-                <Route path="/verify/:ticketId" element={<TicketVerification />} />
-                
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Suspense>
-          </LazyLoadingErrorBoundary>
+          <div className="app-particles-background">
+            <Particles
+              particleColors={['#c38f21', '#ffffff', '#c38f21']}
+              particleCount={1000}
+              particleSpread={10}
+              speed={0.2}
+              particleBaseSize={200}
+              moveParticlesOnHover={true}
+              particleHoverFactor={2}
+              alphaParticles={true}
+              disableRotation={false}
+            />
+          </div>
+          <div className="app-content">
+            <LazyLoadingErrorBoundary>
+              <Suspense fallback={<LazyLoadingFallback />}>
+                <Routes>
+                  <Route path="/" element={<IntroVideo />} />
+                  <Route path="/home" element={<Home />} />
+                  <Route path="/gallery" element={<Gallery />} />
+                  <Route path="/workshops" element={<Workshops />} />
+                  <Route path="/artists" element={<Artists />} />
+                  <Route path="/arts" element={<Navigate to="/artists" replace />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/events" element={<Events />} />
+                  <Route path="/artblogs" element={<ArtBlogs />} />
+                  
+                  {/* Demo Routes (for development/testing) */}
+                  <Route path="/toast-demo" element={<ToastDemo />} />
+                  
+                  {/* Admin Routes */}
+                  <Route path="/admin/login" element={<AdminLogin />} />
+                  <Route path="/admin/portal" element={<AdminPortal />} />
+                  <Route path="/admin/gallery" element={<AdminGallery />} />
+                  <Route path="/admin/workshops" element={<AdminWorkshops />} />
+                  <Route path="/admin/events" element={<AdminEvents />} />
+                  <Route path="/admin/artists" element={<AdminArtists />} />
+                  <Route path="/admin/blogs" element={<AdminBlogs />} />
+                  <Route path="/admin/contact" element={<AdminContact />} />
+                  <Route path="/admin/tickets" element={<AdminTickets />} />
+                  
+                  {/* Public Ticket Verification Routes */}
+                  <Route path="/verify-ticket/:ticketId" element={<TicketVerification />} />
+                  <Route path="/verify/:ticketId" element={<TicketVerification />} />
+                  
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </Suspense>
+            </LazyLoadingErrorBoundary>
+          </div>
         </div>
       </Router>
     </>
