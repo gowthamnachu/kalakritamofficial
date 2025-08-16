@@ -500,6 +500,9 @@ const routes = {
             'PUT /admin/tickets/:id': 'Update ticket',
             'DELETE /admin/tickets/:id': 'Delete ticket',
             'PATCH /admin/tickets/:id/verify': 'Mark ticket as verified'
+          },
+          upload: {
+            'POST /admin/upload': 'Upload image to Cloudflare R2 storage (multipart/form-data with "image" field)'
           }
         }
       },
@@ -1449,6 +1452,77 @@ const routes = {
       return jsonResponse({
         success: false,
         message: 'Failed to delete artwork',
+        error: error.message
+      }, 500, request);
+    }
+  },
+
+  // =====================================
+  // ADMIN UPLOAD ENDPOINT (for Cloudflare R2)
+  // =====================================
+  'POST /admin/upload': async (request, env) => {
+    try {
+      const authResult = await verifyAdminAuth(request, env);
+      if (!authResult.success) return authResult.response;
+      
+      const formData = await request.formData();
+      const file = formData.get('image');
+      
+      if (!file) {
+        return jsonResponse({
+          success: false,
+          message: 'No image file provided'
+        }, 400, request);
+      }
+      
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        return jsonResponse({
+          success: false,
+          message: 'Invalid file type. Only JPEG, PNG, and WebP images are allowed.'
+        }, 400, request);
+      }
+      
+      // Validate file size (max 10MB)
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      if (file.size > maxSize) {
+        return jsonResponse({
+          success: false,
+          message: 'File too large. Maximum size is 10MB.'
+        }, 400, request);
+      }
+      
+      // Generate unique filename
+      const fileExtension = file.name.split('.').pop();
+      const uniqueFilename = `${crypto.randomUUID()}.${fileExtension}`;
+      const objectKey = `artworks/${uniqueFilename}`;
+      
+      // Upload to Cloudflare R2
+      const arrayBuffer = await file.arrayBuffer();
+      await env.R2_BUCKET.put(objectKey, arrayBuffer, {
+        httpMetadata: {
+          contentType: file.type,
+        },
+      });
+      
+      // Generate public URL
+      const publicUrl = `https://pub-9cdd84716e0341ba9fa9c0b6875b5572.r2.dev/${objectKey}`;
+      
+      return jsonResponse({
+        success: true,
+        message: 'Image uploaded successfully',
+        imageUrl: publicUrl,
+        filename: uniqueFilename,
+        originalName: file.name,
+        size: file.size
+      }, 200, request);
+      
+    } catch (error) {
+      console.error('Upload error:', error);
+      return jsonResponse({
+        success: false,
+        message: 'Failed to upload image',
         error: error.message
       }, 500, request);
     }

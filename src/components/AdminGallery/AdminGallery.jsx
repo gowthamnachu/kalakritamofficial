@@ -6,7 +6,7 @@ import Footer from '../Footer';
 import VideoLogo from '../VideoLogo';
 import SEOFieldsComponent from '../SEOFieldsComponent';
 import FileUpload from '../FileUpload';
-import { galleryApi } from '../../lib/adminApi';
+import { galleryApi, uploadApi } from '../../lib/adminApi';
 import { config } from '../../config/environment';
 import './AdminGallery.css';
 
@@ -217,15 +217,34 @@ const AdminGallery = () => {
     }
   };
 
-  const handleFileSelect = (file) => {
+  const handleFileSelect = async (file) => {
     setImageFile(file);
-    // Create a preview URL
+    
+    // Upload to Cloudflare R2 and get the public URL
     if (file) {
-      const previewUrl = URL.createObjectURL(file);
-      setFormData(prev => ({
-        ...prev,
-        imageUrl: previewUrl
-      }));
+      try {
+        const uploadingId = toast.dataSaving('Uploading image to R2...');
+        
+        const uploadResponse = await uploadApi.uploadImage(file);
+        
+        toast.dismiss(uploadingId);
+        
+        if (uploadResponse.success && uploadResponse.imageUrl) {
+          // Use the R2 public URL for preview and storage
+          setFormData(prev => ({
+            ...prev,
+            imageUrl: uploadResponse.imageUrl
+          }));
+          toast.success('Image uploaded successfully to R2');
+        } else {
+          toast.error('Failed to upload image: ' + (uploadResponse.message || 'Unknown error'));
+          setImageFile(null);
+        }
+      } catch (err) {
+        console.error('Error uploading image:', err);
+        toast.error('Failed to upload image: ' + err.message);
+        setImageFile(null);
+      }
     }
   };
 

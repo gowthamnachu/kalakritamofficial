@@ -58,6 +58,37 @@ export const apiCall = async (endpoint, method = 'GET', data = null) => {
   }
 };
 
+// Upload API function
+export const uploadApi = {
+  uploadImage: async (file) => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const formData = new FormData();
+      formData.append('image', file);
+      
+      const response = await fetch(`${config.apiBaseUrl}/admin/upload`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        credentials: 'include',
+        body: formData,
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || result.message || 'Upload failed');
+      }
+      
+      return result;
+    } catch (error) {
+      console.error('Upload error:', error);
+      throw error;
+    }
+  }
+};
+
 // Gallery API functions
 export const galleryApi = {
   getArtworks: () => apiCall('gallery'),
